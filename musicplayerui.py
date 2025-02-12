@@ -244,20 +244,6 @@ class MusicPlayerUI(QMainWindow):
 
         # self.simulate_keypress(self.songTableWidget, Qt.Key.Key_7)
 
-
-    def create_desktop_file(self):
-        desktop_file_path = os.path.expanduser("~/.local/share/applications/april-music-player.desktop")
-
-        if os.path.exists(desktop_file_path):
-            return
-
-        app_name = "April Music Player"
-        exec_path = os.path.join(self.ej.script_path, "april1.py")
-        icon_path = os.path.join(self.ej.script_path, "icons", "april-icon.png")
-
-        # Create the desktop file
-        create_desktop_file.create_desktop_file(app_name, exec_path, icon_path, desktop_file_path)
-
     @staticmethod
     def get_metadata(song_file: object):
         print("get_metadata method called")
@@ -1057,7 +1043,7 @@ Refresh and update the database
         # # Set sizes dynamically (account for handles)
         splitter.setStretchFactor(0, 2)
         splitter.setStretchFactor(1, 10)
-        splitter.setStretchFactor(2, 4)
+        splitter.setStretchFactor(2, 3)
 
         # Add the splitter to the main layout
         main_layout = QHBoxLayout(self.central_widget)

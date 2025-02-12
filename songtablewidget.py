@@ -54,6 +54,7 @@ class SongTableWidget(QTableWidget):
         self.load_table_data()
         self.setSortingEnabled(False)  # Disable default sorting to use custom sorting
         self.setAcceptDrops(True)
+        self.setToolTip("Double click or click enter to start playing song.")
 
     def wheelEvent(self, event):
         # Check if the Shift key is pressed
