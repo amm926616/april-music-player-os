@@ -28,19 +28,6 @@ Before using the player, you'll need to download your songs and lyrics in advanc
 - [LrcGet](https://github.com/tranxuanthang/lrcget)
 - [Syrics](https://github.com/akashrchandran/syrics)
 - [SongSync](https://github.com/Lambada10/SongSync)
-
-### Features to be implemented
-- own art style for icon image
-- Song metadata editabled
-- delete song in the ui
-- smart playing mode
-  - resume where you left
-  - random mode
-  - play next song in album
-- it will be better to have global shortcut keys
-- Lyrics texts could be better with stoke. 
-- Live background changing of of lrc display.
-- User Customizable fonts
  
 ### Installation
 
