@@ -1,0 +1,16 @@
+fonttools
+fuzzywuzzy
+mutagen
+Pillow
+PyQt6
+PyQt6_sip
+ffmpy
+music_tag
+Pillow
+protobuf
+pwinput
+tabulate[widechars]
+tqdm
+python-levenshtein
+shutils
+cryptography
