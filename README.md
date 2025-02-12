@@ -1,15 +1,33 @@
 # April Music Player
 <img src="./icons/april-logo.png" alt="logo" width="400"/>
 
-Music player with lyric syncing and note-taking features for lyric memorization. 
+April Music Player is a music player with lyric syncing and note-taking features, designed to help with lyric memorization. It's perfect for language learners who want to enjoy music while improving their language skills. The app offers a customizable lyrics display, note-taking features, and personal vocabulary collections to enhance the learning experience. **Presented to you by Aiden.**
+
+### Screenshots
+Here are some screenshots of April Music Player in action:
+
+<div align="center">
+  <img src="./screenshots/0001.png" width="600"/>
+  <img src="./screenshots/0002.png" width="600"/>
+  <img src="./screenshots/0003.png" width="600"/>
+  <img src="./screenshots/0004.png" width="600"/>
+  <img src="./screenshots/0005.png" width="600"/>
+  <img src="./screenshots/0006.png" width="600"/>
+  <img src="./screenshots/0007.png" width="600"/>
+  <img src="./screenshots/0008.png" width="600"/>
+  <img src="./screenshots/0009.png" width="600"/>
+  <img src="./screenshots/0010.png" width="600"/>
+</div>
+
+---
 
 ### Files preparation (music and lrc files)
 Before using the player, you'll need to download your songs and lyrics in advance. I use Zotify to download songs from Spotify, and for LRC lyrics files, I recommend using LrcGet, Syrics on your laptop, or SongSync on Android. There are also various websites where you can download music with embedded metadata and lyrics.
 
-- https://github.com/zotify-dev/zotify
-- https://github.com/tranxuanthang/lrcget
-- https://github.com/akashrchandran/syrics
-- https://github.com/Lambada10/SongSync
+- [Zotify](https://github.com/zotify-dev/zotify)
+- [LrcGet](https://github.com/tranxuanthang/lrcget)
+- [Syrics](https://github.com/akashrchandran/syrics)
+- [SongSync](https://github.com/Lambada10/SongSync)
 
 ### Features to be implemented
 - own art style for icon image
