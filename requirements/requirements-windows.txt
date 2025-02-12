@@ -1,0 +1,24 @@
+# General dependencies
+fonttools
+fuzzywuzzy
+mutagen
+Pillow
+ffmpy
+music_tag
+protobuf
+pwinput
+tabulate[widechars]
+tqdm
+python-Levenshtein
+pyserial
+requests
+pynput
+shutils
+
+# Downgraded dependencies
+PyQt6==6.6.0
+PyQt6-Qt6==6.6.0
+PyQt6-sip==13.6.0
+PyQt6-WebEngine==6.6.0
+PyQt6-WebEngine-Qt6==6.6.0
+PyQt6-WebEngineSubwheel-Qt6==6.7.1
