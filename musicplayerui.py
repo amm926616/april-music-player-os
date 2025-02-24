@@ -1043,7 +1043,7 @@ Refresh and update the database
         # # Set sizes dynamically (account for handles)
         splitter.setStretchFactor(0, 2)
         splitter.setStretchFactor(1, 10)
-        splitter.setStretchFactor(2, 3)
+        splitter.setStretchFactor(2, 2)
 
         # Add the splitter to the main layout
         main_layout = QHBoxLayout(self.central_widget)
@@ -1699,6 +1699,7 @@ Refresh and update the database
             self.lrc_file = lrc
             print(self.lrc_file)
         else:
+            self.lrc_file = None
             self.lrcPlayer.file = None
             self.lrcPlayer.music_file = self.music_file
             print(self.lrcPlayer.file)

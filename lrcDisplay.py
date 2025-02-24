@@ -765,3 +765,4 @@ class LRCSync:
             self.previous_lyric_text = ""
             self.next_lyric_text = self.lyrics.get(self.lyrics_time_keys[0], "")
             self.last_lyric_text = self.lyrics.get(self.lyrics_time_keys[1], "")
+April Music Player
