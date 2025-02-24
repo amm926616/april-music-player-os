@@ -609,6 +609,9 @@ class LRCSync:
             if index == 0:
                 # Before the first lyric
                 self.current_lyric_text = "(Instrumental Intro)"
+                self.next_lyric_text = self.get_lyric_text(index, 0)
+                self.last_lyric_text = self.get_lyric_text(index, 1)
+
 
                 if self.lrc_display:
                     self.previous_lyric_text = ""
@@ -765,4 +768,3 @@ class LRCSync:
             self.previous_lyric_text = ""
             self.next_lyric_text = self.lyrics.get(self.lyrics_time_keys[0], "")
             self.last_lyric_text = self.lyrics.get(self.lyrics_time_keys[1], "")
-April Music Player
