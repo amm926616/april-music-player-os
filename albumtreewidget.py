@@ -167,7 +167,7 @@ class AlbumTreeWidget(QWidget):
         layout.addWidget(self.tree_widget)
 
         self.search_bar.textChanged.connect(self.filter_items)
-        self.tree_widget.itemClicked.connect(self.on_item_single_clicked)
+        self.tree_widget.itemPressed.connect(self.on_item_right_clicked)
         self.tree_widget.itemDoubleClicked.connect(self.on_item_double_clicked)
 
     def startDragMethod(self, supported_actions):
@@ -209,11 +209,14 @@ class AlbumTreeWidget(QWidget):
         # Reset cursor after the drag has finished
         self.parent.app.restoreOverrideCursor()
 
-    def on_item_single_clicked(self, item=None):
-        print(item)
-        if item:
-            if not item.isExpanded():
-                self.tree_widget.expandItem(item)
+    def on_item_right_clicked(self, item=None):
+        if self.parent.app.mouseButtons() == Qt.MouseButton.RightButton:
+            print(item)
+            if item:
+                if item.isExpanded():
+                    self.tree_widget.collapseItem(item)  # Collapse if already expanded
+                else:
+                    self.tree_widget.expandItem(item)  # Expand if collapsed
 
     def on_item_double_clicked(self, item=None, data=None, role=None, file_path=None):
         """
