@@ -4,7 +4,9 @@
 Check out this cool official website for April Music Player created by my girlfriend. 
 [April Music Player's Official Website](https://april-music-player.github.io/)
 
-April Music Player is a music player with lyric syncing and note-taking features, designed to help with lyric memorization. It's perfect for language learners who want to enjoy music while improving their language skills. The app offers a customizable lyrics display, note-taking features, and personal vocabulary collections to enhance the learning experience. **Presented to you by Aiden.**
+April Music Player is a music player with lyric syncing and note-taking features, designed to help with lyric memorization. It's perfect for language learners who want to enjoy music while improving their language skills. The app offers a customizable lyrics display, note-taking features, and personal vocabulary collections to enhance the learning experience. 
+
+As someone who once wished for a music player that allowed interactive lyric engagement while learning Korean, I’m thrilled to have created this tool myself. I’m excited to share it with anyone who can benefit from it. **Presented to you by Aiden.**
 
 ### Screenshots
 Here are some screenshots of April Music Player in action:
