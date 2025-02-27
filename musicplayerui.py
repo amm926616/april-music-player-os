@@ -124,9 +124,9 @@ class MusicPlayerUI(QMainWindow):
         self.ej.ensure_config_file()
 
         self.is_fullscreen = None
-        
+
         self.config_path = self.ej.get_value("config_path")
-        
+
         self.running_platform = self.ej.get_value("running_system")
 
         if self.running_platform == "windows":
@@ -1041,9 +1041,9 @@ Refresh and update the database
         splitter.addWidget(media_widget)
 
         # # Set sizes dynamically (account for handles)
-        splitter.setStretchFactor(0, 2)
-        splitter.setStretchFactor(1, 10)
-        splitter.setStretchFactor(2, 2)
+        splitter.setStretchFactor(0, 1)
+        splitter.setStretchFactor(1, 4)
+        splitter.setStretchFactor(2, 1)
 
         # Add the splitter to the main layout
         main_layout = QHBoxLayout(self.central_widget)
