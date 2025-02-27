@@ -291,6 +291,7 @@ class LRCSync:
 
         elif event.key() == Qt.Key.Key_Minus and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
             print("ctrl minus")
+            print("before setting font size ", self.lrc_font.font_size)
             self.lrc_font.font_size -= 1
 
         elif event.key() == Qt.Key.Key_Right and event.modifiers() & Qt.KeyboardModifier.ControlModifier and event.modifiers() & Qt.KeyboardModifier.ShiftModifier:
@@ -509,9 +510,9 @@ class LRCSync:
     def go_to_next_lyric(self):
         self.animation_direction = "down"
         if self.lyrics and self.lyric_sync_connected:
-            if self.current_index == len(self.lyrics_time_keys): 
+            if self.current_index == len(self.lyrics_time_keys):
                 self.restart_music()
-                return 
+                return
             else:
                 next_lyric_index = self.current_index
 
@@ -521,7 +522,6 @@ class LRCSync:
             # fix the late to set current time due to slower sync time
             self.current_lyrics_time = self.lyrics_time_keys[next_lyric_index]
             self.current_lyric_text = self.lyrics[self.current_lyrics_time]
-
 
     def go_to_the_start_of_current_lyric(self):
         self.music_player.player.setPosition(int(self.current_lyrics_time * 1000))
@@ -600,6 +600,8 @@ class LRCSync:
             if abs(self.current_time - self.last_update_time) < self.update_interval:
                 return  # Skip updating if within the interval
 
+            self.current_lyrics_time = self.lyrics_time_keys[(self.current_index - 1) if (self.current_index - 1) >= 0 else 0]
+
             self.last_update_time = self.current_time  # Update the last updated time
 
             # Use binary search to find the correct lyrics time
@@ -641,6 +643,8 @@ class LRCSync:
 
             self.current_index = index
             print("self.current_index: ", self.current_index)
+            print("self.current_lyrics_time", self.current_lyrics_time)
+
 
             # Update lyric label styling
             if self.lyric_label3 is not None:
