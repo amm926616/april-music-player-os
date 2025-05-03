@@ -15,6 +15,7 @@ requests
 pynput
 shutils
 pyperclip
+cryptography
 
 # Downgraded dependencies
 PyQt6==6.6.0
