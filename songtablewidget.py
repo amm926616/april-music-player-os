@@ -47,8 +47,13 @@ class SongTableWidget(QTableWidget):
         # Connect the itemClicked signal to the custom slot
         self.itemDoubleClicked.connect(lambda: self.parent.handleRowDoubleClick(self.item(self.currentRow(), 7)))
 
-        # Adjust column resizing
-        self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
+        # # Adjust column resizing
+        # self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+
+        header = self.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
+        header.setSectionResizeMode(7, QHeaderView.ResizeMode.Stretch)  # 8th column stretches
+        # header.setStretchLastSection(True)  # Optional: makes the last section fill remaining space
 
         # load the previous tabledata from init method.
         self.load_table_data()
