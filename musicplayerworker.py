@@ -36,7 +36,7 @@ class MusicPlayerWorker(QObject):
         self.MediaStatus = QMediaPlayer.MediaStatus
 
     def play(self):
-        self.started.emit()  # Emit a signal when the player starts, if needed
+        # self.started.emit()  # Emit a signal when the player starts, if needed
         self.player.play()
 
     def pause(self):

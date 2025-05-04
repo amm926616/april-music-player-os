@@ -3,6 +3,7 @@ import os
 from PyQt6.QtCore import QThread, pyqtSignal, QObject
 from musicplayerworker import MusicPlayerWorker
 from easy_json import EasyJson
+from time import sleep
 
 class MusicPlayer(QObject):  # Inherit from QObject
     # Define the signal as a class attribute
@@ -43,14 +44,14 @@ class MusicPlayer(QObject):  # Inherit from QObject
         print(self.playback_states)
         print(type(self.playback_states))
 
-        self.script_path = self.ej.script_path 
+        self.script_path = self.ej.script_path
 
     def cleanup(self):
         self.player.deleteLater()  # Ensure worker is deleted
         self.thread.quit()         # Stop the thread
         self.thread.wait()         # Wait for it to finish
         self.thread.deleteLater()  # Finally, delete the thread
-            
+
 
     def reset_buttons_states(self):
         for key, button in self.buttons.items():
@@ -81,7 +82,7 @@ class MusicPlayer(QObject):  # Inherit from QObject
     def play(self):
         self.started_playing = True
         self.update_music_file(self.file_name)
-        self.thread.start()  # Start the thread to play the song in the background
+        # self.thread.start()  # Start the thread to play the song in the background
         self.player.play()
 
     def setup_playback_buttons(self):
