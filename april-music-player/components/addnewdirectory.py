@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import (
     QCheckBox, QScrollArea, QWidget, QMessageBox
 )
 from PyQt6.QtCore import Qt
-from easy_json import EasyJson
+from utils.easy_json import EasyJson
 
 
 class AddNewDirectory(QDialog):

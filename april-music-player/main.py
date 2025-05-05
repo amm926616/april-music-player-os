@@ -7,7 +7,7 @@ from PyQt6.QtWidgets import QApplication, QMessageBox
 from PyQt6.QtCore import QSharedMemory
 from PyQt6.QtNetwork import QLocalServer, QLocalSocket
 from musicplayerui import MusicPlayerUI
-from easy_json import EasyJson
+from utils.easy_json import EasyJson
 
 APP_KEY = 'AprilMusicPlayer'
 SERVER_NAME = 'MusicPlayerServer'

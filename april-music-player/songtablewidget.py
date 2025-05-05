@@ -7,7 +7,7 @@ from PyQt6.QtGui import QKeyEvent, QFont, QPixmap
 from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QAbstractItemView, \
     QPushButton, QLineEdit, QLabel, QVBoxLayout, QDialog, QHeaderView, QApplication
 
-from easy_json import EasyJson
+from utils.easy_json import EasyJson
 
 
 class SongTableWidget(QTableWidget):

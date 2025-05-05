@@ -1,17 +1,19 @@
+
 from base64 import b64decode
 import os
 from random import choice
 import sys
 from urllib import request
 from PyQt6.QtGui import QIcon, QFont, QFontDatabase, QAction, QCursor, QKeyEvent, QActionGroup, QColor, \
-    QPainter, QPixmap, QPainterPath, QTextDocument, QTextCursor, QTextOption
+    QPainter, QPixmap, QPainterPath, QTextDocument, QTextOption
 from PyQt6.QtMultimedia import QMediaPlayer
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QMessageBox, QSystemTrayIcon, QMenu, QWidgetAction,
-    QLabel, QPushButton, QSlider, QLineEdit, QFileDialog, QScrollArea, QSizePolicy, QDialog, QStyle, QProgressDialog,
+    QLabel, QPushButton, QSlider, QLineEdit, QFileDialog, QScrollArea, QSizePolicy, QDialog, QStyle,
     QTextEdit
 )
-from PyQt6.QtCore import Qt, QCoreApplication, QRectF, QThread
+
+from PyQt6.QtCore import Qt, QCoreApplication, QRectF
 from PyQt6.QtWidgets import QStyleFactory
 from mutagen import File
 from mutagen.flac import FLAC, Picture
@@ -21,22 +23,23 @@ from mutagen.oggvorbis import OggVorbis
 from mutagen.mp3 import MP3
 from mutagen.mp4 import MP4
 from mutagen.wave import WAVE
-from album_image_window import AlbumImageWindow
+
+# Absolute imports (recommended)
+from components.album_image_window import AlbumImageWindow
 from consts.HTML_LABELS import SHORTCUTS, PREPARATION, FROMME
-from lrcDisplay import LRCSync
-from musicplayer import MusicPlayer
-from clickable_label import ClickableImageLabel
-from easy_json import EasyJson
+from components.lrcDisplay import LRCSync
+from music_player.musicplayer import MusicPlayer
+from components.clickable_label import ClickableImageLabel
+from utils.easy_json import EasyJson
 from songtablewidget import SongTableWidget, PlaylistNameDialog
 from albumtreewidget import AlbumTreeWidget
-from fontsettingdialog import FontSettingsWindow
-from tag_dialog import TagDialog
-from addnewdirectory import AddNewDirectory
-from music_downloader_gui import MusicDownloaderWidget
-from playlist_manager import PlaylistDialog
-from splitter import ColumnSplitter
+from components.fontsettingdialog import FontSettingsWindow
+from components.tag_dialog import TagDialog
+from components.addnewdirectory import AddNewDirectory
+from components.music_downloader_gui import MusicDownloaderWidget
+from components.playlist_manager import PlaylistDialog
+from components.splitter import ColumnSplitter
 from utils.lrc_downloader import LyricsDownloader
-from consts.HTML_LABELS import SHORTCUTS
 
 
 def html_to_plain_text(html):
@@ -157,7 +160,6 @@ class MusicPlayerUI(QMainWindow):
         # Construct the full path to the icon file
         self.icon_folder_path = os.path.join(self.script_path, 'icons', 'configuration_icons')
         self.icon_path = os.path.join(self.script_path, "icons", "april-icon.png")
-        print("!!!!!!!!!!!!!!!!!")
         print("The icon path is, " + self.icon_path)
 
         QFontDatabase.addApplicationFont(os.path.join(self.script_path, "fonts/KOMIKAX_.ttf"))
@@ -1002,7 +1004,6 @@ class MusicPlayerUI(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
         # Create the song collection widget
-        song_collection_layout = QVBoxLayout(self.albumTreeWidget)
         self.albumTreeWidget.loadSongsToCollection(self.directories)
 
         # Create the playlist widget

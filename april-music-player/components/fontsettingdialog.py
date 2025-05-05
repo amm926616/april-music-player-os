@@ -5,7 +5,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QFontDatabase, QIcon, QKeyEvent
 from fontTools.ttLib import TTFont
 from PyQt6.QtCore import Qt
-from easy_json import EasyJson
+from utils.easy_json import EasyJson
 
 def create_language_layout(language_label, font_label, example_label, change_button):
     """ Helper function to create a horizontal layout for each language section """
