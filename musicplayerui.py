@@ -844,6 +844,11 @@ class MusicPlayerUI(QMainWindow):
         # Create a layout for the entire dialog
         main_layout = QVBoxLayout(dialog)
 
+        # Create a search bar
+        search_bar = QLineEdit()
+        search_bar.setPlaceholderText("Search shortcuts...")
+        main_layout.addWidget(search_bar)
+
         # Create a scrollable area
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
@@ -863,6 +868,9 @@ class MusicPlayerUI(QMainWindow):
 
         # Store original HTML for search functionality
         self.original_html = self.content_widget.toHtml()
+
+        # Connect the search bar's textChanged signal
+        search_bar.textChanged.connect(self.filter_shortcuts)
 
         # Add a close button
         button_layout = QHBoxLayout()
