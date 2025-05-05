@@ -1,7 +1,7 @@
 from fontTools.ttLib import TTFont
 import os
 from PyQt6.QtGui import QFont, QFontDatabase, QTextCharFormat, QTextDocument, QTextCursor
-from easy_json import EasyJson
+from _utils.easy_json import EasyJson
 
 """
 preformatted fonts for different languages
@@ -24,7 +24,6 @@ class GetFont:
     def __init__(self, font_size=14):
         self.ej = EasyJson()
         self.language_dict = None
-        self.script_path = os.path.dirname(os.path.abspath(__file__))
         self.font_size = font_size
         self.load_font_settings()  # Initialize the font settings
         self.fonts_loaded = False
@@ -54,8 +53,12 @@ class GetFont:
         }
 
     def loadFonts(self):
+        QFontDatabase.addApplicationFont(os.path.join(self.ej.script_path, "fonts/KOMIKAX_.ttf"))
+
         loaded_fonts = set()
         for lang, font_info in self.language_dict.items():
+            print("FONT FILE PATH")
+            print(font_info["file_path"])
             if font_info["file_path"] and font_info["file_path"] not in loaded_fonts:
                 try:
                     QFontDatabase.addApplicationFont(font_info["file_path"])

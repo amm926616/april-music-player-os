@@ -1,15 +1,18 @@
+
 from base64 import b64decode
 import os
 from random import choice
 import sys
 from urllib import request
-from PyQt6.QtGui import QIcon, QFont, QFontDatabase, QAction, QCursor, QKeyEvent, QActionGroup, QColor, \
-    QPainter, QPixmap, QPainterPath, QTextDocument
+from PyQt6.QtGui import QIcon, QFont, QAction, QCursor, QKeyEvent, QActionGroup, QColor, \
+    QPainter, QPixmap, QPainterPath, QTextDocument, QTextOption
 from PyQt6.QtMultimedia import QMediaPlayer
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QMessageBox, QSystemTrayIcon, QMenu, QWidgetAction,
-    QLabel, QPushButton, QSlider, QLineEdit, QFileDialog, QScrollArea, QSizePolicy, QDialog, QStyle
+    QLabel, QPushButton, QSlider, QLineEdit, QFileDialog, QScrollArea, QSizePolicy, QDialog, QStyle,
+    QTextEdit
 )
+
 from PyQt6.QtCore import Qt, QCoreApplication, QRectF
 from PyQt6.QtWidgets import QStyleFactory
 from mutagen import File
@@ -20,19 +23,23 @@ from mutagen.oggvorbis import OggVorbis
 from mutagen.mp3 import MP3
 from mutagen.mp4 import MP4
 from mutagen.wave import WAVE
-from album_image_window import AlbumImageWindow
-from lrcDisplay import LRCSync
-from musicplayer import MusicPlayer
-from clickable_label import ClickableImageLabel
-from easy_json import EasyJson
-from songtablewidget import SongTableWidget, PlaylistNameDialog
-from albumtreewidget import AlbumTreeWidget
-from fontsettingdialog import FontSettingsWindow
-from tag_dialog import TagDialog
-from addnewdirectory import AddNewDirectory
-from music_downloader_gui import MusicDownloaderWidget
-from playlist_manager import PlaylistDialog
-from splitter import ColumnSplitter
+
+from components.album_image_window import AlbumImageWindow
+from consts.HTML_LABELS import SHORTCUTS, PREPARATION, FROMME
+from components.lrcDisplay import LRCSync
+from music_player.musicplayer import MusicPlayer
+from components.clickable_label import ClickableImageLabel
+from _utils.easy_json import EasyJson
+from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
+from main_ui.albumtreewidget import AlbumTreeWidget
+from components.fontsettingdialog import FontSettingsWindow
+from components.tag_dialog import TagDialog
+from components.addnewdirectory import AddNewDirectory
+from components.music_downloader_gui import MusicDownloaderWidget
+from components.playlist_manager import PlaylistDialog
+from components.splitter import ColumnSplitter
+from _utils.lrc_downloader import LyricsDownloader
+
 
 def html_to_plain_text(html):
     doc = QTextDocument()
@@ -149,13 +156,12 @@ class MusicPlayerUI(QMainWindow):
         self.search_bar_layout = None
         self.script_path = self.ej.get_value("script_path")
 
-        # Construct the full path to the icon file
-        self.icon_folder_path = os.path.join(self.script_path, 'icons', 'configuration_icons')
-        self.icon_path = os.path.join(self.script_path, "icons", "april-icon.png")
-        print("!!!!!!!!!!!!!!!!!")
-        print("The icon path is, " + self.icon_path)
+        print("SCRIPT_PATH IS ", self.script_path)
 
-        QFontDatabase.addApplicationFont(os.path.join(self.script_path, "fonts/KOMIKAX_.ttf"))
+        # Construct the full path to the icon file
+        self.icon_folder_path = os.path.join(self.ej.script_path, 'icons', 'configuration_icons')
+        self.icon_path = os.path.join(self.ej.script_path, "icons", "april-icon.png")
+        print("The icon path is, " + self.icon_path)
 
         self.slider_layout = None
         self.metadata = None
@@ -221,6 +227,13 @@ class MusicPlayerUI(QMainWindow):
         self.settings_icon = self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogDetailedView)
         self.colors_icon = QIcon(os.path.join(self.icon_folder_path, "colors.ico"))
         self.default_wallpaper_icon = QIcon(os.path.join(self.icon_folder_path, "default_wallpaper.ico"))
+
+        self.lyrics_downloader = LyricsDownloader(
+            parent=self,
+            song_table_widget=self.songTableWidget,
+            app=self.app,
+            get_path_callback=self.get_music_file_from_click
+        )
 
     def init_main_classes(self, music_files=None):
         self.music_player = MusicPlayer(self, self.play_pause_button, self.loop_playlist_button, self.repeat_button,
@@ -816,109 +829,49 @@ class MusicPlayerUI(QMainWindow):
         self.lrcPlayer.update_interval = selected_threshold
 
     def show_fromMe(self):
-        text = """<b>This project was developed to "the version 1 released" solely by me. I wish I could get
-        collaborations that I could code together. I would greatly appreciate any contributions to this project. If
-        you found April useful, I'd appreciate it if you could give the project a star on GitHub!</b> <a
-        href="https://github.com/amm926616/April-Music-Player">Project's GitHub link</a><br><br>
-
-        <b>Created with love by AD178.</b><br>
-        <b>Contact me on Telegram: </b><a href="https://t.me/Adamd178">Go to Adam's Telegram</a><br>
-        """
+        text = FROMME
         QMessageBox.information(self, "Thank you for using April", text)
 
     def show_preparation(self):
-        text = """<b>Before using the player, you'll need to download your songs and lyrics in advance. I use Zotify
-        to download songs from Spotify, and for LRC lyrics files, I recommend using LRCGET, Syrics on your laptop,
-        or SongSync on Android. There are also various websites where you can download music with embedded metadata
-        and lyrics.</b><br> - <a href="https://github.com/zotify-dev/zotify">Zotify</a><br> - <a
-        href="https://github.com/tranxuanthang/lrcget">LRCGET</a><br> - <a
-        href="https://github.com/akashrchandran/syrics">Syrics</a><br> - <a
-        href="https://github.com/Lambada10/SongSync">SongSync</a><br><br> <b>For the program to easily match and grab
-        files, ensure that the music file and the LRC file have the same name, plus in the same directory. I will
-        figure out for better file management in the future.</b>"""
+        text = PREPARATION
         QMessageBox.information(self, "Preparation of files", text)
 
     def show_shortcuts(self):
         # Create a dialog
         dialog = QDialog(self)
         dialog.setWindowTitle("Shortcuts")
-        dialog.resize(600, 400)  # Set an appropriate size
+        dialog.resize(600, 600)
+
+        # Create a layout for the entire dialog
+        main_layout = QVBoxLayout(dialog)
+
+        # Create a search bar
+        search_bar = QLineEdit()
+        search_bar.setPlaceholderText("Search shortcuts...")
+        main_layout.addWidget(search_bar)
 
         # Create a scrollable area
-        scroll_area = QScrollArea(dialog)
+        scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
+        main_layout.addWidget(scroll_area)
 
         # Create a widget to hold the shortcuts text
-        content_widget = QLabel("""
-        <h2>🎹 <b>Keyboard Shortcuts</b></h2>
-        <p>Master these shortcuts to navigate and control the app effortlessly:</p>
+        self.content_widget = QTextEdit()
+        self.content_widget.setHtml(SHORTCUTS)
+        self.content_widget.setReadOnly(True)
 
-        <h3>📝 <b>Getting Started</b></h3>
-        <ul>
-            <li>Start by <strong>double-clicking</strong> on an item in the left layout's tree list:</li>
-            <ul>
-                <li>Double-click an <strong>artist name</strong> to load all songs by that artist into the playlist.</li>
-                <li>Double-click an <strong>album name</strong> to load all songs from that album.</li>
-                <li>Double-click a <strong>single song</strong> to add just that song to the playlist.</li>
-            </ul>
-        </ul>
-
-        <h3>🔗 <b>General</b></h3>
-        <ul>
-            <li><strong>Left Arrow, Right Arrow</strong>: Seek backward and forward.</li>
-            <li><strong>Spacebar</strong>: Play/Pause the current song.</li>
-            <li><strong>Ctrl + R</strong>: Play a random song from the playlist.</li>
-            <li><strong>Shift + Alt + R</strong>: Restart the current playing song.</li>
-            <li><strong>Ctrl + Alt + R</strong>: Update and reload the database.</li>
-            <li><strong>Ctrl + L</strong>: Activate LRC (Lyrics) display, or double-click the progress bar.</li>
-            <li><strong>Ctrl + S</strong>: Focus on the search bar. Inside the search bar, press <strong>Enter</strong> to play the matched song.</li>
-            <li><strong>Ctrl + Q</strong>: Quit the program. The app continues running in the background even if you close the main window.</li>
-            <li><strong>Ctrl + I</strong>: Enable/Disable lyrics syncing.</li>
-            <li><strong>Ctrl + G</strong>: Highlight the row of the currently playing song in the playlist.</li>
-            <li><strong>Ctrl + P</strong>: Stop the currently playing song.</li>
-            <li><strong>Ctrl + F</strong>: Filter songs in the playlist or library.</li>
-            <li><strong>Ctrl + J</strong>: Focus on the playlist layout.</li>
-            <li><strong>Ctrl + 1, 2, 3</strong>: Activate playback modes:
-                <ul>
-                    <li><strong>1</strong>: Loop the playlist.</li>
-                    <li><strong>2</strong>: Repeat the current song.</li>
-                    <li><strong>3</strong>: Shuffle the playlist.</li>
-                </ul>
-            </li>
-            <li><strong>Del</strong>: Remove a song from the playlist.</li>
-            <li><strong>Enter</strong>: Play the selected song.</li>
-            <li><strong>F2</strong>: Edit the selected song's metadata.</li>
-            <li><strong>Ctrl + C</strong>: Copy the file path of the selected song.</li>
-            <li><strong>F10</strong>: Enable/Disable full-screen mode.</li>
-            <li><strong>Esc</strong>: Close most opened windows.</li>
-            <li>Double-click a tree list item to add it to the playlist.</li>
-            <li>Double-click a playlist item to play that song immediately.</li>
-        </ul>
-Refresh and update the database
-        <h3>📜 <b>In LRC (Lyrics) View</b></h3>
-        <ul>
-            <li><strong>F</strong>: Toggle full-screen mode for the LRC view.</li>
-            <li><strong>D</strong>: Jump to the start of the current lyric.</li>
-            <li><strong>Up Arrow, Down Arrow</strong>: Navigate to the previous or next lyric line.</li>
-            <li><strong>E</strong>: Open the Lyrics Notebook.</li>
-            <li><strong>Ctrl + D</strong>: Open your personal dictionary.</li>
-        </ul>
-
-        <h3>📔 <b>In Lyrics Notebook</b></h3>
-        <ul>
-            <li><strong>Ctrl + S</strong>: Save the text you’ve written.</li>
-            <li><strong>Esc</strong>, <strong>Ctrl + W</strong>, <strong>Alt + F4</strong>: Exit the notebook without saving.</li>
-        </ul>
-
-        <p style="font-style:italic;">Tip: Use the shortcuts to streamline your workflow and enhance your music experience!</p>
-        """)
+        # Set text formatting options
+        self.content_widget.setWordWrapMode(QTextOption.WrapMode.WordWrap)
+        self.content_widget.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
 
         # Add the widget to the scroll area
-        scroll_area.setWidget(content_widget)
+        scroll_area.setWidget(self.content_widget)
 
-        content_widget.setWordWrap(True)  # Allow text to wrap inside the QLabel
-        content_widget.setTextFormat(Qt.TextFormat.RichText)  # Support HTML formatting
-        scroll_area.setWidget(content_widget)
+        # Store original HTML for search functionality
+        self.original_html = self.content_widget.toHtml()
+
+        # Connect the search bar's textChanged signal
+        search_bar.textChanged.connect(self.filter_shortcuts)
 
         # Add a close button
         button_layout = QHBoxLayout()
@@ -926,14 +879,43 @@ Refresh and update the database
         close_button.clicked.connect(dialog.close)
         button_layout.addStretch()
         button_layout.addWidget(close_button)
-
-        # Arrange layout
-        layout = QVBoxLayout(dialog)
-        layout.addWidget(scroll_area)
-        layout.addLayout(button_layout)
-        dialog.setLayout(layout)
+        main_layout.addLayout(button_layout)
 
         dialog.exec()
+
+    def filter_shortcuts(self, text):
+        pass
+        if not text:
+            self.content_widget.setHtml(self.original_html)
+            return
+
+        # Get clean HTML without previous highlights
+        html = self.original_html.replace('<mark>', '').replace('</mark>', '')
+
+        # Case-insensitive search and highlight
+        search_text = text.lower()
+        start_tag = '<mark>'
+        end_tag = '</mark>'
+        highlighted_html = html
+        index = 0
+
+        while True:
+            # Find the text (case-insensitive)
+            text_start = highlighted_html.lower().find(search_text, index)
+            if text_start == -1:
+                break
+
+            text_end = text_start + len(text)
+
+            # Insert highlight tags
+            highlighted_html = (highlighted_html[:text_start] + start_tag +
+                                highlighted_html[text_start:text_end] + end_tag +
+                                highlighted_html[text_end:])
+
+            # Move index past the end of the current match plus the length of the tags we added
+            index = text_end + len(start_tag) + len(end_tag)
+
+        self.content_widget.setHtml(highlighted_html)
 
     def ask_for_background_image(self):
         # Set default directory based on the operating system
@@ -963,13 +945,17 @@ Refresh and update the database
             # Create the context menu
             context_menu = QMenu(self)
 
+            # Smart download: single or multiple
+            download_lyrics_action = context_menu.addAction("ᯓ Download Lyrics with lrcdl")
+            download_lyrics_action.triggered.connect(self.lyrics_downloader.start_download_from_selection)
+
             # Add an action to copy the file path
-            copy_action = context_menu.addAction("🎵 Copy Song Path (Ctrl+C)")
+            copy_action = context_menu.addAction("➡️ Copy Song Path (Ctrl+C)")
 
             # Connect the action to a method
             copy_action.triggered.connect(lambda: self.copy_item_path(item))
 
-            file_tagger_action = context_menu.addAction("Edit Song's Metadata")
+            file_tagger_action = context_menu.addAction("ⓘ Edit Song's Metadata")
             file_tagger_action.triggered.connect(self.activate_file_tagger)
 
             # Show the context menu at the cursor position
@@ -1017,7 +1003,6 @@ Refresh and update the database
         self.setCentralWidget(self.central_widget)
 
         # Create the song collection widget
-        song_collection_layout = QVBoxLayout(self.albumTreeWidget)
         self.albumTreeWidget.loadSongsToCollection(self.directories)
 
         # Create the playlist widget
@@ -1063,13 +1048,13 @@ Refresh and update the database
         # Connect search bar returnPressed signal to the search method
         self.search_bar.returnPressed.connect(self.filterSongs)
 
-        self.loop_playlist_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "loop-default.ico")))
+        self.loop_playlist_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "loop-default.ico")))
         self.loop_playlist_button.clicked.connect(lambda: self.click_on_playback_button("loop"))
 
-        self.repeat_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "repeat-default.ico")))
+        self.repeat_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "repeat-default.ico")))
         self.repeat_button.clicked.connect(lambda: self.click_on_playback_button("repeat"))
 
-        self.shuffle_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "shuffle-default.ico")))
+        self.shuffle_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "shuffle-default.ico")))
         self.shuffle_button.clicked.connect(lambda: self.click_on_playback_button("shuffle"))
 
         self.playback_management_layout = QHBoxLayout()
@@ -1296,11 +1281,11 @@ Refresh and update the database
         self.prev_song_button.setSizePolicy(size_policy)
         self.next_song_button.setSizePolicy(size_policy)
 
-        self.prev_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "seek-backward.ico")))
-        self.play_pause_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "play.ico")))
-        self.forward_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "seek-forward.ico")))
-        self.prev_song_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "previous-song.ico")))
-        self.next_song_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "next-song.ico")))
+        self.prev_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "seek-backward.ico")))
+        self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "play.ico")))
+        self.forward_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "seek-forward.ico")))
+        self.prev_song_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "previous-song.ico")))
+        self.next_song_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "next-song.ico")))
 
         self.prev_button.clicked.connect(self.seekBack)
         self.play_pause_button.clicked.connect(self.play_pause)
@@ -1633,7 +1618,7 @@ Refresh and update the database
             self.music_player.player.stop()
             self.lrcPlayer.started_player = False
             self.lrcPlayer.disconnect_syncing()
-            self.play_pause_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "play.ico")))
+            self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "play.ico")))
             self.lrcPlayer.media_lyric.setText(self.lrcPlayer.media_font.get_formatted_text("April Music Player"))
             self.duration_label.setText("")
             self.music_player.started_playing = False
@@ -1642,7 +1627,7 @@ Refresh and update the database
     def play_song(self):
         self.last_updated_position = 0.0
         # current for checking lrc on/off state and then play song
-        self.play_pause_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "pause.ico")))
+        self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "pause.ico")))
         if self.lrcPlayer.show_lyrics:
             self.lrcPlayer.activate_sync_lyric_connection(self.lrc_file)
         else:

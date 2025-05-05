@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton, QLabel
 from PyQt6.QtGui import QKeyEvent, QFont, QTextCharFormat, QTextCursor, QIcon
 from PyQt6.QtCore import Qt
-from getfont import GetFont
+from components.getfont import GetFont
 import sqlite3
 import os
 import json

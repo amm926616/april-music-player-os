@@ -1,0 +1,773 @@
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/songtablewidget.py", line 48, in <lambda>
+    self.itemDoubleClicked.connect(lambda: self.parent.handleRowDoubleClick(self.item(self.currentRow(), 7)))
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1604, in handleRowDoubleClick
+    self.song_initializing_stuff()  # Initialize player
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1471, in song_initializing_stuff
+    self.music_player.default_pause_state()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayer' object has no attribute 'default_pause_state'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/songtablewidget.py", line 48, in <lambda>
+    self.itemDoubleClicked.connect(lambda: self.parent.handleRowDoubleClick(self.item(self.currentRow(), 7)))
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1604, in handleRowDoubleClick
+    self.song_initializing_stuff()  # Initialize player
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1471, in song_initializing_stuff
+    self.music_player.default_pause_state()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayer' object has no attribute 'default_pause_state'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 40, in handle_media_status
+    elif status == QMediaPlayer.MediaStatus.StoppedState:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'StoppedState'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 40, in handle_media_status
+    elif status == QMediaPlayer.MediaStatus.StoppedState:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'StoppedState'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 40, in handle_media_status
+    elif status == QMediaPlayer.MediaStatus.StoppedState:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'StoppedState'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 40, in handle_media_status
+    elif status == QMediaPlayer.MediaStatus.StoppedState:
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'StoppedState'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 37, in handle_media_status
+    QMediaPlayer.MediaStatus.UnknownMediaStatus: "UnknownMediaStatus",
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'UnknownMediaStatus'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 37, in handle_media_status
+    QMediaPlayer.MediaStatus.UnknownMediaStatus: "UnknownMediaStatus",
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'UnknownMediaStatus'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 37, in handle_media_status
+    QMediaPlayer.MediaStatus.UnknownMediaStatus: "UnknownMediaStatus",
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'UnknownMediaStatus'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 37, in handle_media_status
+    QMediaPlayer.MediaStatus.UnknownMediaStatus: "UnknownMediaStatus",
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'UnknownMediaStatus'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 37, in handle_media_status
+    QMediaPlayer.MediaStatus.UnknownMediaStatus: "UnknownMediaStatus",
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'UnknownMediaStatus'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 37, in handle_media_status
+    QMediaPlayer.MediaStatus.UnknownMediaStatus: "UnknownMediaStatus",
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'UnknownMediaStatus'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerworker.py", line 37, in handle_media_status
+    QMediaPlayer.MediaStatus.UnknownMediaStatus: "UnknownMediaStatus",
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'MediaStatus' has no attribute 'UnknownMediaStatus'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/main.py", line 181, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/main.py", line 129, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/main.py", line 122, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 215, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 226, in init_main_classes
+    self.music_player = MusicPlayer(self, self.play_pause_button, self.loop_playlist_button, self.repeat_button,
+                        ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                    self.shuffle_button)
+                                    ^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayer.py", line 43, in __init__
+    self.player = MusicPlayerWorker(self.handle_media_status_changed, self.handle_error)
+                  ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: MusicPlayerWorker.__init__() takes 2 positional arguments but 3 were given
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/songtablewidget.py", line 568, in keyPressEvent
+    self.parent.music_player.music_player.setPosition(0)  # set position to start
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayer' object has no attribute 'music_player'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/songtablewidget.py", line 568, in keyPressEvent
+    self.parent.music_player.setPosition(0)  # set position to start
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayer' object has no attribute 'setPosition'. Did you mean: 'get_position'?
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 969, in <lambda>
+    download_lyrics_action.triggered.connect(lambda: download_lyrics(self.get_music_file_from_click(item)))
+                                                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/utils/lrc_downloader.py", line 5, in download_lyrics
+    track.download_lyrics(Options())
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/lrcdl/track.py", line 36, in download_lyrics
+    raise LyricsAlreadyExists()
+lrcdl.exceptions.LyricsAlreadyExists
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/connection.py", line 198, in _new_conn
+    sock = connection.create_connection(
+        (self._dns_host, self.port),
+    ...<2 lines>...
+        socket_options=self.socket_options,
+    )
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/util/connection.py", line 60, in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/socket.py", line 977, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+socket.gaierror: [Errno -2] Name or service not known
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 787, in urlopen
+    response = self._make_request(
+        conn,
+    ...<10 lines>...
+        **response_kw,
+    )
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 488, in _make_request
+    raise new_e
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 464, in _make_request
+    self._validate_conn(conn)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 1093, in _validate_conn
+    conn.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/connection.py", line 704, in connect
+    self.sock = sock = self._new_conn()
+                       ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/connection.py", line 205, in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+urllib3.exceptions.NameResolutionError: <urllib3.connection.HTTPSConnection object at 0x76dbe8710ec0>: Failed to resolve 'lrclib.net' ([Errno -2] Name or service not known)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/requests/adapters.py", line 667, in send
+    resp = conn.urlopen(
+        method=request.method,
+    ...<9 lines>...
+        chunked=chunked,
+    )
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/connectionpool.py", line 841, in urlopen
+    retries = retries.increment(
+        method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
+    )
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/urllib3/util/retry.py", line 519, in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='lrclib.net', port=443): Max retries exceeded with url: /api/get?track_name=Live+My+Life&artist_name=aespa&album_name=Armageddon+-+The+1st+Album&duration=159 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x76dbe8710ec0>: Failed to resolve 'lrclib.net' ([Errno -2] Name or service not known)"))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 969, in <lambda>
+    download_lyrics_action.triggered.connect(lambda: download_lyrics(self.get_music_file_from_click(item), self))
+                                                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/utils/lrc_downloader.py", line 8, in download_lyrics
+    track.download_lyrics(Options())
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/lrcdl/track.py", line 52, in download_lyrics
+    lyrics = provider.get_lyrics(title, artist, album, duration)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/lrcdl/provider.py", line 17, in get_lyrics
+    r = requests.get(f"{DEFAULT_HOST}/api/get", params=params, headers=DEFAULT_HEADERS)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/requests/api.py", line 73, in get
+    return request("get", url, params=params, **kwargs)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/requests/api.py", line 59, in request
+    return session.request(method=method, url=url, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/requests/sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/requests/sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/requests/adapters.py", line 700, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='lrclib.net', port=443): Max retries exceeded with url: /api/get?track_name=Live+My+Life&artist_name=aespa&album_name=Armageddon+-+The+1st+Album&duration=159 (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x76dbe8710ec0>: Failed to resolve 'lrclib.net' ([Errno -2] Name or service not known)"))
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 969, in <lambda>
+    download_lyrics_action.triggered.connect(lambda: self.smart_download_lyrics(item))
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 989, in smart_download_lyrics
+    self.download_lyrics_for_selected_items()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1011, in download_lyrics_for_selected_items
+    download_lyrics(file_path, self)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/utils/lrc_downloader.py", line 17, in download_lyrics
+    track.download_lyrics(Options())
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/lrcdl/track.py", line 52, in download_lyrics
+    lyrics = provider.get_lyrics(title, artist, album, duration)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/lrcdl/provider.py", line 22, in get_lyrics
+    raise TrackNotFound()
+lrcdl.exceptions.TrackNotFound
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1070, in <lambda>
+    lambda msg: self.on_download_error(msg, batch_mode))
+                ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1123, in on_download_error
+    self.cleanup_download_thread()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1077, in cleanup_download_thread
+    if self.download_thread.isRunning():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: wrapped C/C++ object of type QThread has been deleted
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 970, in <lambda>
+    download_lyrics_action.triggered.connect(lambda: self.smart_download_lyrics(item))
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 992, in smart_download_lyrics
+    self.start_single_download(file_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1049, in start_single_download
+    self.cleanup_download_thread()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1077, in cleanup_download_thread
+    if self.download_thread.isRunning():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: wrapped C/C++ object of type QThread has been deleted
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 970, in <lambda>
+    download_lyrics_action.triggered.connect(lambda: self.smart_download_lyrics(item))
+                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 992, in smart_download_lyrics
+    self.start_single_download(file_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1049, in start_single_download
+    self.cleanup_download_thread()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1077, in cleanup_download_thread
+    if self.download_thread.isRunning():
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: wrapped C/C++ object of type QThread has been deleted
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1139, in cancel_batch_download
+    self.cleanup_download_thread()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1088, in cleanup_download_thread
+    if self.download_thread.isRunning():
+       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayerUI' object has no attribute 'download_thread'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1139, in cancel_batch_download
+    self.cleanup_download_thread()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 1088, in cleanup_download_thread
+    if self.download_thread.isRunning():
+       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayerUI' object has no attribute 'download_thread'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 993, in filter_shortcuts
+    cursor = QTextCursor(self.content_widget.textCursor())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QLabel' object has no attribute 'textCursor'. Did you mean: 'setCursor'?
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 993, in filter_shortcuts
+    cursor = QTextCursor(self.content_widget.textCursor())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QLabel' object has no attribute 'textCursor'. Did you mean: 'setCursor'?
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 973, in show_shortcuts
+    self.content_widget.setWordWrapMode(True)  # Allow text to wrap inside the QTextEdit
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+TypeError: setWordWrapMode(self, policy: QTextOption.WrapMode): argument 1 has unexpected type 'bool'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 977, in show_shortcuts
+    self.content_widget.setTextFormat(Qt.TextFormat.RichText)  # Support HTML formatting
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'QTextEdit' object has no attribute 'setTextFormat'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 977, in show_shortcuts
+    self.content_widget.setText(Qt.TextFormat.RichText)  # Support HTML formatting
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: setText(self, text: Optional[str]): argument 1 has unexpected type 'TextFormat'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 977, in show_shortcuts
+    self.content_widget.setText(Qt.TextFormat.RichText)  # Support HTML formatting
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: setText(self, text: Optional[str]): argument 1 has unexpected type 'TextFormat'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/musicplayerui.py", line 882, in show_shortcuts
+    self.content_widget.setText(Qt.TextFormat.RichText)  # Support HTML formatting
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: setText(self, text: Optional[str]): argument 1 has unexpected type 'TextFormat'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/assets/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 130, in __init__
+    self.ej = EasyJson()  # ej initializing
+              ~~~~~~~~^^
+TypeError: EasyJson.__init__() missing 1 required positional argument: 'script_path_main_runs'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/assets/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 498, in keyPressEvent
+    self.activate_lrc_display()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 1217, in activate_lrc_display
+    self.lrcPlayer.startUI(self, self.lrc_file)  # Start the lyrics display
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 208, in startUI
+    self.resizeBackgroundImage(self.ej.setupBackgroundImage())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 137, in resizeBackgroundImage
+    image = Image.open(image_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/Image.py", line 3505, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/background-images/default.jpg'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 498, in keyPressEvent
+    self.activate_lrc_display()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 1217, in activate_lrc_display
+    self.lrcPlayer.startUI(self, self.lrc_file)  # Start the lyrics display
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 208, in startUI
+    self.resizeBackgroundImage(self.ej.setupBackgroundImage())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 164, in resizeBackgroundImage
+    font = ImageFont.truetype(font_path, font_size)  # Load the font with the specified size
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 880, in truetype
+    return freetype(font)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 877, in freetype
+    return FreeTypeFont(font, size, index, encoding, layout_engine)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 285, in __init__
+    self.font = core.getfont(
+                ~~~~~~~~~~~~^
+        font, size, index, encoding, layout_engine=layout_engine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+OSError: cannot open resource
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 498, in keyPressEvent
+    self.activate_lrc_display()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 1217, in activate_lrc_display
+    self.lrcPlayer.startUI(self, self.lrc_file)  # Start the lyrics display
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 208, in startUI
+    self.resizeBackgroundImage(self.ej.setupBackgroundImage())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 164, in resizeBackgroundImage
+    font = ImageFont.truetype(font_path, font_size)  # Load the font with the specified size
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 880, in truetype
+    return freetype(font)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 877, in freetype
+    return FreeTypeFont(font, size, index, encoding, layout_engine)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 285, in __init__
+    self.font = core.getfont(
+                ~~~~~~~~~~~~^
+        font, size, index, encoding, layout_engine=layout_engine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+OSError: cannot open resource
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/assets/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/assets/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 306, in keyPressEvent
+    self.dictionary = VocabularyManager(parent=self)
+                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/plugins/dictionary.py", line 29, in __init__
+    self.setup()
+    ~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/plugins/dictionary.py", line 36, in setup
+    self.icon_path = os.path.join(self.ej.script_path, "icons", "dictionary.png")
+                                  ^^^^^^^
+AttributeError: 'VocabularyManager' object has no attribute 'ej'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 306, in keyPressEvent
+    self.dictionary = VocabularyManager(parent=self)
+                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/plugins/dictionary.py", line 29, in __init__
+    self.setup()
+    ~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/plugins/dictionary.py", line 36, in setup
+    self.icon_path = os.path.join(self.ej.script_path, "icons", "dictionary.png")
+                                  ^^^^^^^
+AttributeError: 'VocabularyManager' object has no attribute 'ej'
+
