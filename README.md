@@ -1,17 +1,32 @@
 # April Music Player
+
 <img src="./icons/april-logo.png" alt="logo" width="400"/>
 
-#### Check out this cool official website for April Music Player created by my girlfriend. 
+## 🌐 Official Website
+
+Check out the official website for April Music Player:  
 [April Music Player's Official Website](https://april-music-player.github.io/)
 
+---
 
-### About
-April Music Player is a music player with lyric syncing and note-taking features, designed to help with lyric memorization. It's perfect for language learners who want to enjoy music while improving their language skills. The app offers a customizable lyrics display, note-taking features, and personal vocabulary collections to enhance the learning experience. 
+## 🎵 About
 
-As someone who once wished for a music player that allowed interactive lyric engagement while learning Korean, I’m thrilled to have created this tool myself. I’m excited to share it with anyone who can benefit from it. **Presented to you by Aiden.**
+April Music Player is an interactive music player with lyric syncing and note-taking capabilities, designed to enhance
+lyric memorization and language learning. Its features include:
 
-### Screenshots
-Here are some screenshots of April Music Player in action:
+- **Customizable Lyrics Display**: Perfect for language learners.
+- **Note-Taking and Vocabulary Tools**: Take notes and keep personal vocabulary collections.
+- **Interactive Features**: Engage deeply with your favorite songs.
+
+This project was inspired by a personal wish for a tool to practice Korean lyrics and is now shared with everyone to
+enjoy.  
+**Presented to you by Aiden.**
+
+---
+
+## 📸 Screenshots
+
+Here’s a glimpse of April Music Player in action:
 
 <div align="center">
   <img src="./screenshots/0001.png" width="600"/>
@@ -28,97 +43,158 @@ Here are some screenshots of April Music Player in action:
 
 ---
 
-### Files preparation (music and lrc files)
-Before using the player, you'll need to download your songs and lyrics in advance. I use Zotify to download songs from Spotify, and for LRC lyrics files, I recommend using LrcGet, Syrics on your laptop, or SongSync on Android. There are also various websites where you can download music with embedded metadata and lyrics.
+## 📂 Preparation: Music and Lyrics Files
 
-- [Zotify](https://github.com/zotify-dev/zotify)
-- [LrcGet](https://github.com/tranxuanthang/lrcget)
-- [Syrics](https://github.com/akashrchandran/syrics)
-- [SongSync](https://github.com/Lambada10/SongSync)
- 
-### Installation
+To get started, download your songs and lyrics beforehand. Recommended tools:
 
-- An installer for Windows is available in the releases section(outdated). However, since I don't use Windows, creating an installer can be tedious. So, I will only create an installer for major updates. I recommend running the program directly from the Python file for the best experience, as daily updates and bug fixes will be released frequently. [Download Windows Installer](https://github.com/amm926616/april-music-player-os/releases/download/windows-installers/april-open-source-v1.1-setup.exe)
+- **Music Downloader**: [Zotify](https://github.com/zotify-dev/zotify)
+- **Lyrics File Tools**:
+    - [LrcGet](https://github.com/tranxuanthang/lrcget)
+    - [Syrics](https://github.com/akashrchandran/syrics)
+    - [SongSync](https://github.com/Lambada10/SongSync)
 
+The tools listed above help you grab songs or LRC lyrics files easily.
 
-- To run the project with Python, clone or download the repository:
-    
-    `git clone https://github.com/amm926616/april-music-player.git` or download the repo.
+---
 
-- Go inside the folder.
-    
-- (Optional) Create a virtual environment:
+## 🛠 Installation
 
-    `python -m venv .venv && source .venv/bin/activate`
-    
-- Install the required modules:
+### Option 1: Use Windows Installer
 
-    `pip install -r requirements/requirements-windows.txt` for windows and `pip install -r requirements/requirements-linux.txt` for linux.
-    
-- Run the main script:
-    
-    `python main.py`
+An outdated Windows installer is available:
+[Download Windows Installer](https://github.com/amm926616/april-music-player-os/releases/download/windows-installers/april-open-source-v1.1-setup.exe)
 
-- Later, maybe you can create your own shortcut or script to automate the running process.     
+_**Note:** Major updates only receive a new installer. For frequent updates, use the Python-based setup._
 
-## 🎹 **Keyboard Shortcuts**  
+---
 
-Master these shortcuts to navigate and control the app effortlessly:  
+### Option 2: Run With Python
 
-### 📝 **Getting Started**  
-- Start by **double-clicking** on an item in the left layout's tree list:  
-  - Double-click an **artist name** to load all songs by that artist into the playlist.  
-  - Double-click an **album name** to load all songs from that album.  
-  - Double-click a **single song** to add just that song to the playlist.  
+1. Clone or download the repository:
+    ```bash
+    git clone https://github.com/amm926616/april-music-player.git
+    cd april-music-player
+    ```
 
-### 🔗 **General**  
-- **Left Arrow, Right Arrow**: Seek backward and forward.  
-- **Spacebar**: Play/Pause the current song.  
-- **Ctrl + R**: Play a random song from the playlist.  
-- **Shift + Alt + R**: Restart the current playing song.  
-- **Ctrl + Alt + R**: Update and reload the database.  
-- **Ctrl + L**: Activate LRC (Lyrics) display, or double-click the progress bar.  
-- **Ctrl + S**: Focus on the search bar. Inside the search bar, press **Enter** to play the matched song.  
-- **Ctrl + Q**: Quit the program. The app continues running in the background even if you close the main window.  
-- **Ctrl + I**: Enable/Disable lyrics syncing.  
-- **Ctrl + G**: Highlight the row of the currently playing song in the playlist.  
-- **Ctrl + P**: Stop the currently playing song.  
-- **Ctrl + F**: Filter songs in the playlist or library.  
-- **Ctrl + J**: Focus on the playlist layout.  
-- **Ctrl + 1, 2, 3**: Activate playback modes:  
-  - **1**: Loop the playlist.  
-  - **2**: Repeat the current song.  
-  - **3**: Shuffle the playlist.  
-- **Del**: Remove a song from the playlist.  
-- **Enter**: Play the selected song.  
-- **F2**: Edit the selected song's metadata.  
-- **Ctrl + C**: Copy the file path of the selected song.  
-- **F10**: Enable/Disable full-screen mode.  
-- **Esc**: Close most opened windows.  
-- Double-click a tree list item to add it to the playlist.  
-- Double-click a playlist item to play that song immediately.  
+2. **(Optional)** Create a virtual environment:
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # Linux/Mac
+    .venv\Scripts\activate  # Windows
+    ```
 
-### 📜 **In LRC (Lyrics) View**  
-- **F**: Toggle full-screen mode for the LRC view.  
-- **D**: Jump to the start of the current lyric.  
-- **Up Arrow, Down Arrow**: Navigate to the previous or next lyric line.  
-- **E**: Open the Lyrics Notebook.  
-- **Ctrl + D**: Open your personal dictionary.  
+3. Install required dependencies:
+    - For Windows:
+      ```bash
+      pip install -r requirements/requirements-windows.txt
+      ```
+    - For Linux:
+      ```bash
+      pip install -r requirements/requirements-linux.txt
+      ```
 
-### 📔 **In Lyrics Notebook**  
-- **Ctrl + S**: Save the text you’ve written.  
-- **Esc**, **Ctrl + W**, **Alt + F4**: Exit the notebook without saving.  
+4. Run the application:
+    ```bash
+    python main.py
+    ```
 
-### 📚 **Personal Dictionary**
-- **Ctrl + D**: To open personal dictionary to collect vocabulary
-- You can save the words you encounter on your own to the personal dictionary. 
-- There are minimalistic buttons for the simple functions but I have power them with easy workflow without clicking one. 
-- Pressing Enter in the word textbox activates searching words. 
-- Pressing Enter in the meaning textbox activates saving new vocabulary. 
+5. Optionally, create a shortcut or script for easier launching in the future.
 
-Also, try out my 'Personal Dictionary' stand along python application to collect vocabulary. It features a search system that shows words with similar syllables, mimicking how neurons connect in the brain. [personal-dictionary](https://github.com/amm926616/sqlite-personal-dictionary)
+---
 
+## 🎹 Keyboard Shortcuts
 
+Navigate the app effortlessly with these bindings:
 
+### 🔗 General (Main UI & Playlist)
 
+#### Playback Control
 
+- `Space`: Play/Pause
+- `Ctrl+Shift+Right`: Play next song
+- `Ctrl+Left`: Seek backward
+- `Right`: Seek forward
+- `Left`: Seek backward
+- `0 / Home`: Return to start of song
+- `Ctrl+P`: Stop song
+- `Shift+Alt+R`: Restart current song
+- `Ctrl+Alt+R`: Reload directories (update database)
+
+#### Navigation & Playlist
+
+- `Ctrl+R`: Play random song
+- `Ctrl+T`: Play song at the top of the playlist
+- `Ctrl+G`: Scroll to currently playing row
+- `Enter`: Play selected song (playlist focused)
+- `Del`: Remove selected song(s) from the playlist
+- `Ctrl+C`: Copy file path of selected song
+- `Ctrl+D`: Restore table (reset filters)
+
+#### Search & Focus
+
+- `Ctrl+F`: Focus playlist search bar
+- `Ctrl+Shift+F`: Focus main search bar
+- `Ctrl+J`: Focus playlist (no search)
+
+#### Lyrics & Metadata
+
+- `Ctrl+L`: Activate LRC display
+- `Ctrl+I`: Toggle lyric sync on/off
+- `F2`: Edit selected song metadata
+
+#### Playback Modes
+
+- `Ctrl+1`: Toggle playlist loop
+- `Ctrl+2`: Toggle repeat (current song)
+- `Ctrl+3`: Toggle shuffle
+
+#### UI & Actions
+
+- `F11`: Toggle fullscreen
+- `Ctrl+S`: Save playlist
+- `Ctrl+Q`: Quit application
+- `Esc`: Close current dialog or sub-window
+
+---
+
+### 📜 Lyrics (LRC) View
+
+#### Playback & Navigation
+
+- `Space`: Play/Pause
+- `Left`/`Right`: Seek backward/forward
+- `D`: Jump to start of current lyric
+- `Up`/`Down`: Previous/next lyric line (interactive only)
+- `R`: Restart song
+
+#### Tools & UI
+
+- `F`: Toggle fullscreen
+- `Ctrl+D`: Open dictionary
+- `E`: Open lyrics notebook
+- `Ctrl+C`: Copy current lyric text
+- `Ctrl+Y`: Create lyrics animation
+
+---
+
+### 📔 Lyrics Notebook
+
+- `Ctrl+S`: Save text
+- `Esc` / `Ctrl+W`: Close without saving
+
+---
+
+### 📚 Personal Dictionary
+
+Explore my stand-alone app for vocabulary
+management ([Personal Dictionary](https://github.com/amm926616/sqlite-personal-dictionary)):
+
+- **Search System**: Mimics neuronal connections for exploring similar-sounding words.
+
+Use within the April Music Player:
+
+- `Ctrl+S`: Search word
+- `Ctrl+Q`: Delete selected entry
+- `Enter` (word box): Search
+- `Enter` (meaning box): Save entry
+- `Esc` / `Ctrl+W`: Close window
