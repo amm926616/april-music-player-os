@@ -560,15 +560,12 @@ class SongTableWidget(QTableWidget):
             self.setPreviousRow(self.currentItem())
             self.horizontalScrollBar().setValue(0)
 
-        elif event.key() == Qt.Key.Key_7:
-            self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
-
         elif event.key() == Qt.Key.Key_Delete:
             self.delete_selected_rows()
 
         elif event.key() == Qt.Key.Key_0 or event.key() == Qt.Key.Key_Home:
             print("keyboard r pressing")
-            self.parent.music_player.music_player.setPosition(0)  # set position to start
+            self.parent.music_player.player.setPosition(0)  # set position to start
 
         elif event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter:
             if self.hasFocus():

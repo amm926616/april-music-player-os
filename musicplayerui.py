@@ -8,9 +8,9 @@ from PyQt6.QtGui import QIcon, QFont, QFontDatabase, QAction, QCursor, QKeyEvent
 from PyQt6.QtMultimedia import QMediaPlayer
 from PyQt6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QMessageBox, QSystemTrayIcon, QMenu, QWidgetAction,
-    QLabel, QPushButton, QSlider, QLineEdit, QFileDialog, QScrollArea, QSizePolicy, QDialog, QStyle
+    QLabel, QPushButton, QSlider, QLineEdit, QFileDialog, QScrollArea, QSizePolicy, QDialog, QStyle, QProgressDialog
 )
-from PyQt6.QtCore import Qt, QCoreApplication, QRectF
+from PyQt6.QtCore import Qt, QCoreApplication, QRectF, QThread
 from PyQt6.QtWidgets import QStyleFactory
 from mutagen import File
 from mutagen.flac import FLAC, Picture
@@ -33,6 +33,8 @@ from addnewdirectory import AddNewDirectory
 from music_downloader_gui import MusicDownloaderWidget
 from playlist_manager import PlaylistDialog
 from splitter import ColumnSplitter
+from utils.lrc_downloader import LyricsDownloader
+
 
 def html_to_plain_text(html):
     doc = QTextDocument()
@@ -221,6 +223,13 @@ class MusicPlayerUI(QMainWindow):
         self.settings_icon = self.style().standardIcon(QStyle.StandardPixmap.SP_FileDialogDetailedView)
         self.colors_icon = QIcon(os.path.join(self.icon_folder_path, "colors.ico"))
         self.default_wallpaper_icon = QIcon(os.path.join(self.icon_folder_path, "default_wallpaper.ico"))
+
+        self.lyrics_downloader = LyricsDownloader(
+            parent=self,
+            song_table_widget=self.songTableWidget,
+            app=self.app,
+            get_path_callback=self.get_music_file_from_click
+        )
 
     def init_main_classes(self, music_files=None):
         self.music_player = MusicPlayer(self, self.play_pause_button, self.loop_playlist_button, self.repeat_button,
@@ -963,13 +972,17 @@ Refresh and update the database
             # Create the context menu
             context_menu = QMenu(self)
 
+            # Smart download: single or multiple
+            download_lyrics_action = context_menu.addAction("ᯓ Download Lyrics with lrcdl")
+            download_lyrics_action.triggered.connect(self.lyrics_downloader.start_download_from_selection)
+
             # Add an action to copy the file path
-            copy_action = context_menu.addAction("🎵 Copy Song Path (Ctrl+C)")
+            copy_action = context_menu.addAction("➡️ Copy Song Path (Ctrl+C)")
 
             # Connect the action to a method
             copy_action.triggered.connect(lambda: self.copy_item_path(item))
 
-            file_tagger_action = context_menu.addAction("Edit Song's Metadata")
+            file_tagger_action = context_menu.addAction("ⓘ Edit Song's Metadata")
             file_tagger_action.triggered.connect(self.activate_file_tagger)
 
             # Show the context menu at the cursor position
