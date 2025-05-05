@@ -111,7 +111,7 @@ Navigate the app effortlessly with these bindings:
 #### Playback Control
 
 - `Space`: Play/Pause
-- `Ctrl+Shift+Right`: Play next song
+- `Ctrl+Right`: Seek forward
 - `Ctrl+Left`: Seek backward
 - `Right`: Seek forward
 - `Left`: Seek backward
@@ -128,7 +128,7 @@ Navigate the app effortlessly with these bindings:
 - `Enter`: Play selected song (playlist focused)
 - `Del`: Remove selected song(s) from the playlist
 - `Ctrl+C`: Copy file path of selected song
-- `Ctrl+D`: Restore table (reset filters)
+- `Ctrl+D`: Restore table (reset filters) in the playlist search mode. 
 
 #### Search & Focus
 
@@ -173,7 +173,6 @@ Navigate the app effortlessly with these bindings:
 - `Ctrl+D`: Open dictionary
 - `E`: Open lyrics notebook
 - `Ctrl+C`: Copy current lyric text
-- `Ctrl+Y`: Create lyrics animation
 
 ---
 
