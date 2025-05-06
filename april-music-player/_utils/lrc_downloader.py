@@ -21,7 +21,7 @@ class LyricsDownloadWorker(QObject):
                 QThread.msleep(200)
                 self.progress.emit((i + 1) * 20)
             track.download_lyrics(Options())
-            self.success.emit(f"Lyrics downloaded for: {track.title}")
+            self.success.emit(f"Lyrics downloaded for: {self.track_path}")
         except LyricsAlreadyExists:
             self.error.emit("Lyrics already exist for this track.")
         except LyricsNotAvailable:

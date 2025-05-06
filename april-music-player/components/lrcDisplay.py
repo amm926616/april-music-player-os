@@ -5,12 +5,12 @@ from PyQt6.QtWidgets import QLabel, QDialog, QVBoxLayout, QApplication, QSizePol
 from PyQt6.QtCore import Qt, QPoint, QPropertyAnimation
 from PyQt6.QtGui import QIcon, QKeyEvent
 import pyperclip
-from easy_json import EasyJson
-from getfont import GetFont
-from notetaking import NoteTaking
-from clickable_label import ClickableLabel
+from _utils.easy_json import EasyJson
+from components.getfont import GetFont
+from plugins.notetaking import NoteTaking
+from components.clickable_label import ClickableLabel
 import threading
-from dictionary import VocabularyManager
+from plugins.dictionary import VocabularyManager
 from queue import Queue, Empty
 from PIL import Image, ImageDraw, ImageFont
 
@@ -642,9 +642,6 @@ class LRCSync:
                     self.previous_lyric_text = self.get_lyric_text(index, -2)
 
             self.current_index = index
-            print("self.current_index: ", self.current_index)
-            print("self.current_lyrics_time", self.current_lyrics_time)
-
 
             # Update lyric label styling
             if self.lyric_label3 is not None:

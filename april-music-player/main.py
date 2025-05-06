@@ -6,8 +6,11 @@ import signal
 from PyQt6.QtWidgets import QApplication, QMessageBox
 from PyQt6.QtCore import QSharedMemory
 from PyQt6.QtNetwork import QLocalServer, QLocalSocket
-from musicplayerui import MusicPlayerUI
-from easy_json import EasyJson
+from main_ui.musicplayerui import MusicPlayerUI
+from _utils.easy_json import EasyJson
+
+# from pathlib import Path
+# sys.path.append(str(Path(__file__).parent))
 
 APP_KEY = 'AprilMusicPlayer'
 SERVER_NAME = 'MusicPlayerServer'

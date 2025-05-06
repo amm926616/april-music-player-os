@@ -1,7 +1,7 @@
 from fontTools.ttLib import TTFont
 import os
 from PyQt6.QtGui import QFont, QFontDatabase, QTextCharFormat, QTextDocument, QTextCursor
-from easy_json import EasyJson
+from _utils.easy_json import EasyJson
 
 """
 preformatted fonts for different languages

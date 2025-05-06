@@ -1,11 +1,10 @@
 import os
 from PyQt6.QtWidgets import QDialog, QLabel, QPushButton, QVBoxLayout
 from PyQt6.QtGui import QMovie
-import platform
 import subprocess
 import shutil
 import threading
-from easy_json import EasyJson
+from _utils.easy_json import EasyJson
 
 class CredentialDialog(QDialog):
     def __init__(self):

@@ -1,6 +1,6 @@
 # April Music Player
 
-<img src="./icons/april-logo.png" alt="logo" width="400"/>
+<img src="april-music-player/assets/icons/april-logo.png" alt="logo" width="400"/>
 
 ## 🌐 Official Website
 
