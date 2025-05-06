@@ -35,7 +35,7 @@ from main_ui.albumtreewidget import AlbumTreeWidget
 from components.fontsettingdialog import FontSettingsWindow
 from components.tag_dialog import TagDialog
 from components.addnewdirectory import AddNewDirectory
-from components.music_downloader_gui import MusicDownloaderWidget
+from components.music_downloader_gui import ZotifyDownloaderGui
 from components.playlist_manager import PlaylistDialog
 from components.splitter import ColumnSplitter
 from _utils.lrc_downloader import LyricsDownloader
@@ -798,7 +798,7 @@ class MusicPlayerUI(QMainWindow):
 
     def start_zotify_gui(self):
         if not hasattr(self, 'zotify_gui') or self.zotify_gui is None:
-            self.zotify_gui = MusicDownloaderWidget(self)
+            self.zotify_gui = ZotifyDownloaderGui()
         self.zotify_gui.show()
         self.zotify_gui.raise_()  # Bring to front
         self.zotify_gui.activateWindow()  # Set focus

@@ -34,3 +34,51 @@ Traceback (most recent call last):
                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^
 TypeError: MusicDownloaderWidget.__init__() takes 1 positional argument but 2 were given
 
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 801, in start_zotify_gui
+    self.zotify_gui = MusicDownloaderWidget(self)
+                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+TypeError: MusicDownloaderWidget.__init__() takes 1 positional argument but 2 were given
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 801, in start_zotify_gui
+    self.zotify_gui = MusicDownloaderWidget(self)
+                      ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+TypeError: MusicDownloaderWidget.__init__() takes 1 positional argument but 2 were given
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 801, in start_zotify_gui
+    self.zotify_gui = MusicDownloaderWidget(self)
+                      ^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'MusicDownloaderWidget' is not defined
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 57, in start_download
+    client(args)
+    ~~~~~~^^^^^^
+  File "/home/aiden178/.local/lib/python3.13/site-packages/zotify/app.py", line 21, in client
+    Zotify(args)
+    ~~~~~~^^^^^^
+  File "/home/aiden178/.local/lib/python3.13/site-packages/zotify/zotify.py", line 20, in __init__
+    Zotify.CONFIG.load(args)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/.local/lib/python3.13/site-packages/zotify/config.py", line 95, in load
+    if args.config_location:
+       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'config_location'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 57, in start_download
+    client(args)
+    ~~~~~~^^^^^^
+  File "/home/aiden178/.local/lib/python3.13/site-packages/zotify/app.py", line 21, in client
+    Zotify(args)
+    ~~~~~~^^^^^^
+  File "/home/aiden178/.local/lib/python3.13/site-packages/zotify/zotify.py", line 20, in __init__
+    Zotify.CONFIG.load(args)
+    ~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/.local/lib/python3.13/site-packages/zotify/config.py", line 95, in load
+    if args.config_location:
+       ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'config_location'
+
