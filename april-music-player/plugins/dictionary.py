@@ -7,7 +7,7 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QMessageBox, QVBoxLayout, QLineEdit, QPushButton, QFormLayout,
                              QTextEdit, QDialog)
 
-from easy_json import EasyJson
+from _utils.easy_json import EasyJson
 
 
 class VocabularyManager(QDialog):
