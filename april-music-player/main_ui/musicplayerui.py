@@ -156,6 +156,8 @@ class MusicPlayerUI(QMainWindow):
         self.search_bar_layout = None
         self.script_path = self.ej.get_value("script_path")
 
+        print("SCRIPT_PATH IS ", self.script_path)
+
         # Construct the full path to the icon file
         self.icon_folder_path = os.path.join(self.script_path, 'icons', 'configuration_icons')
         self.icon_path = os.path.join(self.script_path, "icons", "april-icon.png")

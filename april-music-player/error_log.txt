@@ -337,3 +337,413 @@ Traceback (most recent call last):
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
 TypeError: setText(self, text: Optional[str]): argument 1 has unexpected type 'TextFormat'
 
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/assets/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 130, in __init__
+    self.ej = EasyJson()  # ej initializing
+              ~~~~~~~~^^
+TypeError: EasyJson.__init__() missing 1 required positional argument: 'script_path_main_runs'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/_utils/assets/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 498, in keyPressEvent
+    self.activate_lrc_display()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 1217, in activate_lrc_display
+    self.lrcPlayer.startUI(self, self.lrc_file)  # Start the lyrics display
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 208, in startUI
+    self.resizeBackgroundImage(self.ej.setupBackgroundImage())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 137, in resizeBackgroundImage
+    image = Image.open(image_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/Image.py", line 3505, in open
+    fp = builtins.open(filename, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/background-images/default.jpg'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 498, in keyPressEvent
+    self.activate_lrc_display()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 1217, in activate_lrc_display
+    self.lrcPlayer.startUI(self, self.lrc_file)  # Start the lyrics display
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 208, in startUI
+    self.resizeBackgroundImage(self.ej.setupBackgroundImage())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 164, in resizeBackgroundImage
+    font = ImageFont.truetype(font_path, font_size)  # Load the font with the specified size
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 880, in truetype
+    return freetype(font)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 877, in freetype
+    return FreeTypeFont(font, size, index, encoding, layout_engine)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 285, in __init__
+    self.font = core.getfont(
+                ~~~~~~~~~~~~^
+        font, size, index, encoding, layout_engine=layout_engine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+OSError: cannot open resource
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 498, in keyPressEvent
+    self.activate_lrc_display()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 1217, in activate_lrc_display
+    self.lrcPlayer.startUI(self, self.lrc_file)  # Start the lyrics display
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 208, in startUI
+    self.resizeBackgroundImage(self.ej.setupBackgroundImage())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 164, in resizeBackgroundImage
+    font = ImageFont.truetype(font_path, font_size)  # Load the font with the specified size
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 880, in truetype
+    return freetype(font)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 877, in freetype
+    return FreeTypeFont(font, size, index, encoding, layout_engine)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/PIL/ImageFont.py", line 285, in __init__
+    self.font = core.getfont(
+                ~~~~~~~~~~~~^
+        font, size, index, encoding, layout_engine=layout_engine
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+OSError: cannot open resource
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/assets/fonts/NotoSerifKR-ExtraBold.ttf'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 184, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 223, in __init__
+    self.init_main_classes(music_files)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/main_ui/musicplayerui.py", line 244, in init_main_classes
+    self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/lrcDisplay.py", line 72, in __init__
+    self.media_font = GetFont(13)
+                      ~~~~~~~^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 29, in __init__
+    self.load_font_settings()  # Initialize the font settings
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 47, in load_font_settings
+    "korean": {"font_name": self.get_font_name(korean_font), "file_path": korean_font, "size": self.font_size},
+                            ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/components/getfont.py", line 138, in get_font_name
+    font = TTFont(font_path)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player-os/.venv/lib/python3.13/site-packages/fontTools/ttLib/ttFont.py", line 160, in __init__
+    file = open(file, "rb")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/aiden178/Programming/amm-git-repos/april-music-player-os/april-music-player/assets/fonts/NotoSerifKR-ExtraBold.ttf'
+
