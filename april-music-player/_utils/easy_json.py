@@ -52,6 +52,7 @@ class EasyJson:
             self.key = "pNtpUh6JNDtoUpMnQ1b73BSKeABITKHC7JzumILCE2g="
             self.data = self.load_json()
             self.initialized = True  # Mark the instance as initialized
+            self.icon_path = os.path.join(self.script_path, "media-icons")
 
     def check_evalution_used(self):
         """return true if the user has used his evaluation"""

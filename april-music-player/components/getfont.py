@@ -24,7 +24,6 @@ class GetFont:
     def __init__(self, font_size=14):
         self.ej = EasyJson()
         self.language_dict = None
-        self.script_path = os.path.dirname(os.path.abspath(__file__))
         self.font_size = font_size
         self.load_font_settings()  # Initialize the font settings
         self.fonts_loaded = False
@@ -54,11 +53,15 @@ class GetFont:
         }
 
     def loadFonts(self):
+        QFontDatabase.addApplicationFont(os.path.join(self.ej.script_path, "fonts/KOMIKAX_.ttf"))
+
         loaded_fonts = set()
         for lang, font_info in self.language_dict.items():
+            print("FONT FILE PATH")
+            print(font_info["file_path"])
             if font_info["file_path"] and font_info["file_path"] not in loaded_fonts:
                 try:
-                    QFontDatabase.addApfplicationFont(font_info["file_path"])
+                    QFontDatabase.addApplicationFont(font_info["file_path"])
                     loaded_fonts.add(font_info["file_path"])
                 except Exception as e:
                     print(f"Error loading font {font_info['font_name']}: {e}")

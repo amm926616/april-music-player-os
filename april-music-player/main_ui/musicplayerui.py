@@ -4,7 +4,7 @@ import os
 from random import choice
 import sys
 from urllib import request
-from PyQt6.QtGui import QIcon, QFont, QFontDatabase, QAction, QCursor, QKeyEvent, QActionGroup, QColor, \
+from PyQt6.QtGui import QIcon, QFont, QAction, QCursor, QKeyEvent, QActionGroup, QColor, \
     QPainter, QPixmap, QPainterPath, QTextDocument, QTextOption
 from PyQt6.QtMultimedia import QMediaPlayer
 from PyQt6.QtWidgets import (
@@ -159,11 +159,9 @@ class MusicPlayerUI(QMainWindow):
         print("SCRIPT_PATH IS ", self.script_path)
 
         # Construct the full path to the icon file
-        self.icon_folder_path = os.path.join(self.script_path, 'icons', 'configuration_icons')
-        self.icon_path = os.path.join(self.script_path, "icons", "april-icon.png")
+        self.icon_folder_path = os.path.join(self.ej.script_path, 'icons', 'configuration_icons')
+        self.icon_path = os.path.join(self.ej.script_path, "icons", "april-icon.png")
         print("The icon path is, " + self.icon_path)
-
-        QFontDatabase.addApplicationFont(os.path.join(self.script_path, "fonts/KOMIKAX_.ttf"))
 
         self.slider_layout = None
         self.metadata = None
@@ -1050,13 +1048,13 @@ class MusicPlayerUI(QMainWindow):
         # Connect search bar returnPressed signal to the search method
         self.search_bar.returnPressed.connect(self.filterSongs)
 
-        self.loop_playlist_button.setIcon(QIcon(os.path.join(self.script_path, "assets", "media-icons", "loop-default.ico")))
+        self.loop_playlist_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "loop-default.ico")))
         self.loop_playlist_button.clicked.connect(lambda: self.click_on_playback_button("loop"))
 
-        self.repeat_button.setIcon(QIcon(os.path.join(self.script_path, "assets", "media-icons", "repeat-default.ico")))
+        self.repeat_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "repeat-default.ico")))
         self.repeat_button.clicked.connect(lambda: self.click_on_playback_button("repeat"))
 
-        self.shuffle_button.setIcon(QIcon(os.path.join(self.script_path, "assets", "media-icons", "shuffle-default.ico")))
+        self.shuffle_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "shuffle-default.ico")))
         self.shuffle_button.clicked.connect(lambda: self.click_on_playback_button("shuffle"))
 
         self.playback_management_layout = QHBoxLayout()
@@ -1283,11 +1281,11 @@ class MusicPlayerUI(QMainWindow):
         self.prev_song_button.setSizePolicy(size_policy)
         self.next_song_button.setSizePolicy(size_policy)
 
-        self.prev_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "seek-backward.ico")))
-        self.play_pause_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "play.ico")))
-        self.forward_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "seek-forward.ico")))
-        self.prev_song_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "previous-song.ico")))
-        self.next_song_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "next-song.ico")))
+        self.prev_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "seek-backward.ico")))
+        self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "play.ico")))
+        self.forward_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "seek-forward.ico")))
+        self.prev_song_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "previous-song.ico")))
+        self.next_song_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "next-song.ico")))
 
         self.prev_button.clicked.connect(self.seekBack)
         self.play_pause_button.clicked.connect(self.play_pause)
@@ -1620,7 +1618,7 @@ class MusicPlayerUI(QMainWindow):
             self.music_player.player.stop()
             self.lrcPlayer.started_player = False
             self.lrcPlayer.disconnect_syncing()
-            self.play_pause_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "play.ico")))
+            self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "play.ico")))
             self.lrcPlayer.media_lyric.setText(self.lrcPlayer.media_font.get_formatted_text("April Music Player"))
             self.duration_label.setText("")
             self.music_player.started_playing = False
@@ -1629,7 +1627,7 @@ class MusicPlayerUI(QMainWindow):
     def play_song(self):
         self.last_updated_position = 0.0
         # current for checking lrc on/off state and then play song
-        self.play_pause_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "pause.ico")))
+        self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "pause.ico")))
         if self.lrcPlayer.show_lyrics:
             self.lrcPlayer.activate_sync_lyric_connection(self.lrc_file)
         else:

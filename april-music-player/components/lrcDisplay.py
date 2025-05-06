@@ -101,7 +101,7 @@ class LRCSync:
         self.current_index = 0
 
         # Construct the full path to the icon file
-        self.icon_path = os.path.join(self.script_path, "assets", 'icons', 'april-icon.png')
+        self.icon_path = os.path.join(self.ej.script_path, 'icons', 'april-icon.png')
         self.notetaking = NoteTaking(self)
         self.started_player = False
 

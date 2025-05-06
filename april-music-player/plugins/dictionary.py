@@ -7,6 +7,8 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QMessageBox, QVBoxLayout, QLineEdit, QPushButton, QFormLayout,
                              QTextEdit, QDialog)
 
+from easy_json import EasyJson
+
 
 class VocabularyManager(QDialog):
     def __init__(self, parent=None):
@@ -24,14 +26,14 @@ class VocabularyManager(QDialog):
         self.os_name = None
         self.db_path = None
         self.parent = parent
+        self.ej = EasyJson()
         self.setup()
         self.initUI()
 
     def setup(self):
         self.os_name = platform.system()
-        script_path = os.path.dirname(os.path.abspath(__file__))
 
-        self.icon_path = os.path.join(script_path, "icons", "dictionary.png")
+        self.icon_path = os.path.join(self.ej.script_path, "icons", "dictionary.png")
         db_dir = ""
         if self.os_name == "Linux":
             db_dir = os.path.join(os.environ['HOME'], '.config', 'april-music-player')
