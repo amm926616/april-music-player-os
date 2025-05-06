@@ -1,8 +1,8 @@
 from PyQt6.QtGui import QIcon
 import os
 from PyQt6.QtCore import QThread, pyqtSignal, QObject
-from musicplayerworker import MusicPlayerWorker
-from utils.easy_json import EasyJson
+from music_player.musicplayerworker import MusicPlayerWorker
+from _utils.easy_json import EasyJson
 
 
 class MusicPlayer(QObject):  # Inherit from QObject

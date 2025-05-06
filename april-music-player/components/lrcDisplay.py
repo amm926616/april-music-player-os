@@ -5,12 +5,12 @@ from PyQt6.QtWidgets import QLabel, QDialog, QVBoxLayout, QApplication, QSizePol
 from PyQt6.QtCore import Qt, QPoint, QPropertyAnimation
 from PyQt6.QtGui import QIcon, QKeyEvent
 import pyperclip
-from utils.easy_json import EasyJson
-from getfont import GetFont
-from notetaking import NoteTaking
-from clickable_label import ClickableLabel
+from _utils.easy_json import EasyJson
+from components.getfont import GetFont
+from plugins.notetaking import NoteTaking
+from components.clickable_label import ClickableLabel
 import threading
-from dictionary import VocabularyManager
+from plugins.dictionary import VocabularyManager
 from queue import Queue, Empty
 from PIL import Image, ImageDraw, ImageFont
 

@@ -6,7 +6,7 @@ from collections import defaultdict
 import sqlite3
 import os
 from fuzzywuzzy import fuzz
-from loadingbar import LoadingBar
+from components.loadingbar import LoadingBar
 
 
 def extract_track_number(track_number):

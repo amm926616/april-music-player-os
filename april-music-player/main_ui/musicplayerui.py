@@ -24,22 +24,21 @@ from mutagen.mp3 import MP3
 from mutagen.mp4 import MP4
 from mutagen.wave import WAVE
 
-# Absolute imports (recommended)
 from components.album_image_window import AlbumImageWindow
 from consts.HTML_LABELS import SHORTCUTS, PREPARATION, FROMME
 from components.lrcDisplay import LRCSync
 from music_player.musicplayer import MusicPlayer
 from components.clickable_label import ClickableImageLabel
-from utils.easy_json import EasyJson
-from songtablewidget import SongTableWidget, PlaylistNameDialog
-from albumtreewidget import AlbumTreeWidget
+from _utils.easy_json import EasyJson
+from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
+from main_ui.albumtreewidget import AlbumTreeWidget
 from components.fontsettingdialog import FontSettingsWindow
 from components.tag_dialog import TagDialog
 from components.addnewdirectory import AddNewDirectory
 from components.music_downloader_gui import MusicDownloaderWidget
 from components.playlist_manager import PlaylistDialog
 from components.splitter import ColumnSplitter
-from utils.lrc_downloader import LyricsDownloader
+from _utils.lrc_downloader import LyricsDownloader
 
 
 def html_to_plain_text(html):
@@ -1049,13 +1048,13 @@ class MusicPlayerUI(QMainWindow):
         # Connect search bar returnPressed signal to the search method
         self.search_bar.returnPressed.connect(self.filterSongs)
 
-        self.loop_playlist_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "loop-default.ico")))
+        self.loop_playlist_button.setIcon(QIcon(os.path.join(self.script_path, "assets", "media-icons", "loop-default.ico")))
         self.loop_playlist_button.clicked.connect(lambda: self.click_on_playback_button("loop"))
 
-        self.repeat_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "repeat-default.ico")))
+        self.repeat_button.setIcon(QIcon(os.path.join(self.script_path, "assets", "media-icons", "repeat-default.ico")))
         self.repeat_button.clicked.connect(lambda: self.click_on_playback_button("repeat"))
 
-        self.shuffle_button.setIcon(QIcon(os.path.join(self.script_path, "media-icons", "shuffle-default.ico")))
+        self.shuffle_button.setIcon(QIcon(os.path.join(self.script_path, "assets", "media-icons", "shuffle-default.ico")))
         self.shuffle_button.clicked.connect(lambda: self.click_on_playback_button("shuffle"))
 
         self.playback_management_layout = QHBoxLayout()

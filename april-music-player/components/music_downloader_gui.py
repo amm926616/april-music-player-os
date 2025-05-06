@@ -9,8 +9,8 @@ from PyQt6.QtWidgets import (
     QPlainTextEdit, QWidgetAction
 )
 
-from credential_dialog import CredentialDialog
-from utils.easy_json import EasyJson
+from components.credential_dialog import CredentialDialog
+from _utils.easy_json import EasyJson
 
 
 class MusicDownloaderWidget(QWidget):

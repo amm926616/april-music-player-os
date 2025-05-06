@@ -4,7 +4,7 @@ from PyQt6.QtGui import QMovie
 import subprocess
 import shutil
 import threading
-from utils.easy_json import EasyJson
+from _utils.easy_json import EasyJson
 
 class CredentialDialog(QDialog):
     def __init__(self):
