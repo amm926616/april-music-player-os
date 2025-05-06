@@ -57,8 +57,6 @@ class GetFont:
 
         loaded_fonts = set()
         for lang, font_info in self.language_dict.items():
-            print("FONT FILE PATH")
-            print(font_info["file_path"])
             if font_info["file_path"] and font_info["file_path"] not in loaded_fonts:
                 try:
                     QFontDatabase.addApplicationFont(font_info["file_path"])

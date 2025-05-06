@@ -18,7 +18,7 @@ lyric memorization and language learning. Its features include:
 - **Note-Taking and Vocabulary Tools**: Take notes and keep personal vocabulary collections.
 - **Interactive Features**: Engage deeply with your favorite songs.
 
-This project was inspired by a personal wish for a tool to practice Korean lyrics and is now shared with everyone to
+This project was inspired by a personal wish for a tool to learn Korean from lyrics and is now shared with everyone to
 enjoy.  
 **Presented to you by Aiden.**
 
