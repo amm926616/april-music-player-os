@@ -1,0 +1,36 @@
+/* Minimal QSS - Only changes accent colors to red */
+* {
+    selection-background-color: #c60624;  /* Microsoft-style vibrant red */
+    selection-color: white;
+}
+
+QPushButton:pressed,
+QToolButton:pressed,
+QMenuBar::item:pressed,
+QMenu::item:selected {
+    background-color: #c60624;
+    color: white;
+}
+
+QSlider::handle:horizontal,
+QSlider::handle:vertical,
+QProgressBar::chunk {
+    background: #c60624;
+}
+
+QCheckBox::indicator:checked,
+QRadioButton::indicator:checked {
+    background-color: #c60624;
+    border-color: #c00000;
+}
+
+QTabBar::tab:selected {
+    border-bottom: 2px solid #c60624;
+}
+
+QLineEdit:focus,
+QComboBox:focus,
+QSpinBox:focus,
+QTextEdit:focus {
+    border: 1px solid #c60624;
+}
