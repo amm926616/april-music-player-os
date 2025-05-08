@@ -82,3 +82,60 @@ Traceback (most recent call last):
        ^^^^^^^^^^^^^^^^^^^^
 AttributeError: 'Namespace' object has no attribute 'config_location'
 
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/songtablewidget.py", line 48, in <lambda>
+    self.itemDoubleClicked.connect(lambda: self.parent.handleRowDoubleClick(self.item(self.currentRow(), 7)))
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 1590, in handleRowDoubleClick
+    self.play_song()  # Play the song
+    ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 1640, in play_song
+    self.lrcPlayer.update_file_and_parse()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+TypeError: LRCSync.update_file_and_parse() missing 1 required positional argument: 'file'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/songtablewidget.py", line 48, in <lambda>
+    self.itemDoubleClicked.connect(lambda: self.parent.handleRowDoubleClick(self.item(self.currentRow(), 7)))
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 1590, in handleRowDoubleClick
+    self.play_song()  # Play the song
+    ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 1641, in play_song
+    self.lrcPlayer.update_labels_text()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/lrcDisplay.py", line 671, in update_labels_text
+    self.lyric_label0.setText(self.lrc_font.get_formatted_text(self.first_lyric_text))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: wrapped C/C++ object of type QLabel has been deleted
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/songtablewidget.py", line 48, in <lambda>
+    self.itemDoubleClicked.connect(lambda: self.parent.handleRowDoubleClick(self.item(self.currentRow(), 7)))
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 1590, in handleRowDoubleClick
+    self.play_song()  # Play the song
+    ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 1641, in play_song
+    self.lrcPlayer.update_labels_text()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/lrcDisplay.py", line 671, in update_labels_text
+    self.lyric_label0.setText(self.lrc_font.get_formatted_text(self.first_lyric_text))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: wrapped C/C++ object of type QLabel has been deleted
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/songtablewidget.py", line 572, in keyPressEvent
+    self.rowDoubleClick(self.item(self.currentRow(), 7))
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 1590, in handleRowDoubleClick
+    self.play_song()  # Play the song
+    ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 1642, in play_song
+    self.lrcPlayer.update_labels_text()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/lrcDisplay.py", line 671, in update_labels_text
+    self.lyric_label0.setText(self.lrc_font.get_formatted_text(self.first_lyric_text))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: wrapped C/C++ object of type QLabel has been deleted
+

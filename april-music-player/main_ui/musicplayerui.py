@@ -798,7 +798,7 @@ class MusicPlayerUI(QMainWindow):
 
     def start_zotify_gui(self):
         if not hasattr(self, 'zotify_gui') or self.zotify_gui is None:
-            self.zotify_gui = ZotifyDownloaderGui()
+            self.zotify_gui = ZotifyDownloaderGui(self)
         self.zotify_gui.show()
         self.zotify_gui.raise_()  # Bring to front
         self.zotify_gui.activateWindow()  # Set focus
@@ -1637,7 +1637,6 @@ class MusicPlayerUI(QMainWindow):
 
         self.music_player.started_playing = True
         self.music_player.play()
-        self.lrcPlayer.clean_labels_text()
 
         if self.saved_position:
             self.music_player.player.setPosition(int(self.saved_position))
@@ -1688,6 +1687,7 @@ class MusicPlayerUI(QMainWindow):
             self.lrcPlayer.file = None
             self.lrcPlayer.music_file = self.music_file
             print(self.lrcPlayer.file)
+            print("inside get lrc file method")
 
     def double_click_on_image(self):
         if self.music_file is None:
