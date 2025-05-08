@@ -124,6 +124,7 @@ class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
         super().__init__()
+        self.activate_lyrics_display_action = None
         self.mediaLayout = None
         self.app = app
         self.playlist_widget = None
@@ -234,6 +235,8 @@ class MusicPlayerUI(QMainWindow):
             app=self.app,
             get_path_callback=self.get_music_file_from_click
         )
+
+        self.createSyncThresholdMenu()
 
     def init_main_classes(self, music_files=None):
         self.music_player = MusicPlayer(self, self.play_pause_button, self.loop_playlist_button, self.repeat_button,
@@ -633,132 +636,149 @@ class MusicPlayerUI(QMainWindow):
         self.playlist_widget.exec()
 
     def createMenuBar(self):
-        # this is the menubar that will hold all together
         menubar = self.menuBar()
 
-        reload_directories_action = QAction("Reload Music Files [Ctrl + Alt + R]", self)
-        reload_directories_action.triggered.connect(self.toggle_reload_directories)
+        # File Menu (common KDE applications start with File)
+        file_menu = menubar.addMenu("&File")
 
-        # Actions that will become buttons for each menu
-        add_directories_action = QAction("Manage Music Directories", self)
-        add_directories_action.triggered.connect(self.toggle_add_directories)
-
-        # Get the standard "close" icon from the system
-        close_icon = self.style().standardIcon(QStyle.StandardPixmap.SP_DialogCloseButton)
-
-        # Create the Exit action
-        close_action = QAction(close_icon, "Exit [Ctrl + Q]", self)
+        # Create actions (grouped by functionality)
+        # File actions
+        close_action = QAction(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogCloseButton),
+                               "&Exit", self)
+        close_action.setShortcut("Ctrl+Q")
         close_action.triggered.connect(self.exit_app)
 
-        show_shortcuts_action = QAction("Show Shortcuts", self)
-        show_shortcuts_action.triggered.connect(self.show_shortcuts)
+        # Music actions
+        reload_directories_action = QAction("&Reload Music Library", self)
+        reload_directories_action.setShortcut("Ctrl+Alt+R")
+        reload_directories_action.triggered.connect(self.toggle_reload_directories)
 
-        preparation_tips = QAction("Preparation of files", self)
-        preparation_tips.triggered.connect(self.show_preparation)
+        add_directories_action = QAction("&Manage Music Directories...", self)
+        add_directories_action.triggered.connect(self.toggle_add_directories)
 
-        fromMe = QAction("From Developer", self)
-        fromMe.triggered.connect(self.show_fromMe)
+        self.start_zotify_gui_action = QAction("&Download Music...", self)
+        self.start_zotify_gui_action.triggered.connect(self.start_zotify_gui)
 
-        add_lrc_background = QAction("Change Lrc Background Image with Custom Local Image", self)
-        add_lrc_background.triggered.connect(self.ask_for_background_image)
+        self.start_playlist_widget_action = QAction("&Manage Playlists...", self)
+        self.start_playlist_widget_action.triggered.connect(self.toggle_playlist_widget)
 
-        set_default_background = QAction(self.default_wallpaper_icon, "Set Default Background Image by April", self)
-        set_default_background.triggered.connect(self.set_default_background_image)
-
-        self.show_lyrics_action = QAction("Show Lyrics [Ctrl + L]", self)
+        # View actions
+        self.show_lyrics_action = QAction("&Enable/Disable Lyrics", self)
+        self.show_lyrics_action.setShortcut("Ctrl+I")
         self.show_lyrics_action.setCheckable(True)
         self.show_lyrics_action.setChecked(self.lrcPlayer.show_lyrics)
         self.show_lyrics_action.triggered.connect(self.toggle_on_off_lyrics)
 
-        # Add Font Settings to options menu
-        self.font_settings_action = QAction(self.settings_icon, "Font Configurations", self)
-        self.font_settings_action.triggered.connect(self.show_font_settings)
+        self.activate_lyrics_display_action = QAction("&Show Lyrics Display", self)
+        self.activate_lyrics_display_action.setShortcut("Ctrl+L")
+        self.activate_lyrics_display_action.triggered.connect(self.activate_lrc_display)
 
-        self.font_settings_window = FontSettingsWindow(self)
-
-        # Play song at startup action
-        self.play_song_at_startup = QAction("Play Song At Program Startup [Ctrl + I]", self)
+        # Settings actions
+        self.play_song_at_startup = QAction("&Play on Startup", self)
         self.play_song_at_startup.setCheckable(True)
         self.play_song_at_startup.setChecked(self.ej.get_value("play_song_at_startup"))
         self.play_song_at_startup.triggered.connect(self.trigger_play_song_at_startup)
 
-        # Start zotify gui
-        self.start_zotify_gui_action = QAction("Music Downloader", self)
-        self.start_zotify_gui_action.triggered.connect(self.start_zotify_gui)
+        self.font_settings_action = QAction(self.settings_icon, "&Font Settings...", self)
+        self.font_settings_action.triggered.connect(self.show_font_settings)
+        self.font_settings_window = FontSettingsWindow(self)
 
-        self.start_playlist_widget_action = QAction("Saved Playlists", self)
-        self.start_playlist_widget_action.triggered.connect(self.toggle_playlist_widget)
+        # Lyrics display actions
+        add_lrc_background = QAction("&Set Custom Background...", self)
+        add_lrc_background.triggered.connect(self.ask_for_background_image)
 
-        # These are main menus in the menu bar
-        settings_menu = menubar.addMenu("Configuration")
-        music_files_menu = QMenu("⚙️ Music Files Configurations", self)
-        lyrics_display_menu = QMenu("⚙️ Lyrics Display Configurations", self)
+        set_default_background = QAction(self.default_wallpaper_icon, "&Default Background", self)
+        set_default_background.triggered.connect(self.set_default_background_image)
 
-        settings_menu.addMenu(music_files_menu)
-        settings_menu.addMenu(lyrics_display_menu)
+        # Help actions
+        show_shortcuts_action = QAction("&Keyboard Shortcuts", self)
+        show_shortcuts_action.triggered.connect(self.show_shortcuts)
 
-        menubar.addAction(self.start_zotify_gui_action)
-        menubar.addAction(self.start_playlist_widget_action)
+        preparation_tips = QAction("&File Preparation Tips", self)
+        preparation_tips.triggered.connect(self.show_preparation)
 
-        help_menu = menubar.addMenu("Help")
+        fromMe = QAction("&About", self)
+        fromMe.triggered.connect(self.show_fromMe)
 
-        # Add a sub-menu for text color selection with radio buttons
-        lyrics_color_menu = QMenu("Choose Lyrics Color", self)
+        # Submenus
+        lyrics_color_menu = QMenu("&Lyrics Color", self)
         lyrics_color_menu.setIcon(self.colors_icon)
         self.create_lyrics_color_actions(lyrics_color_menu)
 
-        # Add a sub-menu for sync threshold selection with radio buttons
-        sync_threshold_menu = QMenu("Choose Syncing Interval", self)
+        sync_threshold_menu = QMenu("&Sync Threshold", self)
         self.sync_threshold_menu_actions(sync_threshold_menu)
-
-        # Set the previously selected threshold
         self.threshold_actions[self.ej.get_value("sync_threshold")].setChecked(True)
 
-        """Linking actions and menus"""
-        # settings menu
-        settings_menu.addAction(self.play_song_at_startup)
-        settings_menu.addAction(self.show_lyrics_action)
-        settings_menu.addAction(close_action)
+        # Build the menu structure
+        # File menu
+        file_menu.addAction(self.start_zotify_gui_action)
+        file_menu.addAction(self.start_playlist_widget_action)
+        file_menu.addSeparator()
+        file_menu.addAction(close_action)
 
-        # music file menu
-        music_files_menu.addAction(add_directories_action)
-        music_files_menu.addAction(reload_directories_action)
+        # View menu
+        view_menu = menubar.addMenu("&View")
+        view_menu.addAction(self.show_lyrics_action)
+        view_menu.addAction(self.activate_lyrics_display_action)
 
-        # help menu
-        help_menu.addAction(fromMe)
-        help_menu.addAction(preparation_tips)
+        # Settings menu
+        settings_menu = menubar.addMenu("&Settings")
+
+        # Music settings
+        music_settings_menu = settings_menu.addMenu("&Music")
+        music_settings_menu.addAction(self.play_song_at_startup)
+        music_settings_menu.addSeparator()
+        music_settings_menu.addAction(add_directories_action)
+        music_settings_menu.addAction(reload_directories_action)
+
+        # Lyrics settings
+        lyrics_settings_menu = settings_menu.addMenu("&Lyrics")
+        lyrics_settings_menu.addAction(self.font_settings_action)
+        lyrics_settings_menu.addMenu(lyrics_color_menu)
+        lyrics_settings_menu.addMenu(self.sync_threshold_menu)
+        lyrics_settings_menu.addSeparator()
+        lyrics_settings_menu.addAction(add_lrc_background)
+        lyrics_settings_menu.addAction(set_default_background)
+
+        # Help menu
+        help_menu = menubar.addMenu("&Help")
         help_menu.addAction(show_shortcuts_action)
+        help_menu.addAction(preparation_tips)
+        help_menu.addSeparator()
+        help_menu.addAction(fromMe)
 
-        # lyrics display menu
-        lyrics_display_menu.addAction(self.font_settings_action)
-        lyrics_display_menu.addAction(add_lrc_background)
-        lyrics_display_menu.addAction(set_default_background)
-        lyrics_display_menu.addMenu(lyrics_color_menu)
-        lyrics_display_menu.addMenu(sync_threshold_menu)
+    def createSyncThresholdMenu(self):
+        self.sync_threshold_menu = QMenu("&Sync Threshold", self)
+        self.sync_threshold_menu_actions(self.sync_threshold_menu)
+        self.threshold_actions[self.ej.get_value("sync_threshold")].setChecked(True)
 
     def sync_threshold_menu_actions(self, sync_threshold_menu):
-        # Add a QLabel at the top of the menu with your message
+        # Clear existing actions if any
+        sync_threshold_menu.clear()
+
+        # Add explanatory label
         label = QLabel(
-            "This is basically the refresh rate. Shorter interval provides \nsmoother syncing but uses more CPU.", self)
+            "This is basically the refresh rate. Shorter interval provides \n"
+            "smoother syncing but uses more CPU.", self)
+        label.setMargin(5)  # Add some padding
         label_action = QWidgetAction(self)
         label_action.setDefaultWidget(label)
+        sync_threshold_menu.addAction(label_action)
+        sync_threshold_menu.addSeparator()
 
-        # Create an action group to enforce a single selection (radio button behavior)
+        # Create action group
         threshold_group = QActionGroup(self)
         threshold_group.setExclusive(True)
 
-        # Define threshold options in seconds
         thresholds = [0.1, 0.2, 0.3, 0.5, 0.7, 1.0]
         self.threshold_actions = {}
-        for THRESHOLD in thresholds:
-            action = QAction(f"{THRESHOLD} seconds", self)
+        for threshold in thresholds:
+            action = QAction(f"{threshold} seconds", self)
             action.setCheckable(True)
             action.setActionGroup(threshold_group)
-            action.triggered.connect(self.set_sync_threshold)  # Connect to method
+            action.triggered.connect(lambda checked, t=threshold: self.set_sync_threshold(t))
             sync_threshold_menu.addAction(action)
-            self.threshold_actions[THRESHOLD] = action
-
-        sync_threshold_menu.addAction(label_action)
+            self.threshold_actions[threshold] = action
 
     def create_lyrics_color_actions(self, lyrics_color_menu):
         # Create an action group to enforce a single selection (radio button behavior)
