@@ -2,7 +2,27 @@ import json
 import os
 from cryptography.fernet import Fernet
 import inspect
-from _utils.colors import printCyan
+from _utils.colors import printCyan, printYellow
+
+
+def rewrite_credentials(input_file):
+    with open(input_file, 'r') as file:
+        data = json.load(file)
+
+    file.close()
+
+    if "auth_type" in data and data["auth_type"] == 1:
+        data["type"] = "AUTHENTICATION_STORED_SPOTIFY_CREDENTIALS"
+        del data["auth_type"]
+
+    if "auth_data" in data:
+        data["credentials"] = data.pop("auth_data")
+
+    with open(input_file, 'w') as file:
+        json.dump(data, file, indent=4)
+
+    print(f"Modifed credentials saved to {input_file}")
+
 
 class EasyJson:
     _instance = None  # Class variable to store the single instance
@@ -123,6 +143,7 @@ class EasyJson:
             return os.path.join(self._get_config_path(), "Zotify")
         else:
             return os.path.join(os.path.expanduser("~"), ".local", "share", "zotify")
+
 
     def get_zotify_credential_file_path(self):
         if self.check_os() == "windows":
@@ -292,3 +313,4 @@ class EasyJson:
 
     def save_data_when_quit(self):
         self.save_json()
+
