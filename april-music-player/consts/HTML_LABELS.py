@@ -100,7 +100,7 @@ SHORTCUTS = """
 PREPARATION = """<b>Before using the player, you'll need to download your songs and lyrics in advance. I use Zotify
         to download songs from Spotify, and for LRC lyrics files, I recommend using LRCGET, Syrics on your laptop,
         or SongSync on Android. There are also various websites where you can download music with embedded metadata
-        and lyrics.</b><br> - <a href="https://github.com/zotify-dev/zotify">Zotify</a><br> - <a
+        and lyrics.<br></b><br> - <a href="https://github.com/zotify-dev/zotify">Zotify</a><br> - <a
         href="https://github.com/tranxuanthang/lrcget">LRCGET</a><br> - <a
         href="https://github.com/akashrchandran/syrics">Syrics</a><br> - <a
         href="https://github.com/Lambada10/SongSync">SongSync</a><br><br> <b>For the program to easily match and grab
@@ -108,11 +108,22 @@ PREPARATION = """<b>Before using the player, you'll need to download your songs 
         figure out for better file management in the future.</b>"""
 
 
-FROMME = """<b>This project was developed to "the version 1 released" solely by me. I wish I could get
-        collaborations that I could code together. I would greatly appreciate any contributions to this project. If
-        you found April useful, I'd appreciate it if you could give the project a star on GitHub!</b> <a
-        href="https://github.com/amm926616/April-Music-Player">Project's GitHub link</a><br><br>
+FROMME = """
+        <b>🎵 April Music Player - More Than Just a Player</b><br><br>
 
-        <b>Created with love by AD178.</b><br>
-        <b>Contact me on Telegram: </b><a href="https://t.me/Adamd178">Go to Adam's Telegram</a><br>
+        April Music Player is not just another music player - it's a comprehensive language learning companion. 
+        Designed with special features for navigation, note-taking, dictionary, and interactive learning, 
+        it helps you enjoy music while mastering new languages.<br><br>
+
+        <b>🌟 Key Features:</b>
+        • Synchronized lyrics display for active learning
+        • Built-in note-taking and vocabulary tools
+        • Customizable interface for personalized learning
+        • Special functions to enhance lyric memorization<br><br>
+
+        <b>🌐 Learn more:</b> <a href="https://april-landing-react.vercel.app/">Visit our official website</a><br>
+        <b>💡 Suggestions?</b> Contact the developer on Telegram: <a href="https://t.me/Adamd178">@Adamd178</a><br>
+        <b>⭐ Love it?</b> Star us on <a href="https://github.com/amm926616/April-Music-Player">GitHub</a> to support the project!<br><br>
+
+        <small>Created with ❤️ by Aiden (AD178)</small>
         """
