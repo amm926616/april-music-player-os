@@ -139,3 +139,159 @@ Traceback (most recent call last):
     ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 RuntimeError: wrapped C/C++ object of type QLabel has been deleted
 
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/albumtreewidget.py", line 47, in keyPressEvent
+    self.on_item_double_clicked(self.matched_item)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/albumtreewidget.py", line 231, in on_item_double_clicked
+    data = item.text(0)
+RuntimeError: wrapped C/C++ object of type QTreeWidgetItem has been deleted
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 822, in start_zotify_gui
+    self.zotify_gui = ZotifyDownloaderGui(self)
+                      ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 47, in __init__
+    self.ej = EasyJson()
+              ^^^^^^^^
+NameError: name 'EasyJson' is not defined
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 822, in start_zotify_gui
+    self.zotify_gui = ZotifyDownloaderGui(self)
+                      ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 47, in __init__
+    self.ej = EasyJson()
+              ^^^^^^^^
+NameError: name 'EasyJson' is not defined
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 822, in start_zotify_gui
+    self.zotify_gui = ZotifyDownloaderGui(self)
+                      ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 47, in __init__
+    self.ej = EasyJson()
+              ^^^^^^^^
+NameError: name 'EasyJson' is not defined
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 822, in start_zotify_gui
+    self.zotify_gui = ZotifyDownloaderGui(self)
+                      ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 115, in __init__
+    self.check_credentials()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 118, in check_credentials
+    if not self.ej.check_zotify_credential_format():
+           ^^^^^^^
+AttributeError: 'ZotifyDownloaderGui' object has no attribute 'ej'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/zotify_credential_generation.py", line 164, in generate_credentials
+    self.worker = ActivationWorker(self.ej, lambda: self._stop_flag, self.parent.home_path)
+                                                                     ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'builtin_function_or_method' object has no attribute 'home_path'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 186, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 163, in __init__
+    print("HOME_PATH IS ", self.home_path)
+                           ^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayerUI' object has no attribute 'home_path'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 186, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 163, in __init__
+    print("HOME_PATH IS ", self.main_script_path)
+                           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayerUI' object has no attribute 'main_script_path'. Did you mean: 'script_path'?
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 186, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 132, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 125, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 163, in __init__
+    print("HOME_PATH IS ", self.main_script_path)
+                           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MusicPlayerUI' object has no attribute 'main_script_path'. Did you mean: 'script_path'?
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 824, in start_zotify_gui
+    self.zotify_gui = ZotifyDownloaderGui(self)
+                      ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 115, in __init__
+    self.check_credentials()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 119, in check_credentials
+    credential_generation_dialog = CredentialDialog(self.parent)
+TypeError: CredentialDialog.__init__() takes 1 positional argument but 2 were given
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 824, in start_zotify_gui
+    self.zotify_gui = ZotifyDownloaderGui(self)
+                      ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 115, in __init__
+    self.check_credentials()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/components/music_downloader_gui.py", line 119, in check_credentials
+    credential_generation_dialog = CredentialDialog(self.parent)
+TypeError: CredentialDialog.__init__() takes 1 positional argument but 2 were given
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 178, in <module>
+    instance_app = SingleInstanceApp()
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 27, in __new__
+    cls._instance.ej = EasyJson()
+                       ~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/_utils/easy_json.py", line 21, in __init__
+    printYellow("main script path is : ", self.main_script_path)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: printYellow() takes 1 positional argument but 2 were given
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 183, in <module>
+    instance_app.run()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 131, in run
+    app, ui = self.setup_app()
+              ~~~~~~~~~~~~~~^^
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 124, in setup_app
+    ui = MusicPlayerUI(app)
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 132, in __init__
+    self.ej = EasyJson()  # ej initializing
+              ~~~~~~~~^^
+TypeError: EasyJson.__init__() missing 1 required positional argument: 'home_script_path'
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 177, in <module>
+    instance_app = SingleInstanceApp()
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main.py", line 26, in __new__
+    cls._instance.ej = EasyJson(os.path.dirname(os.path.abspath(__file__)))
+                       ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: EasyJson.__init__() takes 1 positional argument but 2 were given
+
+Traceback (most recent call last):
+  File "/home/aiden178/Programming/amm-git-repos/april-music-player/april-music-player/main_ui/musicplayerui.py", line 822, in start_zotify_gui
+    self.zotify_gui.exec()
+    ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ZotifyDownloaderGui' object has no attribute 'exec'
+

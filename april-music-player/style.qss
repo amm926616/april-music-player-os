@@ -12,8 +12,6 @@ QMenu::item:selected {
     color: white;
 }
 
-QSlider::handle:horizontal,
-QSlider::handle:vertical,
 QProgressBar::chunk {
     background: #c60624;
 }

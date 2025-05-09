@@ -53,7 +53,7 @@ class GetFont:
         }
 
     def loadFonts(self):
-        QFontDatabase.addApplicationFont(os.path.join(self.ej.script_path, "fonts/KOMIKAX_.ttf"))
+        QFontDatabase.addApplicationFont(os.path.join(self.ej.ej_path, "fonts/KOMIKAX_.ttf"))
 
         loaded_fonts = set()
         for lang, font_info in self.language_dict.items():

@@ -2,6 +2,7 @@ import json
 import os
 from cryptography.fernet import Fernet
 import inspect
+from _utils.colors import printCyan
 
 class EasyJson:
     _instance = None  # Class variable to store the single instance
@@ -14,13 +15,15 @@ class EasyJson:
 
     def __init__(self):
         if not hasattr(self, 'initialized'):  # Prevent reinitialization
-            self.script_path = os.path.dirname(os.path.abspath(__file__))
+            self.ej_path = os.path.dirname(os.path.abspath(__file__))
             self.april_config_path = self.get_april_config_path()
+            self.home_script_path = None
+
             self.default_values = {
-                "english_font": os.path.join(self.script_path, "fonts", "PositiveForward.otf"),
-                "korean_font": os.path.join(self.script_path, "fonts", "NotoSerifKR-ExtraBold.ttf"),
-                "japanese_font": os.path.join(self.script_path, "fonts", "NotoSansJP-Bold.otf"),
-                "chinese_font": os.path.join(self.script_path, "fonts", "NotoSerifKR-ExtraBold.ttf"),
+                "english_font": os.path.join(self.ej_path, "fonts", "PositiveForward.otf"),
+                "korean_font": os.path.join(self.ej_path, "fonts", "NotoSerifKR-ExtraBold.ttf"),
+                "japanese_font": os.path.join(self.ej_path, "fonts", "NotoSansJP-Bold.otf"),
+                "chinese_font": os.path.join(self.ej_path, "fonts", "NotoSerifKR-ExtraBold.ttf"),
                 "lrc_font_size": 24,
                 "sync_threshold": 0.3,
                 "early_sync_time": 0.2,
@@ -46,13 +49,17 @@ class EasyJson:
                 "default_image_folder": self.get_user_default_folder("Pictures")
             }
 
-            self.zotify_credential_path = self.get_zotify_config_file()
+            self.zotify_credential_path = self.get_zotify_credential_file_path()
 
             self.config_file = os.path.join(self.get_april_config_path(), "configs", "config.april")
             self.key = "pNtpUh6JNDtoUpMnQ1b73BSKeABITKHC7JzumILCE2g="
             self.data = self.load_json()
             self.initialized = True  # Mark the instance as initialized
-            self.icon_path = os.path.join(self.script_path, "media-icons")
+            self.icon_path = os.path.join(self.ej_path, "media-icons")
+
+    def set_home_script_path(self, path):
+        self.home_script_path = path
+        printCyan(f"home_script_path: {self.home_script_path}")
 
     def check_evalution_used(self):
         """return true if the user has used his evaluation"""
@@ -111,11 +118,17 @@ class EasyJson:
         else:
             return "unix"
 
-    def get_zotify_config_file(self) -> str:
+    def get_zotify_config_folder_path(self) -> str:
         if self.check_os() == "windows":
-            return os.path.join(self._get_config_path(), "Zotify", "credentials.json")
+            return os.path.join(self._get_config_path(), "Zotify")
         else:
-            return os.path.join(os.path.expanduser("~"), ".local", "share", "zotify", "credentials.json")
+            return os.path.join(os.path.expanduser("~"), ".local", "share", "zotify")
+
+    def get_zotify_credential_file_path(self):
+        if self.check_os() == "windows":
+            return os.path.join(self.get_zotify_config_folder_path(), "credentials.json")
+        else:
+            return os.path.join(self.get_zotify_config_folder_path(), "credentials.json")
 
     def _get_config_path(self):
         if self.check_os() == "windows":
@@ -130,7 +143,7 @@ class EasyJson:
             return os.path.join(self._get_config_path(), "april-music-player")
 
     def setupBackgroundImage(self):
-        default_image_path = os.path.join(self.script_path, "background-images", "default.jpg")
+        default_image_path = os.path.join(self.ej_path, "background-images", "default.jpg")
         self.edit_value("background_image", default_image_path)
         return default_image_path
 

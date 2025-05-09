@@ -35,7 +35,7 @@ from main_ui.albumtreewidget import AlbumTreeWidget
 from components.fontsettingdialog import FontSettingsWindow
 from components.tag_dialog import TagDialog
 from components.addnewdirectory import AddNewDirectory
-from components.music_downloader_gui import ZotifyDownloaderGui
+from components.zotify_downloader_gui import ZotifyDownloaderGui
 from components.playlist_manager import PlaylistDialog
 from components.splitter import ColumnSplitter
 from _utils.lrc_downloader import LyricsDownloader
@@ -124,6 +124,7 @@ class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
         super().__init__()
+        self.zotify_gui = None
         self.activate_lyrics_display_action = None
         self.mediaLayout = None
         self.app = app
@@ -160,8 +161,8 @@ class MusicPlayerUI(QMainWindow):
         print("SCRIPT_PATH IS ", self.script_path)
 
         # Construct the full path to the icon file
-        self.icon_folder_path = os.path.join(self.ej.script_path, 'icons', 'configuration_icons')
-        self.icon_path = os.path.join(self.ej.script_path, "icons", "april-icon.png")
+        self.icon_folder_path = os.path.join(self.ej.ej_path, 'icons', 'configuration_icons')
+        self.icon_path = os.path.join(self.ej.ej_path, "icons", "april-icon.png")
         print("The icon path is, " + self.icon_path)
 
         self.slider_layout = None
@@ -817,9 +818,7 @@ class MusicPlayerUI(QMainWindow):
         self.color_actions[self.ej.get_value("lyrics_color")].setChecked(True)
 
     def start_zotify_gui(self):
-        if not hasattr(self, 'zotify_gui') or self.zotify_gui is None:
-            self.zotify_gui = ZotifyDownloaderGui(self)
-        self.zotify_gui.show()
+        self.zotify_gui = ZotifyDownloaderGui(self)
         self.zotify_gui.raise_()  # Bring to front
         self.zotify_gui.activateWindow()  # Set focus
         self.zotify_gui.url_input.setFocus()

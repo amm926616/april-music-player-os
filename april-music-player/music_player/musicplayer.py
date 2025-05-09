@@ -44,7 +44,7 @@ class MusicPlayer(QObject):  # Inherit from QObject
         print(self.playback_states)
         print(type(self.playback_states))
 
-        self.script_path = self.ej.script_path
+        self.script_path = self.ej.ej_path
 
     def cleanup(self):
         self.player.deleteLater()  # Ensure worker is deleted

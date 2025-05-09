@@ -15,7 +15,6 @@ from _utils.easy_json import EasyJson
 APP_KEY = 'AprilMusicPlayer'
 SERVER_NAME = 'MusicPlayerServer'
 
-
 class SingleInstanceApp:
     _instance = None
 
@@ -25,6 +24,7 @@ class SingleInstanceApp:
             cls._instance.shared_memory = QSharedMemory(APP_KEY)
             cls._instance.server = None
             cls._instance.ej = EasyJson()
+            cls._instance.ej.set_home_script_path(os.path.dirname(os.path.abspath(__file__)))
         return cls._instance
 
     def is_another_instance_running(self):
@@ -130,7 +130,7 @@ class SingleInstanceApp:
     def run(self):
         """Run the main application."""
         app, ui = self.setup_app()
-        
+
         ui.createUI()
         ui.songTableWidget.setup_backgroundimage_logo()
         ui.songTableWidget.setFocus()

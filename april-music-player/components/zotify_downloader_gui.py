@@ -1,36 +1,44 @@
 from PyQt6.QtGui import QIcon
-from zotify.app import client
-
 from PyQt6.QtWidgets import (QPlainTextEdit, QWidget, QVBoxLayout, QHBoxLayout,
-                             QLineEdit, QPushButton, QLabel, QProgressBar)
+                             QLineEdit, QPushButton, QLabel, QProgressBar, QDialog)
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 from argparse import Namespace
 from contextlib import redirect_stdout
 
+from zotify.app import client
+from components.zotify_credential_generation import CredentialDialog
+
 class DownloadWorker(QThread):
     finished_signal = pyqtSignal(bool, str)
+    progress_signal = pyqtSignal(str)  # For progress updates
 
     def __init__(self, args):
         super().__init__()
         self.args = args
-        self._cancel_requested = False
+        self._is_cancelled = False
 
     def cancel(self):
-        self._cancel_requested = True
+        self._is_cancelled = True
+        self.progress_signal.emit("Cancelling download...")
 
     def run(self):
         try:
             with redirect_stdout(None):
-                if self._cancel_requested:
+                if self._is_cancelled:
                     self.finished_signal.emit(False, "Download cancelled.")
                     return
-                client(self.args)  # NOTE: must support early exit based on `self._cancel_requested`
-            if self._cancel_requested:
-                self.finished_signal.emit(False, "Download cancelled.")
-            else:
-                self.finished_signal.emit(True, "Download completed successfully!")
+
+                self.progress_signal.emit("Starting download...")
+                client(self.args)
+
+                if self._is_cancelled:
+                    self.finished_signal.emit(False, "Download cancelled.")
+                else:
+                    self.finished_signal.emit(True, "Download completed successfully!")
+
         except Exception as e:
             self.finished_signal.emit(False, f"Download failed: {str(e)}")
+
 
 class ZotifyDownloaderGui(QWidget):
     def __init__(self, parent):
@@ -98,25 +106,54 @@ class ZotifyDownloaderGui(QWidget):
                 border-radius: 4px;
                 background-color: #eeeeee;
             }
+            QProgressBar::chunk {
+                background-color: #ff0004;
+                border-radius: 4px;
+            }
         """)
+        self.check_credentials()
+
+    def check_credentials(self):
+        if not self.parent.ej.check_zotify_credential_format():
+            credential_generation_dialog = CredentialDialog(self.parent)
+            result = credential_generation_dialog.exec()
+
+            if result == QDialog.DialogCode.Accepted:  # Only close if dialog was cancelled
+                # Credentials were successfully generated, keep downloader open
+                self.show()
+            else:
+                # User cancelled credential generation, close downloader
+                self.close()
+        else:
+            self.show()
+
+    def closeEvent(self, event):
+        """Handle window close event to ensure thread cleanup"""
+        if self.worker and self.worker.isRunning():
+            self.worker.cancel()
+            self.worker.quit()
+            self.worker.wait(1000)
+
+        # Only toggle reload directories if we're actually closing
+        if self.isVisible():
+            self.parent.toggle_reload_directories()
+        event.accept()
 
     def handle_button_click(self):
         if self.worker and self.worker.isRunning():
-            # Cancel ongoing task
-            self.worker.cancel()
-            self.show_status("Cancelling...", "working")
-            self.download_btn.setEnabled(False)
+            self.cancel_download()
         else:
             self.start_download()
 
     def start_download(self):
         url = self.url_input.text().strip()
+        self.url_input.clear()
         if not url:
             self.show_status("Please enter a Spotify URL", "error")
             return
 
         self.show_status("Processing your request...", "working")
-        self.progress_bar.setRange(0, 0)
+        self.progress_bar.setRange(0, 0)  # Indeterminate mode
         self.download_btn.setText("Cancel")
         self.results_display.clear()
 
@@ -135,7 +172,14 @@ class ZotifyDownloaderGui(QWidget):
 
         self.worker = DownloadWorker(args)
         self.worker.finished_signal.connect(self.download_completed)
+        self.worker.progress_signal.connect(self.update_progress_status)
         self.worker.start()
+
+    def cancel_download(self):
+        if self.worker and self.worker.isRunning():
+            self.worker.cancel()
+            self.show_status("Cancelling download...", "working")
+            self.download_btn.setEnabled(False)
 
     def download_completed(self, success, message):
         self.progress_bar.setRange(0, 1)
@@ -147,8 +191,12 @@ class ZotifyDownloaderGui(QWidget):
             self.show_status("Download completed!", "success")
             self.results_display.appendPlainText("✓ " + message)
         else:
-            self.show_status("Download failed or cancelled", "error")
+            self.show_status("Download failed", "error")
             self.results_display.appendPlainText("✗ " + message)
+
+    def update_progress_status(self, message):
+        """Update status during download process"""
+        self.results_display.appendPlainText(message)
 
     def show_status(self, message, status_type):
         self.status_label.setText(message)

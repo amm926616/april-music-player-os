@@ -33,7 +33,7 @@ class VocabularyManager(QDialog):
     def setup(self):
         self.os_name = platform.system()
 
-        self.icon_path = os.path.join(self.ej.script_path, "icons", "dictionary.png")
+        self.icon_path = os.path.join(self.ej.ej_path, "icons", "dictionary.png")
         db_dir = ""
         if self.os_name == "Linux":
             db_dir = os.path.join(os.environ['HOME'], '.config', 'april-music-player')
