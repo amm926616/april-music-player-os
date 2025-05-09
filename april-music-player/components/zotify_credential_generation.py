@@ -1,13 +1,13 @@
 import os
-import shutil
 import subprocess
 
 from PyQt6.QtCore import Qt, pyqtSignal, QThread
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QDialog, QLabel, QPushButton, QVBoxLayout,
-                             QHBoxLayout, QPlainTextEdit, QProgressBar, QMessageBox)
-from _utils.easy_json import EasyJson
+                             QHBoxLayout, QPlainTextEdit, QProgressBar)
 from _utils.colors import printGreen, printRed, printCyan, printOrange, printYellow
+from _utils.easy_json import EasyJson, rewrite_credentials
+
 
 class ActivationWorker(QThread):
     finished_signal = pyqtSignal(bool, str)
@@ -16,16 +16,29 @@ class ActivationWorker(QThread):
         super().__init__()
         self.ej = ej
         self.stop_flag = stop_flag
+        self.authenticator_path = os.path.join(self.ej.ej_path, "librespot-authenticator")
 
     def run(self):
         try:
             # Determine platform-specific activation command
             if self.ej.get_value("running_system") == "windows":
-                activate_cmd = [os.path.join(self.ej.ej_path, "librespot-authenticator", "librespot-auth.exe")]
+                activate_cmd = [os.path.join(self.authenticator_path, "librespot-auth.exe")]
             else:
-                activate_cmd = [os.path.join(self.ej.ej_path, "librespot-authenticator", "librespot-auth")]
+                activate_cmd = [os.path.join(self.authenticator_path, "librespot-auth")]
 
-            result = subprocess.run(activate_cmd, check=True, shell=True)
+            # Add the --path argument and the path to the credentials file
+            activate_cmd.extend(["--path", self.ej.get_zotify_credential_file_path()])
+
+            # Debug: Print the full command
+            print(f"Running command: {' '.join(activate_cmd)}")
+
+            result = subprocess.run(
+                activate_cmd,
+                check=True,
+                shell=False,
+                cwd=os.makedirs(self.ej.get_zotify_config_folder_path(), exist_ok=True)# Run in the target directory
+            )
+
             if self.stop_flag():
                 self.finished_signal.emit(False, "Activation cancelled")
                 return
@@ -34,13 +47,8 @@ class ActivationWorker(QThread):
                 printGreen("Process run successfully")
 
                 printYellow("Trying to run replace.py script")
-                subprocess.run(["python", os.path.join(self.ej.ej_path, "librespot-authenticator", "replace.py")],
-                               check=True)
+                rewrite_credentials(self.ej.get_zotify_credential_file_path())
                 printGreen("After running replace.py script")
-
-                printYellow("Trying to move credential file")
-                self.move_credentials_file()
-                printGreen("After moving credential file")
 
                 self.finished_signal.emit(True, "Activation completed successfully!\nYou can now use the downloader.")
             else:
@@ -50,18 +58,6 @@ class ActivationWorker(QThread):
             self.finished_signal.emit(False, f"Activation error: {str(e)}")
         except Exception as e:
             self.finished_signal.emit(False, f"Unexpected error: {str(e)}")
-
-    def move_credentials_file(self):
-        printOrange("Inside Moving Credential File")
-
-        printRed("Making zotify config folder")
-        os.makedirs(self.ej.get_zotify_config_folder_path(), exist_ok=True)
-        printCyan("After Making zotify config folder")
-
-        assuming_credential_file = os.path.join(self.ej.home_script_path, "credentials.json")
-        printYellow("assuming credential file: ")
-        print(assuming_credential_file)
-        shutil.move(assuming_credential_file, self.ej.get_zotify_config_folder_path())
 
 class CredentialDialog(QDialog):
     def __init__(self, parent=None):
