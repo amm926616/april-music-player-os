@@ -66,7 +66,8 @@ class EasyJson:
                 "config_file": str(os.path.join(self.get_april_config_path(), "configs", "config.april")),
                 "script_path": os.path.dirname(os.path.abspath(__file__)),
                 "songtable_json_file": os.path.join(self.get_april_config_path(), "table_data.json"),
-                "default_image_folder": self.get_user_default_folder("Pictures")
+                "default_image_folder": self.get_user_default_folder("Pictures"),
+                "volume": 0.8
             }
 
             self.zotify_credential_path = self.get_zotify_credential_file_path()

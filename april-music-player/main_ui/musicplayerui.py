@@ -1,7 +1,6 @@
-
 from base64 import b64decode
 import os
-from random import choice
+from random import choice, Random
 import sys
 from urllib import request
 from PyQt6.QtGui import QIcon, QFont, QAction, QCursor, QKeyEvent, QActionGroup, QColor, \
@@ -13,7 +12,7 @@ from PyQt6.QtWidgets import (
     QTextEdit
 )
 
-from PyQt6.QtCore import Qt, QCoreApplication, QRectF
+from PyQt6.QtCore import Qt, QCoreApplication, QRectF, QSize
 from PyQt6.QtWidgets import QStyleFactory
 from mutagen import File
 from mutagen.flac import FLAC, Picture
@@ -124,6 +123,9 @@ class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
         super().__init__()
+        self.media_control_layout = None
+        self.main_slider_layout = None
+        self.volume_control = None
         self.zotify_gui = None
         self.activate_lyrics_display_action = None
         self.mediaLayout = None
@@ -1067,23 +1069,9 @@ class MusicPlayerUI(QMainWindow):
         # Connect search bar returnPressed signal to the search method
         self.search_bar.returnPressed.connect(self.filterSongs)
 
-        self.loop_playlist_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "loop-default.ico")))
-        self.loop_playlist_button.clicked.connect(lambda: self.click_on_playback_button("loop"))
-
-        self.repeat_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "repeat-default.ico")))
-        self.repeat_button.clicked.connect(lambda: self.click_on_playback_button("repeat"))
-
-        self.shuffle_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "shuffle-default.ico")))
-        self.shuffle_button.clicked.connect(lambda: self.click_on_playback_button("shuffle"))
-
-        self.playback_management_layout = QHBoxLayout()
-        self.playback_management_layout.addWidget(self.loop_playlist_button)
-        self.playback_management_layout.addWidget(self.repeat_button)
-        self.playback_management_layout.addWidget(self.shuffle_button)
-
         self.search_bar_layout = QHBoxLayout()
-        self.search_bar_layout.addLayout(self.playback_management_layout)
         self.search_bar_layout.addWidget(self.search_bar)
+        self.search_bar_layout.addLayout(self.playback_management_layout)
 
         playlist_layout.addLayout(self.search_bar_layout)
         if self.ej.get_value("music_directories") is None:
@@ -1125,7 +1113,7 @@ class MusicPlayerUI(QMainWindow):
             self.mediaLayout.removeWidget(self.media_widget)  # Detach from the layout
             self.media_widget.setParent(None)  # Remove from its parent to make it independent
 
-    def setupMediaPlayerWidget(self, right_layout=QVBoxLayout):
+    def setupMediaPlayerWidget(self, right_layout):
         # Create a widget to hold the media player components
         self.media_widget = QWidget()
 
@@ -1212,19 +1200,6 @@ class MusicPlayerUI(QMainWindow):
         # Call the original mousePressEvent from the base class to retain dragging functionality
         QSlider.mousePressEvent(self.slider, event)
 
-    def update_slider(self, position):
-        time_difference = abs(self.music_player.player.position() - self.last_updated_position)
-        if self.update_interval_millisecond > time_difference:
-            return
-        else:
-            self.update_progress_label(self.music_player.player.position())
-            self.slider.setValue(position)
-            self.last_updated_position = self.music_player.player.position()
-
-    def update_slider_range(self, duration):
-        print("update duration range called")
-        self.slider.setRange(0, duration)
-
     def activate_lrc_display(self):
         # Check if the LRC file is available
         if self.lrcPlayer.file:
@@ -1275,11 +1250,23 @@ class MusicPlayerUI(QMainWindow):
     def setupMediaPlayerControlsPanel(self, right_layout):
         self.setup_slider()
 
-        self.lrcPlayer.media_lyric.doubleClicked.connect(self.activate_lrc_display)
+        self.lrcPlayer.media_lyric.setStyleSheet("""
+            QLabel {
+                padding: 12px 16px;
+                border: 2px solid transparent;
+                border-left: 4px solid #d32f2f;
+                border-right: 4px solid #d32f2f;
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: 500;
+            }
+        """)
 
+        self.lrcPlayer.media_lyric.doubleClicked.connect(self.activate_lrc_display)
         right_layout.addWidget(self.lrcPlayer.media_lyric)
+
         self.lrcPlayer.media_lyric.setAlignment(Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignHCenter)
-        right_layout.addLayout(self.slider_layout)
+        right_layout.addLayout(self.main_slider_layout)
 
         controls_layout = QHBoxLayout()
         self.prev_button = QPushButton()
@@ -1322,21 +1309,80 @@ class MusicPlayerUI(QMainWindow):
         self.play_last_played_song()
 
     def setup_slider(self):
-        self.slider_layout = QHBoxLayout()
+        # Main layout containers
+        self.main_slider_layout = QHBoxLayout()
+        self.slider_layout = QVBoxLayout()
+        self.media_control_layout = QHBoxLayout()
 
-        self.duration_label = QLabel()
+        # Volume control
+        self.volume_control = self.music_player.player.show_volume_control()
 
-        # Create a QSlider
-        self.slider_layout.addWidget(self.slider)
-        self.slider_layout.addWidget(self.duration_label)
+        # Duration label - minimal styling
+        self.duration_label = QLabel("00:00 / 00:00")
+        self.duration_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        self.duration_label.setStyleSheet("font-size: 11px; color: #888;")
+
+        # Playback control buttons
+        buttons = [
+            ("loop", "loop-default.ico", self.loop_playlist_button),
+            ("repeat", "repeat-default.ico", self.repeat_button),
+            ("shuffle", "shuffle-default.ico", self.shuffle_button)
+        ]
+
+        self.playback_management_layout = QHBoxLayout()
+        self.playback_management_layout.setContentsMargins(0, 0, 0, 0)
+        self.playback_management_layout.setSpacing(10)
+
+        for action, icon, button in buttons:
+            button.setIcon(QIcon(os.path.join(self.ej.icon_path, icon)))
+            button.clicked.connect(lambda _, a=action: self.click_on_playback_button(a))
+            self.playback_management_layout.addWidget(button)
+
+        # Assemble media controls
+        self.media_control_layout.addLayout(self.playback_management_layout)
+        self.media_control_layout.addStretch()
+        self.media_control_layout.addWidget(self.duration_label)
+
+        # Slider with minimal styling
+        self.slider = QSlider(Qt.Orientation.Horizontal)
+        # self.slider.setStyleSheet("""
+        #     QSlider::groove:horizontal {
+        #         background: #ddd;
+        #     }
+        #     QSlider::handle:horizontal {
+        #         background: #aa051d;
+        #         width: 10px;
+        #         margin: -4px 0;
+        #         border-radius: 5px;
+        #     }
+        # """)
         self.slider.keyPressEvent = self.slider_key_event
         self.slider.setRange(0, self.music_player.get_duration() or 100)
         self.slider.setValue(0)
 
-        # Connect the slider to the player's position
+        # Build layout hierarchy
+        self.slider_layout.addLayout(self.media_control_layout)
+        self.slider_layout.addWidget(self.slider)
+        self.main_slider_layout.addLayout(self.slider_layout)
+        self.main_slider_layout.addWidget(self.volume_control)
+
+        # Connections
         self.music_player.player.positionChanged.connect(self.update_slider)
         self.music_player.player.durationChanged.connect(self.update_slider_range)
         self.slider.sliderMoved.connect(self.update_player_from_slider)
+
+    def update_slider(self, position):
+        time_difference = abs(self.music_player.player.position() - self.last_updated_position)
+        if self.update_interval_millisecond > time_difference:
+            return
+        else:
+            self.update_progress_label(self.music_player.player.position())
+            self.slider.setValue(position)
+            self.last_updated_position = self.music_player.player.position()
+
+    def update_slider_range(self, duration):
+        print("update duration range called")
+        self.slider.setRange(0, duration)
 
     def updateDisplayData(self):
         self.metadata = self.get_metadata(self.music_file)

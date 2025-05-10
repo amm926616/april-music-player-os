@@ -1,6 +1,9 @@
 from PyQt6.QtCore import QObject, pyqtSignal, QThread, QUrl
 from PyQt6.QtMultimedia import QMediaPlayer, QAudioOutput
 
+from music_player.donut_volume_controller import DonutVolumeControl
+from _utils.easy_json import EasyJson
+from _utils.colors import printRed
 
 def handle_buffer_status(percent_filled):
     print(f"Buffer status: {percent_filled}%")
@@ -12,6 +15,7 @@ class MusicPlayerWorker(QObject):
 
     def __init__(self, handle_media_status_changed):
         super().__init__()
+        self.ej = EasyJson()
 
         # Create the media player and audio output
         self.player = QMediaPlayer()
@@ -34,6 +38,13 @@ class MusicPlayerWorker(QObject):
         self.durationChanged = self.player.durationChanged
 
         self.MediaStatus = QMediaPlayer.MediaStatus
+
+    def set_volume(self, volume_level: float):
+        """Set the audio volume. Accepts a float between 0.0 (mute) and 1.0 (full volume)."""
+        self.ej.edit_value("volume", volume_level)
+        printRed(f"Set volume to {volume_level}%")
+        printRed(f"{self.ej.get_value("volume")}, this is the current volume level")
+        self.audio_output.setVolume(volume_level)
 
     def play(self):
         # self.started.emit()  # Emit a signal when the player starts, if needed
@@ -59,3 +70,17 @@ class MusicPlayerWorker(QObject):
 
     def duration(self):
         return self.player.duration()
+
+    def show_volume_control(self, parent_widget=None):
+        """Create and show the volume control widget, connecting it to the player's volume"""
+        self.volume_control = DonutVolumeControl(parent_widget)
+
+        # Sync audio output volume to the widget's initial volume
+        self.audio_output.setVolume(self.volume_control.volume())
+
+        # Connect volume control to player volume
+        self.volume_control.volumeChanged.connect(self.set_volume)
+
+        return self.volume_control
+
+
