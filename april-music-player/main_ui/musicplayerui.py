@@ -1546,45 +1546,6 @@ class MusicPlayerUI(QMainWindow):
         self.song_initializing_stuff()
         self.play_song()
 
-
-    """Original Method"""
-    # def handleRowDoubleClick(self, item):
-    #     row = None
-    #     try:
-    #         row = item.row()
-    #     except AttributeError:
-    #         return
-
-    #     if item and item.text():
-    #         if "Album Title: " in item.text():
-    #             return
-    #         else:
-    #             self.item = item
-    #             print(item.text())
-    #             self.songTableWidget.song_playing_row = row
-    #             self.lrcPlayer.started_player = True
-    #             if self.get_music_file_from_click(item):
-    #                 self.song_initializing_stuff()
-    #                 self.play_song()
-    #                 ## if the user has picked an item while shuffle is on, the shuffle index will be updated to the current music file
-    #                 if self.ej.get_value("playback_states")["shuffle"]:
-    #                     self.current_playing_random_song_index = int(self.songTableWidget.random_song_list.index(self.music_file))
-    #             else:
-    #                 return
-    #     else:
-    #         return
-
-    #     if self.hidden_rows:
-    #         self.songTableWidget.clearSelection()
-    #         self.restore_table()
-    #         self.songTableWidget.setFocus()
-
-    #         self.songTableWidget.scroll_to_current_row_simulate()
-    #         self.simulate_keypress(self.songTableWidget, Qt.Key.Key_G)  # only imitation of key press work.
-    #         # Direct calling the method doesn't work. IDk why.
-    #         self.hidden_rows = False
-
-    # """Experimental Method"""
     def handleRowDoubleClick(self, item=None):
         # Check if the item exists and is valid
         if item is None:

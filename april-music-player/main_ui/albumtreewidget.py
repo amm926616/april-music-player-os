@@ -7,6 +7,7 @@ import sqlite3
 import os
 from fuzzywuzzy import fuzz
 from components.loadingbar import LoadingBar
+from consts.ALBUMTREEWIDGET import SEARCHBAR_TIP
 
 
 def extract_track_number(track_number):
@@ -154,7 +155,7 @@ class AlbumTreeWidget(QWidget):
 
     def initUI(self):
         self.search_bar.setPlaceholderText("Search Songs by name...")
-        self.search_bar.setToolTip("Filer/Search songs by name [Ctrl + F]. \nPress [Enter] to place the matched song in the playlist.")
+        self.search_bar.setToolTip(SEARCHBAR_TIP)
 
         self.tree_widget = QTreeWidget()
         self.tree_widget.setDragEnabled(True)
@@ -167,7 +168,7 @@ class AlbumTreeWidget(QWidget):
         layout.addWidget(self.tree_widget)
 
         self.search_bar.textChanged.connect(self.filter_items)
-        self.tree_widget.itemPressed.connect(self.on_item_right_clicked)
+        self.tree_widget.itemClicked.connect(self.on_item_single_clicked)
         self.tree_widget.itemDoubleClicked.connect(self.on_item_double_clicked)
 
     def startDragMethod(self, supported_actions):
@@ -209,14 +210,11 @@ class AlbumTreeWidget(QWidget):
         # Reset cursor after the drag has finished
         self.parent.app.restoreOverrideCursor()
 
-    def on_item_right_clicked(self, item=None):
-        if self.parent.app.mouseButtons() == Qt.MouseButton.RightButton:
-            print(item)
-            if item:
-                if item.isExpanded():
-                    self.tree_widget.collapseItem(item)  # Collapse if already expanded
-                else:
-                    self.tree_widget.expandItem(item)  # Expand if collapsed
+    def on_item_single_clicked(self, item=None):
+        print(item)
+        if item:
+            if not item.isExpanded():
+                self.tree_widget.expandItem(item)
 
     def on_item_double_clicked(self, item=None, data=None, role=None, file_path=None):
         """
@@ -224,7 +222,7 @@ class AlbumTreeWidget(QWidget):
         role is to check the clicked data's role to extract from the database.
         file_path if the clicked item is a single song.
         """
-        
+
         self.songTableWidget.clearSelection()
 
         if item:
@@ -258,18 +256,19 @@ class AlbumTreeWidget(QWidget):
 
         # Create the table for storing song metadata if it doesn't exist
         self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS songs (
-                title TEXT,
-                artist TEXT,
-                album TEXT,
-                year TEXT,
-                genre TEXT,
-                track_number TEXT,
-                duration INTEGER,
-                file_path TEXT PRIMARY KEY,
-                file_type TEXT
-            )
-        ''')
+                            CREATE TABLE IF NOT EXISTS songs
+                            (
+                                title TEXT,
+                                artist TEXT,
+                                album TEXT,
+                                year TEXT,
+                                genre TEXT,
+                                track_number TEXT,
+                                duration INTEGER,
+                                file_path TEXT PRIMARY KEY,
+                                file_type TEXT
+                            )
+                            ''')
 
         self.conn.commit()
 
@@ -339,19 +338,20 @@ class AlbumTreeWidget(QWidget):
                 metadata = self.parent.get_metadata(item_path)
 
                 self.cursor.execute('''
-                    INSERT INTO songs (title, artist, album, year, genre, track_number, duration, file_path, file_type)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                ''', (
-                    metadata['title'],
-                    metadata['artist'],
-                    metadata['album'],
-                    str(metadata['year']),
-                    metadata['genre'],
-                    metadata['track_number'],
-                    format_duration(metadata['duration']),
-                    item_path,
-                    metadata['file_type']
-                ))
+                                    INSERT INTO songs (title, artist, album, year, genre, track_number, duration,
+                                                       file_path, file_type)
+                                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                                    ''', (
+                                        metadata['title'],
+                                        metadata['artist'],
+                                        metadata['album'],
+                                        str(metadata['year']),
+                                        metadata['genre'],
+                                        metadata['track_number'],
+                                        format_duration(metadata['duration']),
+                                        item_path,
+                                        metadata['file_type']
+                                    ))
                 self.conn.commit()
 
             artist = metadata['artist'] if metadata['artist'] else 'Unknown Artist'
@@ -387,7 +387,8 @@ class AlbumTreeWidget(QWidget):
                     track_item = QTreeWidgetItem([f"{track_number}. {title}"])
                     track_item.setData(0, Qt.ItemDataRole.UserRole, self.SONG_ROLE)
                     track_item.setData(0, Qt.ItemDataRole.UserRole + 4, item_path)  # Store file path
-                    track_item.setFlags(track_item.flags() | Qt.ItemFlag.ItemIsDragEnabled | Qt.ItemFlag.ItemIsSelectable)
+                    track_item.setFlags(
+                        track_item.flags() | Qt.ItemFlag.ItemIsDragEnabled | Qt.ItemFlag.ItemIsSelectable)
                     album_item.addChild(track_item)
 
     def add_song_by_file_path(self, file_path):
@@ -419,7 +420,7 @@ class AlbumTreeWidget(QWidget):
             item = QTableWidgetItem(str(data))
             item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
             self.songTableWidget.setItem(row_position, i, item)
-                    
+
         file_path = song[7]  # Assuming file_path is at index 7
         if not file_path in self.songTableWidget.files_on_playlist:
             self.songTableWidget.files_on_playlist.append(file_path)
@@ -474,7 +475,7 @@ class AlbumTreeWidget(QWidget):
             common_song_rows = [self.find_row_by_exact_match(song) for song in common_songs]
             # Highlight and scroll to the rows
             self.songTableWidget.scroll_to_and_highlight_multiple_rows(common_song_rows)
-            
+
             for song in the_remaining_songs:
                 self.add_song_by_file_path(song)
 
@@ -482,10 +483,10 @@ class AlbumTreeWidget(QWidget):
             self.add_album_title_row(album)
             for song in sorted_songs_data:
                 self.add_song_row(song)
-                
+
     def add_songs_by_artist(self, artist):
         self.songTableWidget.clearSelection()
-        
+
         if not self.cursor:
             return
 
@@ -533,18 +534,23 @@ class AlbumTreeWidget(QWidget):
 
     def update_metadata_to_database(self, file_path, new_metadata):
         self.cursor.execute('''
-            UPDATE songs
-            SET title=?, artist=?, album=?, year=?, genre=?, track_number=?
-            WHERE file_path=?
-        ''', (
-            new_metadata['title'],
-            new_metadata['artist'],
-            new_metadata['album'],
-            str(new_metadata['year']),
-            new_metadata['genre'],
-            new_metadata['track_number'],
-            file_path
-        ))
+                            UPDATE songs
+                            SET title=?,
+                                artist=?,
+                                album=?,
+                                year=?,
+                                genre=?,
+                                track_number=?
+                            WHERE file_path = ?
+                            ''', (
+                                new_metadata['title'],
+                                new_metadata['artist'],
+                                new_metadata['album'],
+                                str(new_metadata['year']),
+                                new_metadata['genre'],
+                                new_metadata['track_number'],
+                                file_path
+                            ))
         self.conn.commit()
 
     def updateMetadataInTableWidget(self, new_metadata):
