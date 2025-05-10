@@ -16,12 +16,6 @@ QProgressBar::chunk {
     background: #c60624;
 }
 
-QCheckBox::indicator:checked,
-QRadioButton::indicator:checked {
-    background-color: #c60624;
-    border-color: #c00000;
-}
-
 QTabBar::tab:selected {
     border-bottom: 2px solid #c60624;
 }
