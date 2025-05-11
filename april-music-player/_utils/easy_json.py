@@ -2,8 +2,23 @@ import json
 import os
 from cryptography.fernet import Fernet
 import inspect
-from _utils.colors import printCyan, printYellow
 
+RESET = '\033[0m'
+BLACK = '\033[30m'
+RED = '\033[31m'
+GREEN = '\033[32m'
+ORANGE = '\033[33m'
+BLUE = '\033[34m'
+PURPLE = '\033[35m'
+CYAN = '\033[36m'
+LIGHTGRAY = '\033[37m'
+DARKGRAY = '\033[90m'
+LIGHTRED = '\033[91m'
+LIGHTGREEN = '\033[92m'
+YELLOW = '\033[93m'
+LIGHTBLUE = '\033[94m'
+PINK = '\033[95m'
+LIGHTCYAN = '\033[96m'
 
 def rewrite_credentials(input_file):
     with open(input_file, 'r') as file:
@@ -80,7 +95,7 @@ class EasyJson:
 
     def set_home_script_path(self, path):
         self.home_script_path = path
-        printCyan(f"home_script_path: {self.home_script_path}")
+        self.printCyan(f"home_script_path: {self.home_script_path}")
 
     def check_evalution_used(self):
         """return true if the user has used his evaluation"""
@@ -314,4 +329,19 @@ class EasyJson:
 
     def save_data_when_quit(self):
         self.save_json()
+
+    def printOrange(self, text):
+        print(f"{ORANGE}{text}{RESET}")
+
+    def printGreen(self, text):
+        print(f"{GREEN}{text}{RESET}")
+
+    def printRed(self, text):
+        print(f"{RED}{text}{RESET}")
+
+    def printCyan(self, text):
+        print(f"{CYAN}{text}{RESET}")
+
+    def printYellow(self, text):
+        print(f"{YELLOW}{text}{RESET}")
 
