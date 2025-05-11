@@ -9,8 +9,6 @@ from PyQt6.QtNetwork import QLocalServer, QLocalSocket
 from main_ui.musicplayerui import MusicPlayerUI
 from _utils.easy_json import EasyJson
 
-# from pathlib import Path
-# sys.path.append(str(Path(__file__).parent))
 
 APP_KEY = 'AprilMusicPlayer'
 SERVER_NAME = 'MusicPlayerServer'
