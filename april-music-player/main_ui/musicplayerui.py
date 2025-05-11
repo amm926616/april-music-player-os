@@ -1077,8 +1077,6 @@ class MusicPlayerUI(QMainWindow):
         if self.ej.get_value("music_directories") is None:
             self.addnewdirectory.add_directory()
 
-        self.music_player.setup_playback_buttons()
-
     def click_on_playback_button(self, state):
         if state == "shuffle":
             self.music_player.toggle_shuffle()
@@ -1248,9 +1246,6 @@ class MusicPlayerUI(QMainWindow):
         self.duration_label.setText(duration_string)
 
     def setupMediaPlayerControlsPanel(self, right_layout):
-
-        main_media_layout = QVBoxLayout()
-
         self.setup_central_media_control_layout()
 
         self.lrcPlayer.media_lyric.setStyleSheet("""
@@ -1311,6 +1306,7 @@ class MusicPlayerUI(QMainWindow):
 
         self.media_control_slider_playback_control_layout.addLayout(controls_layout)
         self.play_last_played_song()
+        self.music_player.setup_playback_buttons()
 
     def setup_central_media_control_layout(self):
         # Main layout containers
@@ -1324,7 +1320,7 @@ class MusicPlayerUI(QMainWindow):
         # Duration label - minimal styling
         self.duration_label = QLabel("00:00 / 00:00")
         self.duration_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
-        self.duration_label.setStyleSheet("font-size: 11px; color: #888;")
+        self.duration_label.setStyleSheet("font-size: 11px")
 
         # Playback control buttons
         buttons = [
