@@ -102,3 +102,64 @@ QScrollBar::add-page:horizontal,
 QScrollBar::sub-page:horizontal {
     background: transparent;
 }
+
+/* for slider */
+
+/* Horizontal Slider */
+/*QSlider::groove:horizontal {*/
+/*    border: none;*/
+/*    height: 4px;*/
+/*    background: palette(midlight);*/
+/*    margin: 0 12px;*/
+/*    border-radius: 2px;*/
+/*}*/
+
+/*QSlider::handle:horizontal {*/
+/*    background: palette(mid); /* System theme-based */*/
+/*    border: 1px solid palette(dark);*/
+/*    width: 14px;*/
+/*    height: 14px;*/
+/*    margin: -6px 0; /* Center vertically */*/
+/*    border-radius: 7px;*/
+/*}*/
+
+/*QSlider::handle:horizontal:hover {*/
+/*    background: rgba(220, 20, 60, 220); /* Crimson on hover */*/
+/*    border: 1px solid rgba(220, 20, 60, 255);*/
+/*}*/
+
+
+/*/* Vertical Slider */*/
+/*QSlider::groove:vertical {*/
+/*    border: none;*/
+/*    width: 4px;*/
+/*    background: palette(midlight);*/
+/*    margin: 12px 0;*/
+/*    border-radius: 2px;*/
+/*}*/
+
+/*QSlider::handle:vertical {*/
+/*    background: palette(mid);*/
+/*    border: 1px solid palette(dark);*/
+/*    height: 14px;*/
+/*    width: 14px;*/
+/*    margin: 0 -6px; /* Center horizontally */*/
+/*    border-radius: 7px;*/
+/*}*/
+
+/*QSlider::handle:vertical:hover {*/
+/*    background: rgba(220, 20, 60, 220);*/
+/*    border: 1px solid rgba(220, 20, 60, 255);*/
+/*}*/
+
+
+/*/* Optional: add groove highlight (left of handle) */*/
+/*QSlider::sub-page:horizontal {*/
+/*    background: rgba(220, 20, 60, 120);*/
+/*    border-radius: 2px;*/
+/*}*/
+
+/*QSlider::sub-page:vertical {*/
+/*    background: rgba(220, 20, 60, 120);*/
+/*    border-radius: 2px;*/
+/*}*/
