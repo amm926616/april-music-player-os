@@ -1315,11 +1315,11 @@ class MusicPlayerUI(QMainWindow):
         self.media_control_layout = QHBoxLayout()
 
         # Volume control
-        self.volume_control = self.music_player.player.show_volume_control()
+        self.volume_control = self.music_player.player.get_volume_control()
 
         # Duration label - minimal styling
         self.duration_label = QLabel("00:00 / 00:00")
-        self.duration_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
+        self.duration_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom)
         self.duration_label.setStyleSheet("font-size: 11px")
 
         # Playback control buttons

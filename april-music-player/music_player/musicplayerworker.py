@@ -15,6 +15,7 @@ class MusicPlayerWorker(QObject):
 
     def __init__(self, handle_media_status_changed):
         super().__init__()
+        self.volume_control = None
         self.ej = EasyJson()
 
         # Create the media player and audio output
@@ -71,7 +72,7 @@ class MusicPlayerWorker(QObject):
     def duration(self):
         return self.player.duration()
 
-    def show_volume_control(self, parent_widget=None):
+    def get_volume_control(self, parent_widget=None):
         """Create and show the volume control widget, connecting it to the player's volume"""
         self.volume_control = DonutVolumeControl(parent_widget)
 
