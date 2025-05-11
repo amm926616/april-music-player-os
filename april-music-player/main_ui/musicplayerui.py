@@ -1,8 +1,10 @@
-from base64 import b64decode
 import os
-from random import choice, Random
 import sys
+from base64 import b64decode
+from random import choice
 from urllib import request
+
+from PyQt6.QtCore import Qt, QCoreApplication, QRectF
 from PyQt6.QtGui import QIcon, QFont, QAction, QCursor, QKeyEvent, QActionGroup, QColor, \
     QPainter, QPixmap, QPainterPath, QTextDocument, QTextOption
 from PyQt6.QtMultimedia import QMediaPlayer
@@ -11,33 +13,31 @@ from PyQt6.QtWidgets import (
     QLabel, QPushButton, QSlider, QLineEdit, QFileDialog, QScrollArea, QSizePolicy, QDialog, QStyle,
     QTextEdit
 )
-
-from PyQt6.QtCore import Qt, QCoreApplication, QRectF, QSize
 from PyQt6.QtWidgets import QStyleFactory
 from mutagen import File
 from mutagen.flac import FLAC, Picture
 from mutagen.id3 import APIC
 from mutagen.id3 import ID3, ID3NoHeaderError
-from mutagen.oggvorbis import OggVorbis
 from mutagen.mp3 import MP3
 from mutagen.mp4 import MP4
+from mutagen.oggvorbis import OggVorbis
 from mutagen.wave import WAVE
 
-from components.album_image_window import AlbumImageWindow
-from consts.HTML_LABELS import SHORTCUTS, PREPARATION, FROMME
-from components.lrcDisplay import LRCSync
-from music_player.musicplayer import MusicPlayer
-from components.clickable_label import ClickableImageLabel
 from _utils.easy_json import EasyJson
-from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
-from main_ui.albumtreewidget import AlbumTreeWidget
-from components.fontsettingdialog import FontSettingsWindow
-from components.tag_dialog import TagDialog
+from _utils.lrc_downloader import LyricsDownloader
 from components.addnewdirectory import AddNewDirectory
-from components.zotify_downloader_gui import ZotifyDownloaderGui
+from components.album_image_window import AlbumImageWindow
+from components.clickable_label import ClickableImageLabel
+from components.fontsettingdialog import FontSettingsWindow
+from components.lrcDisplay import LRCSync
 from components.playlist_manager import PlaylistDialog
 from components.splitter import ColumnSplitter
-from _utils.lrc_downloader import LyricsDownloader
+from components.tag_dialog import TagDialog
+from components.zotify_downloader_gui import ZotifyDownloaderGui
+from consts.HTML_LABELS import SHORTCUTS, PREPARATION, FROMME
+from main_ui.albumtreewidget import AlbumTreeWidget
+from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
+from music_player.musicplayer import MusicPlayer
 
 
 def html_to_plain_text(html):
@@ -124,7 +124,7 @@ class MusicPlayerUI(QMainWindow):
     def __init__(self, app, music_files=None):
         super().__init__()
         self.media_control_layout = None
-        self.main_slider_layout = None
+        self.main_media_horizontal_layout = None
         self.volume_control = None
         self.zotify_gui = None
         self.activate_lyrics_display_action = None
@@ -167,7 +167,7 @@ class MusicPlayerUI(QMainWindow):
         self.icon_path = os.path.join(self.ej.ej_path, "icons", "april-icon.png")
         print("The icon path is, " + self.icon_path)
 
-        self.slider_layout = None
+        self.media_control_slider_playback_control_layout = None
         self.metadata = None
         self.duration_label = None
         self.passing_image = None
@@ -185,8 +185,8 @@ class MusicPlayerUI(QMainWindow):
         self.track_display = None
         self.song_details = None
         self.image_display = None
-        self.slider = QSlider(Qt.Orientation.Horizontal, self)
-        self.slider.mousePressEvent = self.slider_mousePressEvent
+        self.time_slider = QSlider(Qt.Orientation.Horizontal, self)
+        self.time_slider.mousePressEvent = self.slider_mousePressEvent
 
         self.prev_button = None
         self.click_count = 0
@@ -1187,18 +1187,18 @@ class MusicPlayerUI(QMainWindow):
     def slider_mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             # Calculate the position relative to the slider length
-            slider_length = self.slider.width() if self.slider.orientation() == Qt.Orientation.Horizontal else self.slider.height()
-            click_pos = event.position().x() if self.slider.orientation() == Qt.Orientation.Horizontal else event.position().y()
+            slider_length = self.time_slider.width() if self.time_slider.orientation() == Qt.Orientation.Horizontal else self.time_slider.height()
+            click_pos = event.position().x() if self.time_slider.orientation() == Qt.Orientation.Horizontal else event.position().y()
 
             # Map click position to slider range
             ratio = click_pos / slider_length
-            new_value = self.slider.minimum() + ratio * (self.slider.maximum() - self.slider.minimum())
-            self.slider.setValue(int(new_value))
+            new_value = self.time_slider.minimum() + ratio * (self.time_slider.maximum() - self.time_slider.minimum())
+            self.time_slider.setValue(int(new_value))
             self.music_player.player.setPosition(int(new_value))
             self.last_updated_position = float(new_value)
 
         # Call the original mousePressEvent from the base class to retain dragging functionality
-        QSlider.mousePressEvent(self.slider, event)
+        QSlider.mousePressEvent(self.time_slider, event)
 
     def activate_lrc_display(self):
         # Check if the LRC file is available
@@ -1248,7 +1248,10 @@ class MusicPlayerUI(QMainWindow):
         self.duration_label.setText(duration_string)
 
     def setupMediaPlayerControlsPanel(self, right_layout):
-        self.setup_slider()
+
+        main_media_layout = QVBoxLayout()
+
+        self.setup_central_media_control_layout()
 
         self.lrcPlayer.media_lyric.setStyleSheet("""
             QLabel {
@@ -1266,7 +1269,7 @@ class MusicPlayerUI(QMainWindow):
         right_layout.addWidget(self.lrcPlayer.media_lyric)
 
         self.lrcPlayer.media_lyric.setAlignment(Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignHCenter)
-        right_layout.addLayout(self.main_slider_layout)
+        right_layout.addLayout(self.main_media_horizontal_layout)
 
         controls_layout = QHBoxLayout()
         self.prev_button = QPushButton()
@@ -1305,13 +1308,14 @@ class MusicPlayerUI(QMainWindow):
         controls_layout.addWidget(self.forward_button)
         controls_layout.addWidget(self.next_song_button)
 
-        right_layout.addLayout(controls_layout)
+
+        self.media_control_slider_playback_control_layout.addLayout(controls_layout)
         self.play_last_played_song()
 
-    def setup_slider(self):
+    def setup_central_media_control_layout(self):
         # Main layout containers
-        self.main_slider_layout = QHBoxLayout()
-        self.slider_layout = QVBoxLayout()
+        self.main_media_horizontal_layout = QHBoxLayout()
+        self.media_control_slider_playback_control_layout = QVBoxLayout()
         self.media_control_layout = QHBoxLayout()
 
         # Volume control
@@ -1344,8 +1348,8 @@ class MusicPlayerUI(QMainWindow):
         self.media_control_layout.addWidget(self.duration_label)
 
         # Slider with minimal styling
-        self.slider = QSlider(Qt.Orientation.Horizontal)
-        # self.slider.setStyleSheet("""
+        self.time_slider = QSlider(Qt.Orientation.Horizontal)
+        self.time_slider.setStyleSheet("""
         #     QSlider::groove:horizontal {
         #         background: #ddd;
         #     }
@@ -1356,20 +1360,20 @@ class MusicPlayerUI(QMainWindow):
         #         border-radius: 5px;
         #     }
         # """)
-        self.slider.keyPressEvent = self.slider_key_event
-        self.slider.setRange(0, self.music_player.get_duration() or 100)
-        self.slider.setValue(0)
+        self.time_slider.keyPressEvent = self.slider_key_event
+        self.time_slider.setRange(0, self.music_player.get_duration() or 100)
+        self.time_slider.setValue(0)
 
         # Build layout hierarchy
-        self.slider_layout.addLayout(self.media_control_layout)
-        self.slider_layout.addWidget(self.slider)
-        self.main_slider_layout.addLayout(self.slider_layout)
-        self.main_slider_layout.addWidget(self.volume_control)
+        self.media_control_slider_playback_control_layout.addLayout(self.media_control_layout)
+        self.media_control_slider_playback_control_layout.addWidget(self.time_slider)
+        self.main_media_horizontal_layout.addLayout(self.media_control_slider_playback_control_layout)
+        self.main_media_horizontal_layout.addWidget(self.volume_control)
 
         # Connections
         self.music_player.player.positionChanged.connect(self.update_slider)
         self.music_player.player.durationChanged.connect(self.update_slider_range)
-        self.slider.sliderMoved.connect(self.update_player_from_slider)
+        self.time_slider.sliderMoved.connect(self.update_player_from_slider)
 
     def update_slider(self, position):
         time_difference = abs(self.music_player.player.position() - self.last_updated_position)
@@ -1377,12 +1381,12 @@ class MusicPlayerUI(QMainWindow):
             return
         else:
             self.update_progress_label(self.music_player.player.position())
-            self.slider.setValue(position)
+            self.time_slider.setValue(position)
             self.last_updated_position = self.music_player.player.position()
 
     def update_slider_range(self, duration):
         print("update duration range called")
-        self.slider.setRange(0, duration)
+        self.time_slider.setRange(0, duration)
 
     def updateDisplayData(self):
         self.metadata = self.get_metadata(self.music_file)
