@@ -10,7 +10,11 @@ def handle_buffer_status(percent_filled):
 
 
 class MusicPlayerWorker(QObject):
-    # Define signals if needed (for future callbacks or status updates)
+    play_requested = pyqtSignal()
+    pause_requested = pyqtSignal()
+    stop_requested = pyqtSignal()
+    set_source_requested = pyqtSignal(str)
+    set_position_requested = pyqtSignal(int)
     started = pyqtSignal()
 
     def __init__(self, handle_media_status_changed):
@@ -39,6 +43,13 @@ class MusicPlayerWorker(QObject):
         self.durationChanged = self.player.durationChanged
 
         self.MediaStatus = QMediaPlayer.MediaStatus
+
+        # connect internal signals
+        self.play_requested.connect(self.player.play)
+        self.pause_requested.connect(self.player.pause)
+        self.stop_requested.connect(self.player.stop)
+        self.set_source_requested.connect(lambda path: self.player.setSource(QUrl.fromLocalFile(path)))
+        self.set_position_requested.connect(self.player.setPosition)
 
     def set_volume(self, volume_level: float):
         """Set the audio volume. Accepts a float between 0.0 (mute) and 1.0 (full volume)."""

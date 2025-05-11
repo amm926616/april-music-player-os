@@ -25,7 +25,7 @@ class MusicPlayer(QObject):  # Inherit from QObject
         # Connect the start_play_signal to the player's play method
         self.start_play_signal.connect(self.player.play)
 
-        self.thread.start()
+        self.thread.start() # starting thread after connecting
 
         self.started_playing = False
         self.paused_position = 0.0
@@ -82,7 +82,6 @@ class MusicPlayer(QObject):  # Inherit from QObject
     def play(self):
         self.started_playing = True
         self.update_music_file(self.file_name)
-        # self.thread.start()  # Start the thread to play the song in the background
         self.player.play()
 
     def setup_playback_buttons(self):
