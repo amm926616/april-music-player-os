@@ -61,6 +61,9 @@ class SongTableWidget(QTableWidget):
         self.setAcceptDrops(True)
         self.setToolTip("Double click or click on a song row  or press enter to start playing song.")
 
+        self.setup_backgroundimage_logo()
+        self.setFocus()
+
     def wheelEvent(self, event):
         # Check if the Shift key is pressed
         if QApplication.keyboardModifiers() == Qt.KeyboardModifier.ShiftModifier:
