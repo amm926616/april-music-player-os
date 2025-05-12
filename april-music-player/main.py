@@ -1,18 +1,16 @@
 #! /usr/bin/env python
 
+import sys
 import os
 import signal
-import sys
-import time
-
+from PyQt6.QtWidgets import QApplication, QMessageBox
 from PyQt6.QtCore import QSharedMemory
 from PyQt6.QtNetwork import QLocalServer, QLocalSocket
-from PyQt6.QtWidgets import QApplication, QMessageBox
-
-from _utils.easy_json import EasyJson
+from program_activation.program_activation_dialog import ProgramActivationDialog
 from check_subscription_time import CheckSubscriptionTime
 from main_ui.musicplayerui import MusicPlayerUI
-from program_activation.program_activation_dialog import ProgramActivationDialog
+from _utils.easy_json import EasyJson
+
 
 APP_KEY = 'AprilMusicPlayer'
 SERVER_NAME = 'MusicPlayerServer'
@@ -118,7 +116,6 @@ class SingleInstanceApp:
 
         # Load QSS stylesheet
         stylesheet = self.load_stylesheet()
-        self.ej.printGreen("After parsing style sheet")
         app.setStyleSheet(stylesheet)
 
         # Set up signal handlers for cleanup
@@ -134,22 +131,8 @@ class SingleInstanceApp:
         """Run the main application."""
         app, ui = self.setup_app()
 
-        subscription_datetime = CheckSubscriptionTime()
-        if subscription_datetime.has_expired():
-            # Show Activation widget if expired is True
-            activation_dialog = ProgramActivationDialog(ui)  # Assuming Activation is a dialog
-            activation_status = activation_dialog.show_ui()
-            if activation_status:  # Block the main window until this is closed
-                subscription_datetime.set_subscription_status_and_time(30)
-                ui.createUI()
-            else:
-                sys.exit()
-        else:
-            # Measure time for UI initialization
-            start_time = time.time()  # Start time
-            ui.createUI()  # Create the UI
-            end_time = time.time()  # End time
-            print(f"UI initialization took: {end_time - start_time:.4f} seconds")
+        ui.createUI()
+        ui.songTableWidget.setFocus()
 
         # Run the application
         exit_code = app.exec()
