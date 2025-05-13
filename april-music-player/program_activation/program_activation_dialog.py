@@ -16,6 +16,7 @@ from program_activation.const import *
 class ProgramActivationDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.secret_code_combined = None
         self.parent = parent
         self.ej = EasyJson()
         self.script_path = self.ej.ej_path
@@ -23,7 +24,7 @@ class ProgramActivationDialog(QDialog):
         self.successful_status = False
 
         self.setWindowTitle("April Music Player Activation")
-        self.set_screen_ratio()
+        # self.set_screen_ratio()
 
         # Set sophisticated dark background
         self.setAutoFillBackground(True)
@@ -64,6 +65,8 @@ class ProgramActivationDialog(QDialog):
                 font-weight: bold;
             }
         """)
+
+        ### This block
         plan_layout = QVBoxLayout(plan_frame)
 
         plan_title = QLabel("Select Payment Plan:")
@@ -73,9 +76,8 @@ class ProgramActivationDialog(QDialog):
         # Radio buttons for payment plans
         self.plan_group = QButtonGroup(self)
 
-        monthly_plan = QRadioButton("3-Month Plan (6,000 MMK/month)")
-        monthly_plan.setChecked(True)
-        monthly_plan.setStyleSheet("""
+        onetime_plan = QRadioButton("One-Time Payment (15,000 MMK)")
+        onetime_plan.setStyleSheet("""
             QRadioButton {
                 color: #EEE;
                 padding: 5px;
@@ -93,16 +95,26 @@ class ProgramActivationDialog(QDialog):
                 border-radius: 8px;
                 background-color: #D62C1A;
             }
-        """)
+            """)
 
-        onetime_plan = QRadioButton("One-Time Payment (15,000 MMK)")
-        onetime_plan.setStyleSheet(monthly_plan.styleSheet())
 
-        self.plan_group.addButton(monthly_plan, 1)
-        self.plan_group.addButton(onetime_plan, 2)
+        monthly_plan = QRadioButton("3-Month Plan (6,000 MMK/month)")
+        monthly_plan.setStyleSheet(onetime_plan.styleSheet())
 
-        plan_layout.addWidget(monthly_plan)
+        if self.ej.get_value("payment_method") == "installment":
+            monthly_plan.setChecked(True)
+            self.ej.edit_value("payment_method", "installment")
+        else:
+            onetime_plan.setChecked(True)
+            self.ej.edit_value("payment_method", "onetime")
+
+        self.plan_group.addButton(onetime_plan, 1)
+        self.plan_group.addButton(monthly_plan, 2)
+
+        self.plan_group.buttonClicked.connect(self.set_payment_type)
+
         plan_layout.addWidget(onetime_plan)
+        plan_layout.addWidget(monthly_plan)
         left_layout.addWidget(plan_frame)
 
         # KBZPay Section
@@ -170,6 +182,7 @@ class ProgramActivationDialog(QDialog):
         right_layout.setContentsMargins(20, 20, 20, 20)
         right_layout.setSpacing(15)
 
+        ### thie block
         # Title
         title = QLabel("Welcome To April Music Player")
         title.setStyleSheet("""
@@ -181,7 +194,7 @@ class ProgramActivationDialog(QDialog):
         right_layout.addWidget(title)
 
         # Introduction text
-        introduction_label = QLabel(INTRODUCTION)
+        introduction_label = QLabel(INTRODUCTION_ENG)
         introduction_label.setWordWrap(True)
         introduction_label.setStyleSheet("font-size: 14px; line-height: 1.5;")
         right_layout.addWidget(introduction_label)
@@ -198,7 +211,7 @@ class ProgramActivationDialog(QDialog):
 
         instruction_layout = QHBoxLayout()
 
-        instruction_label = QLabel(INSTRUCTION)
+        instruction_label = QLabel(INSTRUCTION_ENG)
         instruction_label.setWordWrap(True)
         instruction_label.setStyleSheet("""
             font-size: 14px; 
@@ -220,7 +233,8 @@ class ProgramActivationDialog(QDialog):
         right_layout.addLayout(instruction_layout)
 
         # Secret Code - Combined Label with Copy Button
-        secret_code = "v$9#lc@m"
+        self.secret_code = self.ej.get_secret_key()
+
         secret_code_frame = QFrame()
         secret_code_frame.setStyleSheet("""
                   background-color: rgba(45, 45, 50, 0.8);
@@ -230,11 +244,11 @@ class ProgramActivationDialog(QDialog):
               """)
         secret_code_layout = QHBoxLayout(secret_code_frame)
 
-        # Combined label for "Secret Code: value"
-        secret_code_combined = QLabel(
-            f"Secret Code: <span style='font-family: monospace; color: #FFF;'>{secret_code}</span>")
-        secret_code_combined.setStyleSheet("font-weight: bold; color: #D62C1A;")
-        secret_code_combined.setTextFormat(Qt.TextFormat.RichText)
+        self.secret_code_combined = QLabel()
+        self.secret_code_combined.setStyleSheet("font-weight: bold; color: #D62C1A;")
+        self.secret_code_combined.setTextFormat(Qt.TextFormat.RichText)
+
+        self.update_secret_code()
 
         # Copy Button with improved feedback
         self.copy_button = QPushButton("Copy")
@@ -273,7 +287,7 @@ class ProgramActivationDialog(QDialog):
         telegram_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         telegram_btn.clicked.connect(lambda: webbrowser.open("https://t.me/adamd178"))
 
-        secret_code_layout.addWidget(secret_code_combined)
+        secret_code_layout.addWidget(self.secret_code_combined)
         secret_code_layout.addWidget(self.copy_button)
         secret_code_layout.addStretch()
         secret_code_layout.addWidget(telegram_btn)
@@ -346,10 +360,25 @@ class ProgramActivationDialog(QDialog):
 
         main_layout.addWidget(right_frame)
 
+    def update_secret_code(self):
+        # Combined label for "Secret Code: value"
+        label = f"Secret Code: <span style='font-family: monospace; color: #FFF;'>{self.secret_code}</span>"
+        self.secret_code_combined.setText(label)
+
+    def set_payment_type(self):
+        checked_id = self.plan_group.checkedId()
+        self.ej.printOrange(checked_id)
+        if checked_id == 1:
+            self.ej.set_payment_type("onetime")
+        else:
+            self.ej.set_payment_type("installment")
+
+        self.secret_code = self.ej.get_secret_key()
+        self.update_secret_code()
+
     def copy_secret_code(self):
-        secret_code = "v$9#lc@m"  # Or get it from your variable/constant
         clipboard = QApplication.clipboard()
-        clipboard.setText(secret_code)
+        clipboard.setText(self.secret_code)
 
         # Visual feedback
         self.copy_button.setText("Copied!")
@@ -388,13 +417,18 @@ class ProgramActivationDialog(QDialog):
         if entered_code:
             self.status_label.setText("Verifying activation code...")
             self.status_label.setStyleSheet("color: #D62C1A; font-style: italic;")
-            QTimer.singleShot(2000, lambda: self.verify_code(entered_code))
+            self.verify_code(entered_code)
 
     def verify_code(self, code):
-        if code == "j#0l#BgX31cPO3#^":
+        self.ej.printYellow(f"inside verify code: {code}")
+        if code == self.ej.get_passcode():
             self.status_label.setText("✓ Activation Successful!")
             self.status_label.setStyleSheet("color: #4CAF50; font-weight: bold;")
+            self.ej.reset_activation_codes()
+            if self.ej.check_payment_installment_type():
+                self.ej.reduce_number_of_months_left_to_pay()
             self.successful_status = True
+            QTimer.singleShot(2000, lambda: self.close())
         else:
             self.status_label.setText("✗ Invalid Activation Code")
             self.status_label.setStyleSheet("color: #F44336; font-weight: bold;")
@@ -420,7 +454,6 @@ class ProgramActivationDialog(QDialog):
     def show_ui(self) -> bool:
         self.exec()
         return self.successful_status
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

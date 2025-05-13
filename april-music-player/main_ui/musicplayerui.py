@@ -1316,7 +1316,7 @@ class MusicPlayerUI(QMainWindow):
         self.volume_control = self.music_player.player.get_volume_control()
 
         # Duration label - minimal styling
-        self.duration_label = QLabel("00:00 / 00:00")
+        self.duration_label = QLabel("00:00/00:00")
         self.duration_label.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignBottom)
         self.duration_label.setStyleSheet("font-size: 11px")
 
@@ -1426,17 +1426,17 @@ class MusicPlayerUI(QMainWindow):
             elif search_text == "load background":
                 self.songTableWidget.setup_backgroundimage_logo()
 
-            elif search_text == "detach":
-                self.detachMediaWidget()
+            # elif search_text == "detach":
+            #     self.detachMediaWidget()
+            #
+            # elif search_text == "float":
+            #     self.floatMediaWidget()
+            #
+            # elif search_text == "attach":
+            #     self.attachMediaWidget()
 
-            elif search_text == "float":
-                self.floatMediaWidget()
-
-            elif search_text == "attach":
-                self.attachMediaWidget()
-
-            elif search_text == "crash":
-                raise ValueError("This is a ValueError for testing purposes.")
+            # elif search_text == "crash":
+            #     raise ValueError("This is a ValueError for testing purposes.")
 
             else:
                 found_at_least_one = False  # Flag to track if at least one match is found

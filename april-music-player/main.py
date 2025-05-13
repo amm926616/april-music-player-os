@@ -6,8 +6,6 @@ import signal
 from PyQt6.QtWidgets import QApplication, QMessageBox
 from PyQt6.QtCore import QSharedMemory
 from PyQt6.QtNetwork import QLocalServer, QLocalSocket
-from program_activation.program_activation_dialog import ProgramActivationDialog
-from check_subscription_time import CheckSubscriptionTime
 from main_ui.musicplayerui import MusicPlayerUI
 from _utils.easy_json import EasyJson
 
