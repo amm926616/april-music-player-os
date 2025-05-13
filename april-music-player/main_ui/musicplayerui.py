@@ -123,6 +123,7 @@ class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
         super().__init__()
+        self.time_slider = None
         self.media_control_layout = None
         self.main_media_horizontal_layout = None
         self.volume_control = None
@@ -185,9 +186,6 @@ class MusicPlayerUI(QMainWindow):
         self.track_display = None
         self.song_details = None
         self.image_display = None
-        self.time_slider = QSlider(Qt.Orientation.Horizontal, self)
-        self.time_slider.mousePressEvent = self.slider_mousePressEvent
-
         self.prev_button = None
         self.click_count = 0
         self.forward_button = None
@@ -1345,17 +1343,7 @@ class MusicPlayerUI(QMainWindow):
 
         # Slider with minimal styling
         self.time_slider = QSlider(Qt.Orientation.Horizontal)
-        self.time_slider.setStyleSheet("""
-        #     QSlider::groove:horizontal {
-        #         background: #ddd;
-        #     }
-        #     QSlider::handle:horizontal {
-        #         background: #aa051d;
-        #         width: 10px;
-        #         margin: -4px 0;
-        #         border-radius: 5px;
-        #     }
-        # """)
+
         self.time_slider.keyPressEvent = self.slider_key_event
         self.time_slider.setRange(0, self.music_player.get_duration() or 100)
         self.time_slider.setValue(0)

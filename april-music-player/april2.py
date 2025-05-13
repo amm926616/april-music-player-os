@@ -6,14 +6,15 @@ import signal
 from PyQt6.QtWidgets import QApplication, QMessageBox
 from PyQt6.QtCore import QSharedMemory
 from PyQt6.QtNetwork import QLocalServer, QLocalSocket
-from program_activation.program_activation_dialog import ProgramActivationDialog
-from check_subscription_time import CheckSubscriptionTime
 from main_ui.musicplayerui import MusicPlayerUI
+from program_activation.program_activation_dialog import ProgramActivationDialog
 from _utils.easy_json import EasyJson
-
+from check_subscription_time import CheckSubscriptionTime
+import time
 
 APP_KEY = 'AprilMusicPlayer'
 SERVER_NAME = 'MusicPlayerServer'
+
 
 class SingleInstanceApp:
     _instance = None
@@ -24,7 +25,6 @@ class SingleInstanceApp:
             cls._instance.shared_memory = QSharedMemory(APP_KEY)
             cls._instance.server = None
             cls._instance.ej = EasyJson()
-            cls._instance.ej.set_home_script_path(os.path.dirname(os.path.abspath(__file__)))
         return cls._instance
 
     def is_another_instance_running(self):
@@ -131,8 +131,29 @@ class SingleInstanceApp:
         """Run the main application."""
         app, ui = self.setup_app()
 
-        ui.createUI()
-        ui.songTableWidget.setFocus()
+        subscription_datetime = CheckSubscriptionTime()
+        if subscription_datetime.has_expired():
+            # Show Activation widget if expired is True
+            activation_dialog = ProgramActivationDialog(ui)  # Assuming Activation is a dialog
+            return_code = activation_dialog.show_ui()
+            if return_code == 1:  # Block the main window until this is closed
+                subscription_datetime.set_subscription_status_and_time(30)
+                ui.songTableWidget.setup_backgroundimage_logo()
+                ui.songTableWidget.setFocus()
+            elif return_code == 2:
+                subscription_datetime.set_subscription_status_and_time(5)
+                print("set up the evaluation")
+                ui.songTableWidget.setup_backgroundimage_logo()
+                ui.songTableWidget.setFocus()
+        else:
+            # Measure time for UI initialization
+            start_time = time.time()  # Start time
+            ui.createUI()  # Create the UI
+            end_time = time.time()  # End time
+            print(f"UI initialization took: {end_time - start_time:.4f} seconds")
+
+            ui.songTableWidget.setup_backgroundimage_logo()
+            ui.songTableWidget.setFocus()
 
         # Run the application
         exit_code = app.exec()
@@ -181,4 +202,3 @@ if __name__ == "__main__":
         sys.exit(1)  # Exit the new instance
     else:
         instance_app.run()
-

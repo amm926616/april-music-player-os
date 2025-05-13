@@ -5,9 +5,6 @@ from music_player.donut_volume_controller import DonutVolumeControl
 from _utils.easy_json import EasyJson
 from _utils.colors import printRed
 
-def handle_buffer_status(percent_filled):
-    print(f"Buffer status: {percent_filled}%")
-
 
 class MusicPlayerWorker(QObject):
     play_requested = pyqtSignal()
@@ -32,9 +29,6 @@ class MusicPlayerWorker(QObject):
 
         self.player.setAudioOutput(self.audio_output)
 
-        # Connect the buffer status signal to a custom method
-        self.player.bufferProgressChanged.connect(handle_buffer_status)
-
         # Connect the mediaStatusChanged signal to a slot
         self.player.mediaStatusChanged.connect(handle_media_status_changed)
         self.mediaStatusChanged = self.player.mediaStatusChanged
@@ -53,13 +47,13 @@ class MusicPlayerWorker(QObject):
 
     def set_volume(self, volume_level: float):
         """Set the audio volume. Accepts a float between 0.0 (mute) and 1.0 (full volume)."""
+        self.audio_output.setVolume(volume_level)
         self.ej.edit_value("volume", volume_level)
         printRed(f"Set volume to {volume_level}%")
         printRed(f"{self.ej.get_value("volume")}, this is the current volume level")
-        self.audio_output.setVolume(volume_level)
 
     def play(self):
-        # self.started.emit()  # Emit a signal when the player starts, if needed
+        self.started.emit()  # Emit a signal when the player starts, if needed
         self.player.play()
 
     def pause(self):
