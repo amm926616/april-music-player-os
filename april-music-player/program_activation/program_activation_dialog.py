@@ -427,6 +427,9 @@ class ProgramActivationDialog(QDialog):
             self.ej.reset_activation_codes()
             if self.ej.check_payment_installment_type():
                 self.ej.reduce_number_of_months_left_to_pay()
+            else:
+                self.ej.edit_value("fully_owned", True)
+                self.ej.save_json()
             self.successful_status = True
             QTimer.singleShot(2000, lambda: self.close())
         else:

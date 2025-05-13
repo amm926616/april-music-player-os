@@ -137,12 +137,16 @@ class EasyJson:
         number_of_months_left_to_pay = self.get_value("numbers_of_months_left_to_pay")
         self.printRed(f"{number_of_months_left_to_pay} months left to pay")
         if number_of_months_left_to_pay <= 0:
-            self.edit_value("active_subscription", True)
+            self.edit_value("fully_owned", True)
             self.save_json()
             return "already paid fully"
         else:
             updated_months = number_of_months_left_to_pay - 1
             self.edit_value("numbers_of_months_left_to_pay", updated_months)
+
+            if updated_months == 0:
+                self.edit_value("fully_owned", True)
+                self.save_json()
 
             self.printYellow(f"{updated_months} months left to pay")
 
