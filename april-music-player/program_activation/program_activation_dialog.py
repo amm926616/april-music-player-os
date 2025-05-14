@@ -2,7 +2,7 @@ import os
 import sys
 import webbrowser
 
-from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtCore import Qt, QTimer, QSize
 from PyQt6.QtGui import QPixmap, QFont, QPalette, QColor, QIcon
 from PyQt6.QtWidgets import (
     QDialog, QApplication, QLabel, QPushButton,
@@ -26,9 +26,13 @@ class ProgramActivationDialog(QDialog):
         self.script_path = self.ej.ej_path
         self.icon_dir = os.path.join(self.script_path, 'activation_icons')
         self.successful_status = False
-
+        
+        # Initialize scaling factors
+        self.scale_factor = 1.0
+        self.font_scale_factor = 1.0
+        self.init_ui_scaling()
+        
         self.setWindowTitle("April Music Player Activation")
-        self.set_screen_ratio()
 
         # Set sophisticated dark background
         self.setAutoFillBackground(True)
@@ -38,36 +42,36 @@ class ProgramActivationDialog(QDialog):
 
         # Main layout
         main_layout = QHBoxLayout(self)
-        main_layout.setContentsMargins(20, 20, 20, 20)
-        main_layout.setSpacing(20)
+        main_layout.setContentsMargins(self.scale(20), self.scale(20), self.scale(20), self.scale(20))
+        main_layout.setSpacing(self.scale(20))
 
         # === Left Side: QR Codes and Payment Plans ===
         left_frame = QFrame()
         left_frame.setFrameShape(QFrame.Shape.StyledPanel)
-        left_frame.setStyleSheet("""
-            QFrame {
+        left_frame.setStyleSheet(f"""
+            QFrame {{
                 background-color: rgba(35, 35, 40, 0.9);
-                border-radius: 12px;
-                border: 1px solid #333;
-            }
+                border-radius: {self.scale(12)}px;
+                border: {self.scale(1)}px solid #333;
+            }}
         """)
 
         left_layout = QVBoxLayout(left_frame)
-        left_layout.setContentsMargins(15, 15, 15, 15)
-        left_layout.setSpacing(15)
+        left_layout.setContentsMargins(self.scale(15), self.scale(15), self.scale(15), self.scale(15))
+        left_layout.setSpacing(self.scale(15))
 
         # Payment Plan Selection
         plan_frame = QFrame()
-        plan_frame.setStyleSheet("""
-            QFrame {
+        plan_frame.setStyleSheet(f"""
+            QFrame {{
                 background-color: rgba(45, 45, 50, 0.8);
-                border-radius: 8px;
-                padding: 10px;
-            }
-            QLabel {
+                border-radius: {self.scale(8)}px;
+                padding: {self.scale(10)}px;
+            }}
+            QLabel {{
                 color: #EEE;
                 font-weight: bold;
-            }
+            }}
         """)
 
         if not self.fresh_activation:
@@ -80,31 +84,40 @@ class ProgramActivationDialog(QDialog):
         # KBZPay Section
         kbz_label = QLabel("KBZPay")
         kbz_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        kbz_label.setStyleSheet("""
+        kbz_label.setStyleSheet(f"""
             font-weight: bold; 
-            font-size: 16px; 
+            font-size: {self.scale_font(16)}px; 
             color: #D62C1A;
-            padding-bottom: 5px;
+            padding-bottom: {self.scale(5)}px;
         """)
 
         kbz_qr = QLabel()
-        kbz_pixmap = QPixmap(os.path.join(self.icon_dir, "kpay.png")).scaled(250, 250, Qt.AspectRatioMode.KeepAspectRatio)
+        kbz_pixmap = QPixmap(os.path.join(self.icon_dir, "kpay.png"))
+        kbz_pixmap = kbz_pixmap.scaled(
+            self.scale(200), self.scale(200), 
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
+        )
         kbz_qr.setPixmap(kbz_pixmap)
         kbz_qr.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # WavePay Section
         wave_label = QLabel("WavePay")
         wave_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        wave_label.setStyleSheet("""
+        wave_label.setStyleSheet(f"""
             font-weight: bold; 
-            font-size: 16px; 
+            font-size: {self.scale_font(16)}px; 
             color: #D62C1A;
-            padding-bottom: 5px;
+            padding-bottom: {self.scale(5)}px;
         """)
 
         wave_qr = QLabel()
-        wave_pixmap = QPixmap(os.path.join(self.icon_dir, "wavepay.png")).scaled(250, 250,
-                                                                               Qt.AspectRatioMode.KeepAspectRatio)
+        wave_pixmap = QPixmap(os.path.join(self.icon_dir, "wavepay.png"))
+        wave_pixmap = wave_pixmap.scaled(
+            self.scale(200), self.scale(200), 
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
+        )
         wave_qr.setPixmap(wave_pixmap)
         wave_qr.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -120,54 +133,55 @@ class ProgramActivationDialog(QDialog):
         # === Right Side: Activation Info ===
         right_frame = QFrame()
         right_frame.setFrameShape(QFrame.Shape.StyledPanel)
-        right_frame.setStyleSheet("""
-            QFrame {
+        right_frame.setStyleSheet(f"""
+            QFrame {{
                 background-color: rgba(35, 35, 40, 0.9);
-                border-radius: 12px;
-                border: 1px solid #333;
-            }
-            QLabel {
+                border-radius: {self.scale(12)}px;
+                border: {self.scale(1)}px solid #333;
+            }}
+            QLabel {{
                 color: #EEE;
-            }
-            QLineEdit {
+            }}
+            QLineEdit {{
                 background-color: rgba(255, 255, 255, 0.95);
-                border: 1px solid #555;
-                border-radius: 5px;
-                padding: 8px;
+                border: {self.scale(1)}px solid #555;
+                border-radius: {self.scale(5)}px;
+                padding: {self.scale(8)}px;
                 color: #333;
-            }
+            }}
         """)
 
         right_layout = QVBoxLayout(right_frame)
-        right_layout.setContentsMargins(20, 20, 20, 20)
-        right_layout.setSpacing(15)
+        right_layout.setContentsMargins(
+            self.scale(20), self.scale(20), self.scale(20), self.scale(20)
+        )
+        right_layout.setSpacing(self.scale(15))
 
-        ### this block
         # Title
         main_title_layout = QHBoxLayout()
         title = QLabel("Monthly Reactivation" if not self.fresh_activation else "Welcome to April Music Player")
-        title.setStyleSheet("""
-            font-size: 24px; 
+        title.setStyleSheet(f"""
+            font-size: {self.scale_font(24)}px; 
             font-weight: bold; 
             color: #D62C1A;
-            padding-bottom: 10px;
+            padding-bottom: {self.scale(10)}px;
         """)
         main_title_layout.addWidget(title)
 
-        # Language toggle button (add this near the top of your UI setup)
+        # Language toggle button
         self.lang_button = QPushButton("BUR - မြန်မာ")
-        self.lang_button.setStyleSheet("""
-            QPushButton {
+        self.lang_button.setStyleSheet(f"""
+            QPushButton {{
                 background-color: #444;
                 color: #EEE;
-                border-radius: 5px;
-                padding: 4px 10px;
-                font-size: 12px;
-                min-width: 80px;
-            }
-            QPushButton:hover {
+                border-radius: {self.scale(5)}px;
+                padding: {self.scale(4)}px {self.scale(10)}px;
+                font-size: {self.scale_font(12)}px;
+                min-width: {self.scale(80)}px;
+            }}
+            QPushButton:hover {{
                 background-color: #555;
-            }
+            }}
         """)
         self.lang_button.clicked.connect(self.toggle_language)
 
@@ -178,16 +192,19 @@ class ProgramActivationDialog(QDialog):
         # Introduction text
         self.introduction_label = QLabel(FRIENDLY_MONTHLY_PAY_REMINDER_ENG if not self.fresh_activation else INTRODUCTION_ENG)
         self.introduction_label.setWordWrap(True)
-        self.introduction_label.setStyleSheet("font-size: 14px; line-height: 1.5;")
+        self.introduction_label.setStyleSheet(f"""
+            font-size: {self.scale_font(14)}px; 
+            line-height: 1.5;
+        """)
         right_layout.addWidget(self.introduction_label)
 
         # Instructions
         instruction_title = QLabel("Instructions")
-        instruction_title.setStyleSheet("""
-            font-size: 20px; 
+        instruction_title.setStyleSheet(f"""
+            font-size: {self.scale_font(20)}px; 
             font-weight: bold; 
             color: #D62C1A;
-            padding-top: 10px;
+            padding-top: {self.scale(10)}px;
         """)
         right_layout.addWidget(instruction_title)
 
@@ -195,18 +212,22 @@ class ProgramActivationDialog(QDialog):
 
         self.instruction_label = QLabel(INSTRUCTION_ENG)
         self.instruction_label.setWordWrap(True)
-        self.instruction_label.setStyleSheet("""
-            font-size: 14px; 
+        self.instruction_label.setStyleSheet(f"""
+            font-size: {self.scale_font(14)}px; 
             background-color: rgba(45, 45, 50, 0.8);
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 3px solid #D62C1A;
+            padding: {self.scale(12)}px;
+            border-radius: {self.scale(8)}px;
+            border-left: {self.scale(3)}px solid #D62C1A;
         """)
         instruction_layout.addWidget(self.instruction_label)
 
         telegram_qr = QLabel()
-        telegram_qr_pixmap = QPixmap(os.path.join(self.icon_dir, "april_qr_code.jpg")).scaled(320, 320,
-                                                                                            Qt.AspectRatioMode.KeepAspectRatio)
+        telegram_qr_pixmap = QPixmap(os.path.join(self.icon_dir, "april_qr_code.jpg"))
+        telegram_qr_pixmap = telegram_qr_pixmap.scaled(
+            self.scale(250), self.scale(250), 
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation
+        )
         telegram_qr.setPixmap(telegram_qr_pixmap)
         telegram_qr.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -218,16 +239,20 @@ class ProgramActivationDialog(QDialog):
         self.secret_code = self.ej.get_secret_key()
 
         secret_code_frame = QFrame()
-        secret_code_frame.setStyleSheet("""
-                  background-color: rgba(45, 45, 50, 0.8);
-                  border-radius: 8px;
-                  padding: 10px;
-                  border: 1px dashed #555;
-              """)
+        secret_code_frame.setStyleSheet(f"""
+            background-color: rgba(45, 45, 50, 0.8);
+            border-radius: {self.scale(8)}px;
+            padding: {self.scale(10)}px;
+            border: {self.scale(1)}px dashed #555;
+        """)
         secret_code_layout = QHBoxLayout(secret_code_frame)
 
         self.secret_code_combined = QLabel()
-        self.secret_code_combined.setStyleSheet("font-weight: bold; color: #D62C1A;")
+        self.secret_code_combined.setStyleSheet(f"""
+            font-weight: bold; 
+            color: #D62C1A;
+            font-size: {self.scale_font(14)}px;
+        """)
         self.secret_code_combined.setTextFormat(Qt.TextFormat.RichText)
 
         self.update_secret_code()
@@ -235,36 +260,36 @@ class ProgramActivationDialog(QDialog):
         # Copy Button with improved feedback
         self.copy_button = QPushButton("Copy")
         self.copy_button.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.copy_button.setStyleSheet("""
-                  QPushButton {
-                      background-color: #444;
-                      color: #EEE;
-                      border-radius: 5px;
-                      padding: 4px 10px;
-                      font-size: 12px;
-                      min-width: 60px;
-                  }
-                  QPushButton:hover {
-                      background-color: #555;
-                  }
-              """)
+        self.copy_button.setStyleSheet(f"""
+            QPushButton {{
+                background-color: #444;
+                color: #EEE;
+                border-radius: {self.scale(5)}px;
+                padding: {self.scale(4)}px {self.scale(10)}px;
+                font-size: {self.scale_font(12)}px;
+                min-width: {self.scale(60)}px;
+            }}
+            QPushButton:hover {{
+                background-color: #555;
+            }}
+        """)
         self.copy_button.clicked.connect(self.copy_secret_code)
 
         # Telegram link
         telegram_btn = QPushButton("Contact Developer: @Adamd178")
-        telegram_btn.setStyleSheet("""
-            QPushButton {
+        telegram_btn.setStyleSheet(f"""
+            QPushButton {{
                 background-color: transparent;
                 color: #1DA1F2;
                 text-align: left;
-                padding: 8px;
+                padding: {self.scale(8)}px;
                 border: none;
-                font-size: 14px;
-            }
-            QPushButton:hover {
+                font-size: {self.scale_font(14)}px;
+            }}
+            QPushButton:hover {{
                 color: #0d8bd9;
                 text-decoration: underline;
-            }
+            }}
         """)
         telegram_btn.setCursor(Qt.CursorShape.PointingHandCursor)
         telegram_btn.clicked.connect(lambda: webbrowser.open("https://t.me/adamd178"))
@@ -278,48 +303,45 @@ class ProgramActivationDialog(QDialog):
 
         # Activation Section
         activation_frame = QFrame()
-        activation_frame.setStyleSheet("""
-            background-color: rgba(45, 45, 50, 0.8);
-            border-radius: 10px;
-            padding: 15px;
+        activation_frame.setStyleSheet(f"""
+            QFrame {{
+                background-color: #2D2D30;
+                border: {self.scale(1)}px solid #444;
+                border-radius: {self.scale(8)}px;
+                padding: {self.scale(15)}px;
+            }}
+            QLineEdit {{
+                background-color: #1E1E20;
+                border: {self.scale(1)}px solid #555;
+                border-radius: {self.scale(5)}px;
+                padding: {self.scale(8)}px;
+                color: #EEE;
+                font-size: {self.scale_font(14)}px;
+            }}
+            QPushButton {{
+                background-color: #D62C1A;
+                color: white;
+                font-weight: bold;
+                border-radius: {self.scale(5)}px;
+                padding: {self.scale(8)}px {self.scale(16)}px;
+                font-size: {self.scale_font(14)}px;
+            }}
+            QPushButton:hover {{
+                background-color: #E04130;
+            }}
+            QPushButton:pressed {{
+                background-color: #C21807;
+            }}
         """)
         activation_layout = QVBoxLayout(activation_frame)
 
         code_input_layout = QHBoxLayout()
         self.code_input = QLineEdit()
         self.code_input.setPlaceholderText("Enter activation code here...")
-        self.code_input.setMinimumHeight(40)
+        self.code_input.setMinimumHeight(self.scale(40))
         activate_button = QPushButton("ACTIVATE")
-        activate_button.setMinimumSize(100, 40)
-        activation_frame.setStyleSheet("""
-            QFrame {
-                background-color: #2D2D30;
-                border: 1px solid #444;
-                border-radius: 8px;
-                padding: 15px;
-            }
-            QLineEdit {
-                background-color: #1E1E20;
-                border: 1px solid #555;
-                border-radius: 5px;
-                padding: 8px;
-                color: #EEE;
-                font-size: 14px;
-            }
-            QPushButton {
-                background-color: #D62C1A;
-                color: white;
-                font-weight: bold;
-                border-radius: 5px;
-                padding: 8px 16px;
-            }
-            QPushButton:hover {
-                background-color: #E04130;
-            }
-            QPushButton:pressed {
-                background-color: #C21807;
-            }
-        """)
+        activate_button.setMinimumSize(self.scale(100), self.scale(40))
+        
         self.code_input.returnPressed.connect(self.activate)
         activate_button.clicked.connect(self.activate)
         code_input_layout.addWidget(self.code_input)
@@ -328,10 +350,10 @@ class ProgramActivationDialog(QDialog):
         activation_layout.addLayout(code_input_layout)
 
         self.status_label = QLabel("Activation Status")
-        self.status_label.setStyleSheet("""
-            font-size: 14px;
-            padding: 8px;
-            border-radius: 5px;
+        self.status_label.setStyleSheet(f"""
+            font-size: {self.scale_font(14)}px;
+            padding: {self.scale(8)}px;
+            border-radius: {self.scale(5)}px;
             background-color: rgba(45, 45, 50, 0.7);
         """)
         self.status_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -342,46 +364,85 @@ class ProgramActivationDialog(QDialog):
 
         main_layout.addWidget(right_frame)
 
+    def init_ui_scaling(self):
+        """Initialize scaling factors based on screen resolution"""
+        screen = QApplication.primaryScreen()
+        if screen:
+            # Calculate scaling factor based on screen DPI and resolution
+            dpi = screen.logicalDotsPerInch()
+            base_dpi = 96.0  # Standard DPI
+            
+            # Get screen dimensions
+            screen_size = screen.availableSize()
+            screen_width = screen_size.width()
+            screen_height = screen_size.height()
+            
+            # Calculate scaling factors
+            self.scale_factor = min(screen_width / 1920, screen_height / 1080)  # Based on 1080p reference
+            self.font_scale_factor = dpi / base_dpi * 0.9  # Slightly reduce font scaling
+            
+            # Ensure minimum scaling
+            self.scale_factor = max(0.8, min(self.scale_factor, 1.5))
+            self.font_scale_factor = max(0.9, min(self.font_scale_factor, 1.3))
+    
+    def scale(self, value):
+        """Scale a value based on the screen resolution"""
+        return int(value * self.scale_factor)
+    
+    def scale_font(self, size):
+        """Scale font size based on DPI and screen resolution"""
+        return int(size * self.font_scale_factor)
+
     def create_fresh_start_plan_layout(self, plan_frame):
         plan_layout = QVBoxLayout(plan_frame)
         plan_title = QLabel("Select Payment Plan:")
-        plan_title.setStyleSheet("color: #D62C1A; font-size: 14px;")
+        plan_title.setStyleSheet(f"""
+            color: #D62C1A; 
+            font-size: {self.scale_font(14)}px;
+        """)
         plan_layout.addWidget(plan_title)
+        
         # Radio buttons for payment plans
         self.plan_group = QButtonGroup(self)
         onetime_plan = QRadioButton("One-Time Payment (28,000 MMK)")
-        onetime_plan.setStyleSheet("""
-            QRadioButton {
+        onetime_plan.setStyleSheet(f"""
+            QRadioButton {{
                 color: #EEE;
-                padding: 5px;
-            }
-            QRadioButton::indicator {
-                width: 16px;
-                height: 16px;
-            }
-            QRadioButton::indicator::unchecked {
-                border: 2px solid #888;
-                border-radius: 8px;
-            }
-            QRadioButton::indicator::checked {
-                border: 2px solid #D62C1A;
-                border-radius: 8px;
+                padding: {self.scale(5)}px;
+                font-size: {self.scale_font(12)}px;
+            }}
+            QRadioButton::indicator {{
+                width: {self.scale(16)}px;
+                height: {self.scale(16)}px;
+            }}
+            QRadioButton::indicator::unchecked {{
+                border: {self.scale(2)}px solid #888;
+                border-radius: {self.scale(8)}px;
+            }}
+            QRadioButton::indicator::checked {{
+                border: {self.scale(2)}px solid #D62C1A;
+                border-radius: {self.scale(8)}px;
                 background-color: #D62C1A;
-            }
-            """)
+            }}
+        """)
+        
         monthly_plan = QRadioButton("3-Month Plan (10,000 MMK/month)")
         monthly_plan.setStyleSheet(onetime_plan.styleSheet())
+        
         if self.ej.get_value("payment_method") == "installment":
             monthly_plan.setChecked(True)
             self.ej.edit_value("payment_method", "installment")
         else:
             onetime_plan.setChecked(True)
             self.ej.edit_value("payment_method", "onetime")
+            
         self.plan_group.addButton(onetime_plan, 1)
         self.plan_group.addButton(monthly_plan, 2)
         self.plan_group.buttonClicked.connect(self.set_payment_type)
 
         self.payment_number = QLabel("Payment Number: *******7122")
+        self.payment_number.setStyleSheet(f"font-size: {self.scale_font(12)}px;")
+        
         plan_layout.addWidget(onetime_plan)
         plan_layout.addWidget(monthly_plan)
         plan_layout.addWidget(self.payment_number)
@@ -389,9 +450,11 @@ class ProgramActivationDialog(QDialog):
     def create_monthly_payment_price_layout(self, plan_frame):
         payment_price_layout = QVBoxLayout(plan_frame)
         self.payment_title.setText(MONTHLY_PAYMENT_PRICE_LABEL_ENG)
-        self.payment_title.setStyleSheet("color: #D62C1A; font-size: 14px;")
+        self.payment_title.setStyleSheet(f"""
+            color: #D62C1A; 
+            font-size: {self.scale_font(14)}px;
+        """)
         self.payment_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        payment_price_layout.addWidget(self.payment_title)
         payment_price_layout.addWidget(self.payment_title)
 
     def toggle_language(self):
@@ -402,19 +465,15 @@ class ProgramActivationDialog(QDialog):
 
     def update_ui_text(self):
         """Update all text elements based on current language"""
-
         if not self.fresh_activation:
-            print('it is inside monthly reactivation')
             self.setWindowTitle("April Music Player Reactivation" if self.current_lang == 'ENG'
-                                else "April Music Player Reactivation (မြန်မာ)")
+                              else "April Music Player Reactivation (မြန်မာ)")
             self.introduction_label.setText(FRIENDLY_MONTHLY_PAY_REMINDER[self.current_lang])
-
             self.payment_title.setText(MONTHLY_PAYMENT_PRICE_LABEL[self.current_lang])
         else:
             self.setWindowTitle("Welcome to April Music Player" if self.current_lang == 'ENG'
-                                else "April Music Player သို့ ကြိုဆိုပါသည်")
+                              else "April Music Player သို့ ကြိုဆိုပါသည်")
             self.introduction_label.setText(INTRODUCTION[self.current_lang])
-
             self.payment_number.setText(PAYMENT_NUMBER[self.current_lang])
 
         # Update instructions
@@ -442,7 +501,6 @@ class ProgramActivationDialog(QDialog):
 
     def set_payment_type(self):
         checked_id = self.plan_group.checkedId()
-        self.ej.printOrange(checked_id)
         if checked_id == 1:
             self.ej.set_payment_type("onetime")
         else:
@@ -460,15 +518,15 @@ class ProgramActivationDialog(QDialog):
             self.copy_button.setText("Copied!")
         else:
             self.copy_button.setText("ကူးယူပြီး!")
-        self.copy_button.setStyleSheet("""
-            QPushButton {
+        self.copy_button.setStyleSheet(f"""
+            QPushButton {{
                 background-color: #4CAF50;
                 color: white;
-                border-radius: 5px;
-                padding: 4px 10px;
-                font-size: 12px;
-                min-width: 60px;
-            }
+                border-radius: {self.scale(5)}px;
+                padding: {self.scale(4)}px {self.scale(10)}px;
+                font-size: {self.scale_font(12)}px;
+                min-width: {self.scale(60)}px;
+            }}
         """)
 
         # Reset after 1.5 seconds
@@ -476,36 +534,43 @@ class ProgramActivationDialog(QDialog):
 
     def reset_copy_button(self):
         self.copy_button.setText("Copy")
-        self.copy_button.setStyleSheet("""
-            QPushButton {
+        self.copy_button.setStyleSheet(f"""
+            QPushButton {{
                 background-color: #444;
                 color: #EEE;
-                border-radius: 5px;
-                padding: 4px 10px;
-                font-size: 12px;
-                min-width: 60px;
-            }
-            QPushButton:hover {
+                border-radius: {self.scale(5)}px;
+                padding: {self.scale(4)}px {self.scale(10)}px;
+                font-size: {self.scale_font(12)}px;
+                min-width: {self.scale(60)}px;
+            }}
+            QPushButton:hover {{
                 background-color: #555;
-            }
+            }}
         """)
 
     def activate(self):
         entered_code = self.code_input.text().strip()
         if entered_code:
             self.status_label.setText("Verifying activation code...")
-            self.status_label.setStyleSheet("color: #D62C1A; font-style: italic;")
+            self.status_label.setStyleSheet(f"""
+                color: #D62C1A; 
+                font-style: italic;
+                font-size: {self.scale_font(14)}px;
+            """)
             self.verify_code(entered_code)
 
     def verify_code(self, code):
-        self.ej.printYellow(f"inside verify code: {code}")
         if code == self.ej.get_passcode():
             # Show activation success message first
             if self.current_lang == 'ENG':
                 self.status_label.setText("✓ Activation Successful!")
             else:
                 self.status_label.setText("✓ Activation အောင်မြင်ပါသည်!")
-            self.status_label.setStyleSheet("color: #4CAF50; font-weight: bold;")
+            self.status_label.setStyleSheet(f"""
+                color: #4CAF50; 
+                font-weight: bold;
+                font-size: {self.scale_font(14)}px;
+            """)
 
             # Do the activation tasks right away
             self.ej.reset_activation_codes()
@@ -536,26 +601,12 @@ class ProgramActivationDialog(QDialog):
                 self.status_label.setText("✗ Invalid Activation Code")
             else:
                 self.status_label.setText("✗ Activation Code မှားယွင်းနေပါသည်")
-            self.status_label.setStyleSheet("color: #F44336; font-weight: bold;")
-            self.status_label.setStyleSheet("color: #F44336; font-weight: bold;")
+            self.status_label.setStyleSheet(f"""
+                color: #F44336; 
+                font-weight: bold;
+                font-size: {self.scale_font(14)}px;
+            """)
             self.successful_status = False
-
-    def set_screen_ratio(self):
-        screen = QApplication.primaryScreen()
-        screen_geometry = screen.availableGeometry()
-
-        # Get the screen's width and height
-        screen_width = screen_geometry.width()
-        screen_height = screen_geometry.height()
-
-        # Calculate the maximum possible 5:4 window size that fits on the screen
-        # without exceeding screen bounds
-        max_height = screen_height * 0.9  # e.g., use 80% of screen height
-        max_width = max_height * 1.5  # 5:4 ratio
-
-        # Apply the size
-        self.resize(int(max_width), int(max_height))
-        self.setMinimumSize(600, 480)  # Optional: prevent it from getting too small
 
     def show_ui(self) -> bool:
         self.exec()
@@ -564,7 +615,7 @@ class ProgramActivationDialog(QDialog):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    # Set modern font
+    # Set modern font with dynamic scaling
     font = QFont()
     font.setFamily("Segoe UI")
     font.setPointSize(10)
