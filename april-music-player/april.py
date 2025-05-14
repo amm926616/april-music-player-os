@@ -147,7 +147,6 @@ class SingleInstanceApp:
         return False
 
     def create_activation_dialog_and_continue(self, ui, fresh_activation=None):
-        self.ej.printGreen(f"montly activation is {fresh_activation}")
         activation_dialog = ProgramActivationDialog(ui, fresh_activation)  # Assuming Activation is a dialog
         activation_status = activation_dialog.show_ui()
         if activation_status:  # Block the main window until this is closed
@@ -173,10 +172,11 @@ class SingleInstanceApp:
                     if self.has_expired_montly_usage():
                         self.ej.printYellow("Inside has expired")
                         self.create_activation_dialog_and_continue(ui, False)
+                    else:
+                        self.start_main_ui(ui)
             else: # not activated yet, so, start the activation process
                 self.generate_activation_codes()
                 self.create_activation_dialog_and_continue(ui, True)
-
         else:
             self.start_main_ui(ui)
 

@@ -62,7 +62,7 @@ class CheckSubscriptionTime:
 
     def has_expired(self) -> bool:
         if self.check_status():
-            if not self.ej.get_value("secret_key"):
+            if not self.ej.get_value("activation_keys"):
                 self.prepare_passcodes_for_both_one_time_and_installment()
             return True
         else:
