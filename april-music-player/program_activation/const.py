@@ -1,3 +1,5 @@
+LANGUAGE_LIST = ['ENG - English', 'BUR - မြန်မာ']
+
 INTRODUCTION_ENG = """
 Thank you for installing April Music Player. April is more than just a music player - it's your language learning companion. With April, you can download music and lyrics in multiple languages: Korean, Chinese, Japanese, English, and more. April focuses on helping you digest lyrics, allowing you to learn languages while enjoying your favorite songs through its interactive lyrics display.
 """
@@ -29,3 +31,13 @@ INSTRUCTION_MM = """
 
 နောက်ထပ်မွမ်းမံမှုအားလုံးကို တစ်သက်လုံးအခမဲ့ရရှိမည်။ April ကိုရွေးချယ်တဲ့အတွက် ကျေးဇူးတင်ပါတယ်၊ ဘာသာစကားသင်ယူရေးခရီးတွင် အောင်မြင်ပါစေလို့ ဆုတောင်းပေးပါတယ်!
 """
+
+INTRODUCTION = {
+    'ENG': INTRODUCTION_ENG,
+    'BUR': INTRODUCTION_MM
+}
+
+INSTRUCTION = {
+    'ENG': INSTRUCTION_ENG,
+    'BUR': INSTRUCTION_MM
+}

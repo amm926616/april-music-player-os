@@ -122,8 +122,8 @@ FROMME = """
         • Special functions to enhance lyric memorization<br><br>
 
         <b>🌐 Learn more:</b> <a href="https://april-landing-react.vercel.app/">Visit our official website</a><br>
-        <b>💡 Suggestions?</b> Contact the developer on Telegram: <a href="https://t.me/Adamd178">@Adamd178</a><br>
-        <b>⭐ Love it?</b> Star us on <a href="https://github.com/amm926616/April-Music-Player">GitHub</a> to support the project!<br><br>
+        <b>💡 Suggestions?</b> Join Our telegram Group: <a href="https://t.me/Adamd178">@Adamd178</a><br>
+        <b>⭐ Love it?</b> We will greatly appreciate if you recommend it to your friends to support the project!<br><br>
 
         <small>Created with ❤️ by Aiden (AD178)</small>
         """

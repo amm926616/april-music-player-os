@@ -16,6 +16,7 @@ from program_activation.const import *
 class ProgramActivationDialog(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.current_lang = 'ENG'
         self.secret_code_combined = None
         self.parent = parent
         self.ej = EasyJson()
@@ -182,8 +183,9 @@ class ProgramActivationDialog(QDialog):
         right_layout.setContentsMargins(20, 20, 20, 20)
         right_layout.setSpacing(15)
 
-        ### thie block
+        ### this block
         # Title
+        main_title_layout = QHBoxLayout()
         title = QLabel("Welcome To April Music Player")
         title.setStyleSheet("""
             font-size: 24px; 
@@ -191,13 +193,34 @@ class ProgramActivationDialog(QDialog):
             color: #D62C1A;
             padding-bottom: 10px;
         """)
-        right_layout.addWidget(title)
+        main_title_layout.addWidget(title)
+
+        # Language toggle button (add this near the top of your UI setup)
+        self.lang_button = QPushButton("BUR - မြန်မာ")
+        self.lang_button.setStyleSheet("""
+            QPushButton {
+                background-color: #444;
+                color: #EEE;
+                border-radius: 5px;
+                padding: 4px 10px;
+                font-size: 12px;
+                min-width: 80px;
+            }
+            QPushButton:hover {
+                background-color: #555;
+            }
+        """)
+        self.lang_button.clicked.connect(self.toggle_language)
+
+        main_title_layout.addStretch()
+        main_title_layout.addWidget(self.lang_button)
+        right_layout.addLayout(main_title_layout)
 
         # Introduction text
-        introduction_label = QLabel(INTRODUCTION_ENG)
-        introduction_label.setWordWrap(True)
-        introduction_label.setStyleSheet("font-size: 14px; line-height: 1.5;")
-        right_layout.addWidget(introduction_label)
+        self.introduction_label = QLabel(INTRODUCTION_ENG)
+        self.introduction_label.setWordWrap(True)
+        self.introduction_label.setStyleSheet("font-size: 14px; line-height: 1.5;")
+        right_layout.addWidget(self.introduction_label)
 
         # Instructions
         instruction_title = QLabel("Instructions")
@@ -211,16 +234,16 @@ class ProgramActivationDialog(QDialog):
 
         instruction_layout = QHBoxLayout()
 
-        instruction_label = QLabel(INSTRUCTION_ENG)
-        instruction_label.setWordWrap(True)
-        instruction_label.setStyleSheet("""
+        self.instruction_label = QLabel(INSTRUCTION_ENG)
+        self.instruction_label.setWordWrap(True)
+        self.instruction_label.setStyleSheet("""
             font-size: 14px; 
             background-color: rgba(45, 45, 50, 0.8);
             padding: 12px;
             border-radius: 8px;
             border-left: 3px solid #D62C1A;
         """)
-        instruction_layout.addWidget(instruction_label)
+        instruction_layout.addWidget(self.instruction_label)
 
         telegram_qr = QLabel()
         telegram_qr_pixmap = QPixmap(os.path.join(self.icon_dir, "april_qr_code.png")).scaled(250, 250,
@@ -360,6 +383,36 @@ class ProgramActivationDialog(QDialog):
 
         main_layout.addWidget(right_frame)
 
+    def toggle_language(self):
+        """Switch between English and Burmese languages"""
+        self.current_lang = 'BUR' if self.current_lang == 'ENG' else 'ENG'
+        self.lang_button.setText(LANGUAGE_LIST[0] if self.current_lang == 'BUR' else LANGUAGE_LIST[1])
+        self.update_ui_text()
+
+    def update_ui_text(self):
+        """Update all text elements based on current language"""
+        # Update introduction
+        self.introduction_label.setText(INTRODUCTION[self.current_lang])
+
+        # Update instructions
+        self.instruction_label.setText(INSTRUCTION[self.current_lang])
+
+        # Update payment plan text
+        if self.current_lang == 'ENG':
+            self.plan_group.button(1).setText("One-Time Payment (15,000 MMK)")
+            self.plan_group.button(2).setText("3-Month Plan (6,000 MMK/month)")
+            self.code_input.setPlaceholderText("Enter activation code here...")
+            self.status_label.setText("Activation Status")
+        else:
+            self.plan_group.button(1).setText("တစ်ကြိမ်တည်းပေးချေမှု (၁၅,၀၀၀ ကျပ်)")
+            self.plan_group.button(2).setText("၃ လအရစ်ကျပေးချေမှု (တစ်လလျှင် ၆,၀၀၀ ကျပ်)")
+            self.code_input.setPlaceholderText("activation code ထည့်ပါ...")
+            self.status_label.setText("Activation အခြေအနေ")
+
+        # Update window title
+        self.setWindowTitle("April Music Player Activation" if self.current_lang == 'ENG'
+                            else "April Music Player Activation (မြန်မာ)")
+
     def update_secret_code(self):
         # Combined label for "Secret Code: value"
         label = f"Secret Code: <span style='font-family: monospace; color: #FFF;'>{self.secret_code}</span>"
@@ -380,8 +433,11 @@ class ProgramActivationDialog(QDialog):
         clipboard = QApplication.clipboard()
         clipboard.setText(self.secret_code)
 
-        # Visual feedback
-        self.copy_button.setText("Copied!")
+        # Visual feedback with language support
+        if self.current_lang == 'ENG':
+            self.copy_button.setText("Copied!")
+        else:
+            self.copy_button.setText("ကူးယူပြီး!")
         self.copy_button.setStyleSheet("""
             QPushButton {
                 background-color: #4CAF50;
@@ -422,7 +478,10 @@ class ProgramActivationDialog(QDialog):
     def verify_code(self, code):
         self.ej.printYellow(f"inside verify code: {code}")
         if code == self.ej.get_passcode():
-            self.status_label.setText("✓ Activation Successful!")
+            if self.current_lang == 'ENG':
+                self.status_label.setText("✓ Activation Successful!")
+            else:
+                self.status_label.setText("✓ Activation အောင်မြင်ပါသည်!")
             self.status_label.setStyleSheet("color: #4CAF50; font-weight: bold;")
             self.ej.reset_activation_codes()
             if self.ej.check_payment_installment_type():
@@ -433,7 +492,11 @@ class ProgramActivationDialog(QDialog):
             self.successful_status = True
             QTimer.singleShot(2000, lambda: self.close())
         else:
-            self.status_label.setText("✗ Invalid Activation Code")
+            if self.current_lang == 'ENG':
+                self.status_label.setText("✗ Invalid Activation Code")
+            else:
+                self.status_label.setText("✗ Activation Code မှားယွင်းနေပါသည်")
+            self.status_label.setStyleSheet("color: #F44336; font-weight: bold;")
             self.status_label.setStyleSheet("color: #F44336; font-weight: bold;")
             self.successful_status = False
 

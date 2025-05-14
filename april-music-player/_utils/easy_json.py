@@ -74,11 +74,6 @@ class EasyJson:
                 "last_played_song": {},
                 "lyrics_downloaders": {'lrcdl': True, 'syrics': False},
                 "selected_music_downloader": 'zotify',
-                "payment_method": "onetime", # installment or onetime
-                "numbers_of_months_left_to_pay": 3,
-                "active_subscription": False,
-                "time_to_expire": None,
-                "previous_login_time": None,
                 "running_system": self.check_os(),
                 "config_path": self.april_config_path,
                 "config_file": str(os.path.join(self.get_april_config_path(), "configs", "config.april")),
@@ -87,6 +82,11 @@ class EasyJson:
                 "default_image_folder": self.get_user_default_folder("Pictures"),
                 "volume": 0.8,
                 "activation_keys": {},
+                "payment_method": "onetime",  # installment or onetime
+                "numbers_of_months_left_to_pay": 3,
+                "active_subscription": False,
+                "time_to_expire": None,
+                "previous_login_time": None,
                 "fully_owned": False,
             }
 
