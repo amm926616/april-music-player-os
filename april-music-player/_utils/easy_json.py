@@ -127,7 +127,7 @@ class EasyJson:
             return True
         return False
 
-    def check_payment_installment_type(self) -> bool:
+    def is_payment_installment_type(self) -> bool:
         if self.get_value("payment_method") == "installment":
             return True
         else:

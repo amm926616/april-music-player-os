@@ -3,7 +3,7 @@ import sys
 import webbrowser
 
 from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QPixmap, QFont, QPalette, QColor
+from PyQt6.QtGui import QPixmap, QFont, QPalette, QColor, QIcon
 from PyQt6.QtWidgets import (
     QDialog, QApplication, QLabel, QPushButton,
     QVBoxLayout, QHBoxLayout, QLineEdit, QFrame, QRadioButton, QButtonGroup
@@ -14,18 +14,21 @@ from program_activation.const import *
 
 
 class ProgramActivationDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, fresh_activation=None):
         super().__init__(parent)
+        self.payment_number = None
+        self.setWindowIcon(QIcon(parent.icon_path))
+        self.payment_title = QLabel()
         self.current_lang = 'ENG'
+        self.fresh_activation = fresh_activation
         self.secret_code_combined = None
-        self.parent = parent
         self.ej = EasyJson()
         self.script_path = self.ej.ej_path
         self.icon_dir = os.path.join(self.script_path, 'activation_icons')
         self.successful_status = False
 
         self.setWindowTitle("April Music Player Activation")
-        # self.set_screen_ratio()
+        self.set_screen_ratio()
 
         # Set sophisticated dark background
         self.setAutoFillBackground(True)
@@ -67,55 +70,11 @@ class ProgramActivationDialog(QDialog):
             }
         """)
 
-        ### This block
-        plan_layout = QVBoxLayout(plan_frame)
-
-        plan_title = QLabel("Select Payment Plan:")
-        plan_title.setStyleSheet("color: #D62C1A; font-size: 14px;")
-        plan_layout.addWidget(plan_title)
-
-        # Radio buttons for payment plans
-        self.plan_group = QButtonGroup(self)
-
-        onetime_plan = QRadioButton("One-Time Payment (15,000 MMK)")
-        onetime_plan.setStyleSheet("""
-            QRadioButton {
-                color: #EEE;
-                padding: 5px;
-            }
-            QRadioButton::indicator {
-                width: 16px;
-                height: 16px;
-            }
-            QRadioButton::indicator::unchecked {
-                border: 2px solid #888;
-                border-radius: 8px;
-            }
-            QRadioButton::indicator::checked {
-                border: 2px solid #D62C1A;
-                border-radius: 8px;
-                background-color: #D62C1A;
-            }
-            """)
-
-
-        monthly_plan = QRadioButton("3-Month Plan (6,000 MMK/month)")
-        monthly_plan.setStyleSheet(onetime_plan.styleSheet())
-
-        if self.ej.get_value("payment_method") == "installment":
-            monthly_plan.setChecked(True)
-            self.ej.edit_value("payment_method", "installment")
+        if not self.fresh_activation:
+            self.create_monthly_payment_price_layout(plan_frame)
         else:
-            onetime_plan.setChecked(True)
-            self.ej.edit_value("payment_method", "onetime")
+            self.create_fresh_start_plan_layout(plan_frame)
 
-        self.plan_group.addButton(onetime_plan, 1)
-        self.plan_group.addButton(monthly_plan, 2)
-
-        self.plan_group.buttonClicked.connect(self.set_payment_type)
-
-        plan_layout.addWidget(onetime_plan)
-        plan_layout.addWidget(monthly_plan)
         left_layout.addWidget(plan_frame)
 
         # KBZPay Section
@@ -186,7 +145,7 @@ class ProgramActivationDialog(QDialog):
         ### this block
         # Title
         main_title_layout = QHBoxLayout()
-        title = QLabel("Welcome To April Music Player")
+        title = QLabel("Monthly Reactivation" if not self.fresh_activation else "Welcome to April Music Player")
         title.setStyleSheet("""
             font-size: 24px; 
             font-weight: bold; 
@@ -217,7 +176,7 @@ class ProgramActivationDialog(QDialog):
         right_layout.addLayout(main_title_layout)
 
         # Introduction text
-        self.introduction_label = QLabel(INTRODUCTION_ENG)
+        self.introduction_label = QLabel(FRIENDLY_MONTHLY_PAY_REMINDER_ENG if not self.fresh_activation else INTRODUCTION_ENG)
         self.introduction_label.setWordWrap(True)
         self.introduction_label.setStyleSheet("font-size: 14px; line-height: 1.5;")
         right_layout.addWidget(self.introduction_label)
@@ -246,10 +205,10 @@ class ProgramActivationDialog(QDialog):
         instruction_layout.addWidget(self.instruction_label)
 
         telegram_qr = QLabel()
-        telegram_qr_pixmap = QPixmap(os.path.join(self.icon_dir, "april_qr_code.png")).scaled(250, 250,
+        telegram_qr_pixmap = QPixmap(os.path.join(self.icon_dir, "april_qr_code.jpg")).scaled(320, 320,
                                                                                             Qt.AspectRatioMode.KeepAspectRatio)
         telegram_qr.setPixmap(telegram_qr_pixmap)
-        telegram_qr.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        telegram_qr.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         instruction_layout.addWidget(telegram_qr)
 
@@ -383,6 +342,58 @@ class ProgramActivationDialog(QDialog):
 
         main_layout.addWidget(right_frame)
 
+    def create_fresh_start_plan_layout(self, plan_frame):
+        plan_layout = QVBoxLayout(plan_frame)
+        plan_title = QLabel("Select Payment Plan:")
+        plan_title.setStyleSheet("color: #D62C1A; font-size: 14px;")
+        plan_layout.addWidget(plan_title)
+        # Radio buttons for payment plans
+        self.plan_group = QButtonGroup(self)
+        onetime_plan = QRadioButton("One-Time Payment (28,000 MMK)")
+        onetime_plan.setStyleSheet("""
+            QRadioButton {
+                color: #EEE;
+                padding: 5px;
+            }
+            QRadioButton::indicator {
+                width: 16px;
+                height: 16px;
+            }
+            QRadioButton::indicator::unchecked {
+                border: 2px solid #888;
+                border-radius: 8px;
+            }
+            QRadioButton::indicator::checked {
+                border: 2px solid #D62C1A;
+                border-radius: 8px;
+                background-color: #D62C1A;
+            }
+            """)
+        monthly_plan = QRadioButton("3-Month Plan (10,000 MMK/month)")
+        monthly_plan.setStyleSheet(onetime_plan.styleSheet())
+        if self.ej.get_value("payment_method") == "installment":
+            monthly_plan.setChecked(True)
+            self.ej.edit_value("payment_method", "installment")
+        else:
+            onetime_plan.setChecked(True)
+            self.ej.edit_value("payment_method", "onetime")
+        self.plan_group.addButton(onetime_plan, 1)
+        self.plan_group.addButton(monthly_plan, 2)
+        self.plan_group.buttonClicked.connect(self.set_payment_type)
+
+        self.payment_number = QLabel("Payment Number: *******7122")
+        plan_layout.addWidget(onetime_plan)
+        plan_layout.addWidget(monthly_plan)
+        plan_layout.addWidget(self.payment_number)
+
+    def create_monthly_payment_price_layout(self, plan_frame):
+        payment_price_layout = QVBoxLayout(plan_frame)
+        self.payment_title.setText(MONTHLY_PAYMENT_PRICE_LABEL_ENG)
+        self.payment_title.setStyleSheet("color: #D62C1A; font-size: 14px;")
+        self.payment_title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        payment_price_layout.addWidget(self.payment_title)
+        payment_price_layout.addWidget(self.payment_title)
+
     def toggle_language(self):
         """Switch between English and Burmese languages"""
         self.current_lang = 'BUR' if self.current_lang == 'ENG' else 'ENG'
@@ -391,27 +402,38 @@ class ProgramActivationDialog(QDialog):
 
     def update_ui_text(self):
         """Update all text elements based on current language"""
-        # Update introduction
-        self.introduction_label.setText(INTRODUCTION[self.current_lang])
+
+        if not self.fresh_activation:
+            print('it is inside monthly reactivation')
+            self.setWindowTitle("April Music Player Reactivation" if self.current_lang == 'ENG'
+                                else "April Music Player Reactivation (မြန်မာ)")
+            self.introduction_label.setText(FRIENDLY_MONTHLY_PAY_REMINDER[self.current_lang])
+
+            self.payment_title.setText(MONTHLY_PAYMENT_PRICE_LABEL[self.current_lang])
+        else:
+            self.setWindowTitle("Welcome to April Music Player" if self.current_lang == 'ENG'
+                                else "April Music Player သို့ ကြိုဆိုပါသည်")
+            self.introduction_label.setText(INTRODUCTION[self.current_lang])
+
+            self.payment_number.setText(PAYMENT_NUMBER[self.current_lang])
 
         # Update instructions
         self.instruction_label.setText(INSTRUCTION[self.current_lang])
 
-        # Update payment plan text
-        if self.current_lang == 'ENG':
-            self.plan_group.button(1).setText("One-Time Payment (15,000 MMK)")
-            self.plan_group.button(2).setText("3-Month Plan (6,000 MMK/month)")
-            self.code_input.setPlaceholderText("Enter activation code here...")
-            self.status_label.setText("Activation Status")
+        # Update payment plan text only if it's not a monthly reactivation
+        if not self.fresh_activation:
+            pass
         else:
-            self.plan_group.button(1).setText("တစ်ကြိမ်တည်းပေးချေမှု (၁၅,၀၀၀ ကျပ်)")
-            self.plan_group.button(2).setText("၃ လအရစ်ကျပေးချေမှု (တစ်လလျှင် ၆,၀၀၀ ကျပ်)")
-            self.code_input.setPlaceholderText("activation code ထည့်ပါ...")
-            self.status_label.setText("Activation အခြေအနေ")
-
-        # Update window title
-        self.setWindowTitle("April Music Player Activation" if self.current_lang == 'ENG'
-                            else "April Music Player Activation (မြန်မာ)")
+            if self.current_lang == 'ENG':
+                self.plan_group.button(1).setText("One-Time Payment (28,000 MMK)")
+                self.plan_group.button(2).setText("3-Month Plan (10,000 MMK/month)")
+                self.code_input.setPlaceholderText("Enter activation code here...")
+                self.status_label.setText("Activation Status")
+            else:
+                self.plan_group.button(1).setText("တစ်ကြိမ်တည်းပေးချေမှု (၂၈,၀၀၀ ကျပ်)")
+                self.plan_group.button(2).setText("၃ လအရစ်ကျပေးချေမှု (တစ်လလျှင် ၁၀,၀၀၀ ကျပ်)")
+                self.code_input.setPlaceholderText("activation code ထည့်ပါ...")
+                self.status_label.setText("Activation အခြေအနေ")
 
     def update_secret_code(self):
         # Combined label for "Secret Code: value"
@@ -478,19 +500,37 @@ class ProgramActivationDialog(QDialog):
     def verify_code(self, code):
         self.ej.printYellow(f"inside verify code: {code}")
         if code == self.ej.get_passcode():
+            # Show activation success message first
             if self.current_lang == 'ENG':
                 self.status_label.setText("✓ Activation Successful!")
             else:
                 self.status_label.setText("✓ Activation အောင်မြင်ပါသည်!")
             self.status_label.setStyleSheet("color: #4CAF50; font-weight: bold;")
+
+            # Do the activation tasks right away
             self.ej.reset_activation_codes()
-            if self.ej.check_payment_installment_type():
+            if self.ej.is_payment_installment_type():
                 self.ej.reduce_number_of_months_left_to_pay()
             else:
                 self.ej.edit_value("fully_owned", True)
                 self.ej.save_json()
             self.successful_status = True
-            QTimer.singleShot(2000, lambda: self.close())
+
+            # Now start the countdown after 1 second
+            countdown_messages = [
+                "Starting April in 3...",
+                "Starting April in 2...",
+                "Starting April in 1...",
+            ]
+
+            def show_countdown(index=0):
+                if index < len(countdown_messages):
+                    self.status_label.setText(countdown_messages[index])
+                    QTimer.singleShot(1000, lambda: show_countdown(index + 1))
+                else:
+                    # After "Go!", close the window
+                    self.close()
+            QTimer.singleShot(1000, lambda: show_countdown())
         else:
             if self.current_lang == 'ENG':
                 self.status_label.setText("✗ Invalid Activation Code")
@@ -510,8 +550,8 @@ class ProgramActivationDialog(QDialog):
 
         # Calculate the maximum possible 5:4 window size that fits on the screen
         # without exceeding screen bounds
-        max_height = screen_height * 0.8  # e.g., use 80% of screen height
-        max_width = max_height * 1.25  # 5:4 ratio
+        max_height = screen_height * 0.9  # e.g., use 80% of screen height
+        max_width = max_height * 1.5  # 5:4 ratio
 
         # Apply the size
         self.resize(int(max_width), int(max_height))

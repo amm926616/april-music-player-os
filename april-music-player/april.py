@@ -141,20 +141,21 @@ class SingleInstanceApp:
         end_time = time.time()  # End time
         print(f"UI initialization took: {end_time - start_time:.4f} seconds")
 
-    def check_monthly_expiration(self) -> bool:
+    def has_expired_montly_usage(self) -> bool:
         if self.subscription_datetime.has_expired():
             return True
         return False
 
-    def create_activation_dialog_and_continue(self, ui):
-        activation_dialog = ProgramActivationDialog(ui)  # Assuming Activation is a dialog
+    def create_activation_dialog_and_continue(self, ui, fresh_activation=None):
+        self.ej.printGreen(f"montly activation is {fresh_activation}")
+        activation_dialog = ProgramActivationDialog(ui, fresh_activation)  # Assuming Activation is a dialog
         activation_status = activation_dialog.show_ui()
         if activation_status:  # Block the main window until this is closed
-            if self.ej.check_payment_installment_type():
+            if self.ej.is_payment_installment_type():
                 self.subscription_datetime.set_subscription_status_and_time(30)
             else:
                 self.ej.edit_value("active_subscription", True)
-            ui.createUI()
+            self.start_main_ui(ui)
         else:
             sys.exit()
 
@@ -168,15 +169,13 @@ class SingleInstanceApp:
 
         if not self.ej.is_fully_owned():
             if self.ej.check_activation_status(): # Where the program is activated
-                if self.ej.check_payment_installment_type():
-                    if self.check_monthly_expiration():
-                        self.create_activation_dialog_and_continue(ui)
-
-                self.start_main_ui(ui)
-
+                if self.ej.is_payment_installment_type():
+                    if self.has_expired_montly_usage():
+                        self.ej.printYellow("Inside has expired")
+                        self.create_activation_dialog_and_continue(ui, False)
             else: # not activated yet, so, start the activation process
                 self.generate_activation_codes()
-                self.create_activation_dialog_and_continue(ui)
+                self.create_activation_dialog_and_continue(ui, True)
 
         else:
             self.start_main_ui(ui)
