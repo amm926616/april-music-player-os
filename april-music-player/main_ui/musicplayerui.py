@@ -1345,6 +1345,7 @@ class MusicPlayerUI(QMainWindow):
         self.time_slider = QSlider(Qt.Orientation.Horizontal)
 
         self.time_slider.keyPressEvent = self.slider_key_event
+        self.time_slider.mousePressEvent = self.slider_mousePressEvent
         self.time_slider.setRange(0, self.music_player.get_duration() or 100)
         self.time_slider.setValue(0)
 
