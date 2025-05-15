@@ -1180,7 +1180,7 @@ class MusicPlayerUI(QMainWindow):
             print("Space key pressed")
             self.play_pause()
 
-    def slider_mousePressEvent(self, event):
+    def slider_mouse_press_event(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
             # Calculate the position relative to the slider length
             slider_length = self.time_slider.width() if self.time_slider.orientation() == Qt.Orientation.Horizontal else self.time_slider.height()
@@ -1192,6 +1192,9 @@ class MusicPlayerUI(QMainWindow):
             self.time_slider.setValue(int(new_value))
             self.music_player.player.setPosition(int(new_value))
             self.last_updated_position = float(new_value)
+
+            if self.music_player.in_pause_state:
+                self.music_player.paused_position = int(new_value)
 
         # Call the original mousePressEvent from the base class to retain dragging functionality
         QSlider.mousePressEvent(self.time_slider, event)
@@ -1345,7 +1348,7 @@ class MusicPlayerUI(QMainWindow):
         self.time_slider = QSlider(Qt.Orientation.Horizontal)
 
         self.time_slider.keyPressEvent = self.slider_key_event
-        self.time_slider.mousePressEvent = self.slider_mousePressEvent
+        self.time_slider.mousePressEvent = self.slider_mouse_press_event
         self.time_slider.setRange(0, self.music_player.get_duration() or 100)
         self.time_slider.setValue(0)
 
