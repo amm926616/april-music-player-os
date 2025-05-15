@@ -34,7 +34,7 @@ from components.playlist_manager import PlaylistDialog
 from components.splitter import ColumnSplitter
 from components.tag_dialog import TagDialog
 from components.zotify_downloader_gui import ZotifyDownloaderGui
-from consts.HTML_LABELS import SHORTCUTS_TRANSLATIONS, PREPARATION_TRANSLATIONS, FROMME_TRANSLATIONS
+from consts.help_menu_consts import SHORTCUTS_TRANSLATIONS, PREPARATION_TRANSLATIONS, FROMME_TRANSLATIONS
 from main_ui.albumtreewidget import AlbumTreeWidget
 from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
 from music_player.musicplayer import MusicPlayer

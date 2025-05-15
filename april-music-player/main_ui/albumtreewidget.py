@@ -7,7 +7,7 @@ import sqlite3
 import os
 from fuzzywuzzy import fuzz
 from components.loadingbar import LoadingBar
-from consts.ALBUMTREEWIDGET import SEARCHBAR_TIP
+from consts.album_tree_widget_consts import SEARCHBAR_TIP
 
 
 def extract_track_number(track_number):
