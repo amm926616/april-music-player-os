@@ -58,6 +58,7 @@ class EasyJson:
             self.home_script_path = None
 
             self.default_values = {
+                "system_language": 'ENG',
                 "english_font": os.path.join(self.ej_path, "fonts", "PositiveForward.otf"),
                 "korean_font": os.path.join(self.ej_path, "fonts", "NotoSerifKR-ExtraBold.ttf"),
                 "japanese_font": os.path.join(self.ej_path, "fonts", "NotoSansJP-Bold.otf"),
@@ -97,6 +98,13 @@ class EasyJson:
             self.data = self.load_json()
             self.initialized = True  # Mark the instance as initialized
             self.icon_path = os.path.join(self.ej_path, "media-icons")
+
+    def change_language(self, language) -> None:
+        """ Use string value to change the following languages.
+        English - [ENG], "Burmese" - [MM], "Korean" - [KOR], "Japanese" - [JAP]
+        """
+        print(f"Switching language to: {language}")
+        self.edit_value("system_language", language)
 
     def is_fully_owned(self) -> bool:
         return self.data["fully_owned"]

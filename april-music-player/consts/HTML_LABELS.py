@@ -240,17 +240,17 @@ FROMME_MM = """
         <small>Created with ❤️ by Aiden (AD178)</small>
         """
 
-SHORTCUTS = {
+SHORTCUTS_TRANSLATIONS = {
     'ENG': SHORTCUTS_ENG,
     'BUR': SHORTCUTS_MM,
 }
 
-PREPARATION = {
+PREPARATION_TRANSLATIONS = {
     'ENG': PREPARATION_ENG,
     'BUR': PREPARATION_MM,
 }
 
-FROMME = {
+FROMME_TRANSLATIONS = {
     'ENG': FROMME_ENG,
     'BUR': FROMME_MM,
 }

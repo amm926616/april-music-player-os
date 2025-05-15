@@ -34,7 +34,7 @@ from components.playlist_manager import PlaylistDialog
 from components.splitter import ColumnSplitter
 from components.tag_dialog import TagDialog
 from components.zotify_downloader_gui import ZotifyDownloaderGui
-from consts.HTML_LABELS import SHORTCUTS, PREPARATION, FROMME
+from consts.HTML_LABELS import SHORTCUTS_TRANSLATIONS, PREPARATION_TRANSLATIONS, FROMME_TRANSLATIONS
 from main_ui.albumtreewidget import AlbumTreeWidget
 from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
 from music_player.musicplayer import MusicPlayer
@@ -134,6 +134,8 @@ class MusicPlayerUI(QMainWindow):
         self.playlist_widget = None
         self.ej = EasyJson()  # ej initializing
         self.ej.ensure_config_file()
+
+        self.system_language = self.ej.get_value("system_language")
 
         self.is_fullscreen = None
 
@@ -236,6 +238,13 @@ class MusicPlayerUI(QMainWindow):
             app=self.app,
             get_path_callback=self.get_music_file_from_click
         )
+
+        self.language_map = {
+            "English": "ENG",
+            "Burmese": "BUR",
+            "Korean": "KOR",
+            "Japanese": "JAP"
+        }
 
         self.createSyncThresholdMenu()
 
@@ -741,12 +750,35 @@ class MusicPlayerUI(QMainWindow):
         lyrics_settings_menu.addAction(add_lrc_background)
         lyrics_settings_menu.addAction(set_default_background)
 
+        # Language settings
+        language_settings_menu = settings_menu.addMenu("&Language")
+
+        # Create an action group for exclusive selection
+        language_group = QActionGroup(self)
+        language_group.setExclusive(True)
+
+        # Add language options with mapping
+        for lang_name, lang_code in self.language_map.items():
+            lang_action = QAction(lang_name, self)
+            lang_action.setCheckable(True)
+            if lang_code == "ENG":
+                lang_action.setChecked(True)  # default language
+            # Pass the code to the function instead of the display name
+            lang_action.triggered.connect(lambda checked, code=lang_code: self.change_language(code))
+            language_group.addAction(lang_action)
+            language_settings_menu.addAction(lang_action)
+
         # Help menu
         help_menu = menubar.addMenu("&Help")
         help_menu.addAction(show_shortcuts_action)
         help_menu.addAction(preparation_tips)
         help_menu.addSeparator()
         help_menu.addAction(fromMe)
+
+    def change_language(self, language_code):
+        print(f"Switching language to: [{language_code}]")
+        self.system_language = language_code
+        self.ej.change_language(self.system_language)
 
     def createSyncThresholdMenu(self):
         self.sync_threshold_menu = QMenu("&Sync Threshold", self)
@@ -848,11 +880,11 @@ class MusicPlayerUI(QMainWindow):
         self.lrcPlayer.update_interval = selected_threshold
 
     def show_fromMe(self):
-        text = FROMME
+        text = FROMME_TRANSLATIONS[self.system_language]
         QMessageBox.information(self, "Thank you for using April", text)
 
     def show_preparation(self):
-        text = PREPARATION
+        text = PREPARATION_TRANSLATIONS[self.system_language]
         QMessageBox.information(self, "Preparation of files", text)
 
     def show_shortcuts(self):
@@ -875,19 +907,19 @@ class MusicPlayerUI(QMainWindow):
         main_layout.addWidget(scroll_area)
 
         # Create a widget to hold the shortcuts text
-        self.content_widget = QTextEdit()
-        self.content_widget.setHtml(SHORTCUTS)
-        self.content_widget.setReadOnly(True)
+        self.shortcuts_widget = QTextEdit()
+        self.shortcuts_widget.setHtml(SHORTCUTS_TRANSLATIONS[self.system_language])
+        self.shortcuts_widget.setReadOnly(True)
 
         # Set text formatting options
-        self.content_widget.setWordWrapMode(QTextOption.WrapMode.WordWrap)
-        self.content_widget.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
+        self.shortcuts_widget.setWordWrapMode(QTextOption.WrapMode.WordWrap)
+        self.shortcuts_widget.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
 
         # Add the widget to the scroll area
-        scroll_area.setWidget(self.content_widget)
+        scroll_area.setWidget(self.shortcuts_widget)
 
         # Store original HTML for search functionality
-        self.original_html = self.content_widget.toHtml()
+        self.original_html = self.shortcuts_widget.toHtml()
 
         # Connect the search bar's textChanged signal
         search_bar.textChanged.connect(self.filter_shortcuts)
@@ -905,7 +937,7 @@ class MusicPlayerUI(QMainWindow):
     def filter_shortcuts(self, text):
         pass
         if not text:
-            self.content_widget.setHtml(self.original_html)
+            self.shortcuts_widget.setHtml(self.original_html)
             return
 
         # Get clean HTML without previous highlights
@@ -934,7 +966,7 @@ class MusicPlayerUI(QMainWindow):
             # Move index past the end of the current match plus the length of the tags we added
             index = text_end + len(start_tag) + len(end_tag)
 
-        self.content_widget.setHtml(highlighted_html)
+        self.shortcuts_widget.setHtml(highlighted_html)
 
     def ask_for_background_image(self):
         # Set default directory based on the operating system
