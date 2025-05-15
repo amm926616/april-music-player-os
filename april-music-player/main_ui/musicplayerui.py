@@ -1679,9 +1679,10 @@ class MusicPlayerUI(QMainWindow):
     def update_player_from_slider(self, position):
         print("update player from slider method called")
         # Set the media player position when the slider is moved
-        self.music_player.player.setPosition(position)
-        print(self.music_player.player.position)
+        if self.music_player.in_pause_state:
+            self.music_player.paused_position = position
 
+        self.music_player.player.setPosition(position)
 
     def get_lrc_file(self):
         music_file_ext = (".ogg", ".mp3", ".wav", ".m4a", ".flac")
