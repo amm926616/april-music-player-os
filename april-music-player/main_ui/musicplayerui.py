@@ -123,6 +123,11 @@ class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
         super().__init__()
+        self.add_new_directory = None
+        self.album_tree_widget = None
+        self.lrc_player = None
+        self.music_player = None
+        self.song_table_widget = None
         self.time_slider = None
         self.media_control_layout = None
         self.main_media_horizontal_layout = None
@@ -232,7 +237,7 @@ class MusicPlayerUI(QMainWindow):
 
         self.lyrics_downloader = LyricsDownloader(
             parent=self,
-            song_table_widget=self.songTableWidget,
+            song_table_widget=self.song_table_widget,
             app=self.app,
             get_path_callback=self.get_music_file_from_click
         )
@@ -243,23 +248,21 @@ class MusicPlayerUI(QMainWindow):
         self.music_player = MusicPlayer(self, self.play_pause_button, self.loop_playlist_button, self.repeat_button,
                                         self.shuffle_button)
 
-        self.lrcPlayer = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
+        self.lrc_player = LRCSync(self, self.music_player, self.config_path, self.on_off_lyrics, self.showMaximized)
 
         # Initialize the table widget
-        self.songTableWidget = SongTableWidget(self, self.handleRowDoubleClick, self.music_player.seek_forward,
-                                               self.music_player.seek_backward, self.play_pause, self.screen_size.height())
+        self.song_table_widget = SongTableWidget(self, self.handle_row_double_click, self.music_player.seek_forward,
+                                                 self.music_player.seek_backward, self.play_pause, self.screen_size.height())
 
-        self.albumTreeWidget = AlbumTreeWidget(self, self.songTableWidget)
+        self.album_tree_widget = AlbumTreeWidget(self, self.song_table_widget)
 
-        self.addnewdirectory = AddNewDirectory(self)
+        self.add_new_directory = AddNewDirectory(self)
 
         print(music_files)
         if music_files:
             for file in music_files:
                 print(file)
-                self.albumTreeWidget.add_song_by_file_path(file)
-
-        # self.simulate_keypress(self.songTableWidget, Qt.Key.Key_7)
+                self.album_tree_widget.add_song_by_file_path(file)
 
     @staticmethod
     def get_metadata(song_file: object):
@@ -382,18 +385,18 @@ class MusicPlayerUI(QMainWindow):
                 self.music_file = file
                 self.saved_position = position
 
-            last_played_item_list = self.songTableWidget.findItems(self.music_file, Qt.MatchFlag.MatchExactly)
+            last_played_item_list = self.song_table_widget.findItems(self.music_file, Qt.MatchFlag.MatchExactly)
 
             if last_played_item_list:
                 print("This is the song from item loaded")
-                self.handleRowDoubleClick(last_played_item_list[0])
+                self.handle_row_double_click(last_played_item_list[0])
 
                 # One-time connection for mediaStatusChanged signal
                 self.music_player.player.mediaStatusChanged.connect(self.on_single_media_loaded)
 
                 # Set the flag to indicate playback started by this method
                 self.is_playing_last_song = True
-                self.simulate_keypress(self.songTableWidget, Qt.Key.Key_G)
+                self.simulate_keypress(self.song_table_widget, Qt.Key.Key_G)
 
             print("Current position:", self.music_player.player.position())
 
@@ -410,7 +413,7 @@ class MusicPlayerUI(QMainWindow):
             self.is_playing_last_song = False  # Reset the flag
 
     def toggle_reload_directories(self):
-        self.albumTreeWidget.loadSongsToCollection(loadAgain=True)
+        self.album_tree_widget.loadSongsToCollection(loadAgain=True)
 
     def createUI(self):
         self.setWindowTitle("April Music Player - Digest Lyrics")
@@ -454,14 +457,14 @@ class MusicPlayerUI(QMainWindow):
     def closeEvent(self, event):
         print("hiding window")
         self.hide()
-        if self.lrcPlayer.lrc_display is not None:
-            self.lrcPlayer.lrc_display.close()
+        if self.lrc_player.lrc_display is not None:
+            self.lrc_player.lrc_display.close()
         event.ignore()
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_I and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
             print("disabled lyrics")
-            if self.lrcPlayer.show_lyrics:
+            if self.lrc_player.show_lyrics:
                 self.on_off_lyrics(False)
             else:
                 self.on_off_lyrics(True)
@@ -507,31 +510,31 @@ class MusicPlayerUI(QMainWindow):
             self.search_bar.setCursorPosition(len(self.search_bar.text()))
 
         elif event.key() == Qt.Key.Key_F and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
-            self.albumTreeWidget.search_bar.setFocus()
-            self.albumTreeWidget.search_bar.setCursorPosition(len(self.search_bar.text()))
-            self.albumTreeWidget.search_bar.clear()
+            self.album_tree_widget.search_bar.setFocus()
+            self.album_tree_widget.search_bar.setCursorPosition(len(self.search_bar.text()))
+            self.album_tree_widget.search_bar.clear()
 
         elif (event.modifiers() & Qt.KeyboardModifier.AltModifier) and (event.modifiers() & Qt.KeyboardModifier.ShiftModifier) and (event.key() == Qt.Key.Key_R):
             print("shift alt r pressed")
-            self.lrcPlayer.restart_music()
+            self.lrc_player.restart_music()
 
         elif (event.modifiers() & Qt.KeyboardModifier.AltModifier) and (event.modifiers() & Qt.KeyboardModifier.ControlModifier) and event.key() == Qt.Key.Key_R:
             self.toggle_reload_directories()
 
         elif event.modifiers() & Qt.KeyboardModifier.ControlModifier and event.key() == Qt.Key.Key_R:
             print("playing random song")
-            self.songTableWidget.setFocus()
+            self.song_table_widget.setFocus()
             self.play_random_song(user_clicking=True, from_shortcut=True)
 
         elif event.key() == Qt.Key.Key_D and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
             self.restore_table()
 
         elif event.key() == Qt.Key.Key_T and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
-            self.songTableWidget.setFocus()  # set focus on table
+            self.song_table_widget.setFocus()  # set focus on table
             self.play_the_song_at_the_top()
 
         elif event.key() == Qt.Key.Key_J and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
-            self.songTableWidget.setFocus()  # set focus on table
+            self.song_table_widget.setFocus()  # set focus on table
 
         elif event.key() == Qt.Key.Key_1 and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
             print("F1 button pressed")
@@ -572,51 +575,51 @@ class MusicPlayerUI(QMainWindow):
             playlist_file = os.path.join(playlist_path, playlist_name + ".json")
 
             # Save the table data
-            self.songTableWidget.save_table_data(playlist_file)
+            self.song_table_widget.save_table_data(playlist_file)
             print(f"Playlist saved as: {playlist_file}")
         else:
             print("Save canceled.")
 
     def exit_app(self):
-        self.songTableWidget.save_table_data()
+        self.song_table_widget.save_table_data()
         # self.music_player.save_playback_control_state()
         print(self.ej.get_value("playback_states"))
         self.ej.save_data_when_quit()
         sys.exit()
 
     def toggle_add_directories(self):
-        self.addnewdirectory.exec()
+        self.add_new_directory.exec()
 
     def set_default_background_image(self):
         self.ej.setupBackgroundImage()
-        self.lrcPlayer.resizeBackgroundImage(self.ej.get_value("background_image"))
+        self.lrc_player.resizeBackgroundImage(self.ej.get_value("background_image"))
         QMessageBox.about(self, "Default Background Image", "Default lyric background image is restored")
 
     def on_off_lyrics(self, checked):
         if checked:
             self.ej.edit_value("show_lyrics", True)
-            self.lrcPlayer.show_lyrics = True
+            self.lrc_player.show_lyrics = True
             self.show_lyrics_action.setChecked(True)
             if self.lrc_file:
-                self.lrcPlayer.activate_sync_lyric_connection(self.lrc_file)
+                self.lrc_player.activate_sync_lyric_connection(self.lrc_file)
 
-            if not self.lrcPlayer.started_player:
-                self.lrcPlayer.media_lyric.setText(self.lrcPlayer.media_font.get_formatted_text("April Music Player"))
+            if not self.lrc_player.started_player:
+                self.lrc_player.media_lyric.setText(self.lrc_player.media_font.get_formatted_text("April Music Player"))
                 return
 
-            self.lrcPlayer.media_lyric.setText(
-                self.lrcPlayer.media_font.get_formatted_text(self.lrcPlayer.current_lyric_text))
+            self.lrc_player.media_lyric.setText(
+                self.lrc_player.media_font.get_formatted_text(self.lrc_player.current_lyric_text))
 
         else:
             print("in disabling")
             self.ej.edit_value("show_lyrics", False)
-            self.lrcPlayer.show_lyrics = False
+            self.lrc_player.show_lyrics = False
             self.show_lyrics_action.setChecked(False)
-            if self.lrcPlayer.media_sync_connected:
-                self.music_player.player.positionChanged.disconnect(self.lrcPlayer.update_media_lyric)
-                self.lrcPlayer.media_sync_connected = False
-            self.lrcPlayer.media_lyric.setText(self.lrcPlayer.media_font.get_formatted_text("Lyrics Syncing Disabled"))
-            self.lrcPlayer.current_index = 0
+            if self.lrc_player.media_sync_connected:
+                self.music_player.player.positionChanged.disconnect(self.lrc_player.update_media_lyric)
+                self.lrc_player.media_sync_connected = False
+            self.lrc_player.media_lyric.setText(self.lrc_player.media_font.get_formatted_text("Lyrics Syncing Disabled"))
+            self.lrc_player.current_index = 0
 
     def toggle_on_off_lyrics(self, checked):
         self.on_off_lyrics(checked)
@@ -633,7 +636,7 @@ class MusicPlayerUI(QMainWindow):
 
     def toggle_playlist_widget(self):
         print("self toggle_playlist_widget method called")
-        self.playlist_widget = PlaylistDialog(self, self.songTableWidget.load_table_data)
+        self.playlist_widget = PlaylistDialog(self, self.song_table_widget.load_table_data)
         self.playlist_widget.exec()
 
     def createMenuBar(self):
@@ -667,7 +670,7 @@ class MusicPlayerUI(QMainWindow):
         self.show_lyrics_action = QAction("&Enable/Disable Lyrics", self)
         self.show_lyrics_action.setShortcut("Ctrl+I")
         self.show_lyrics_action.setCheckable(True)
-        self.show_lyrics_action.setChecked(self.lrcPlayer.show_lyrics)
+        self.show_lyrics_action.setChecked(self.lrc_player.show_lyrics)
         self.show_lyrics_action.triggered.connect(self.toggle_on_off_lyrics)
 
         self.activate_lyrics_display_action = QAction("&Show Lyrics Display", self)
@@ -845,7 +848,7 @@ class MusicPlayerUI(QMainWindow):
                 break
         print(f"Selected Threshold: {selected_threshold}")
         self.ej.edit_value("sync_threshold", selected_threshold)
-        self.lrcPlayer.update_interval = selected_threshold
+        self.lrc_player.update_interval = selected_threshold
 
     def show_fromMe(self):
         text = FROMME
@@ -950,7 +953,7 @@ class MusicPlayerUI(QMainWindow):
 
         if file_path:
             self.ej.edit_value("background_image", file_path)
-            self.lrcPlayer.resizeBackgroundImage(file_path)
+            self.lrc_player.resizeBackgroundImage(file_path)
             # Show the selected file path in a QMessageBox
             QMessageBox.information(self, "Load Background Image", f"You selected: {file_path}")
         else:
@@ -958,7 +961,7 @@ class MusicPlayerUI(QMainWindow):
 
     def show_context_menu(self, pos):
         # Get the item at the clicked position
-        item = self.songTableWidget.itemAt(pos)
+        item = self.song_table_widget.itemAt(pos)
 
         if item and "Album Title:" not in item.text():
             # Create the context menu
@@ -981,7 +984,7 @@ class MusicPlayerUI(QMainWindow):
             context_menu.exec(QCursor.pos())
 
     def copy_current_row_path(self):
-        current_item = self.songTableWidget.currentItem()
+        current_item = self.song_table_widget.currentItem()
         self.copy_item_path(current_item)
 
     def copy_item_path(self, item):
@@ -996,7 +999,7 @@ class MusicPlayerUI(QMainWindow):
             return None
 
         row = item.row()
-        self.file_path = self.songTableWidget.item(row, 7).text()  # Retrieve the file path from the hidden column
+        self.file_path = self.song_table_widget.item(row, 7).text()  # Retrieve the file path from the hidden column
 
         if not os.path.isfile(self.file_path):
             # File does not exist
@@ -1010,10 +1013,10 @@ class MusicPlayerUI(QMainWindow):
         return self.file_path
 
     def activate_file_tagger(self):
-        currentRow = self.songTableWidget.currentRow()
-        music_file = self.songTableWidget.item(currentRow, 7).text()
-        tagger = TagDialog(self, music_file, self.songTableWidget, self.albumTreeWidget, self.albumTreeWidget.cursor,
-                           self.albumTreeWidget.conn)
+        currentRow = self.song_table_widget.currentRow()
+        music_file = self.song_table_widget.item(currentRow, 7).text()
+        tagger = TagDialog(self, music_file, self.song_table_widget, self.album_tree_widget, self.album_tree_widget.cursor,
+                           self.album_tree_widget.conn)
         tagger.exec()
 
     def createWidgetsAndLayouts(self):
@@ -1022,12 +1025,12 @@ class MusicPlayerUI(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
         # Create the song collection widget
-        self.albumTreeWidget.loadSongsToCollection(self.directories)
+        self.album_tree_widget.loadSongsToCollection(self.directories)
 
         # Create the playlist widget
         playlist_widget = QWidget()
         playlist_layout = QVBoxLayout(playlist_widget)
-        playlist_layout.addWidget(self.songTableWidget)
+        playlist_layout.addWidget(self.song_table_widget)
 
         # Create the media widget
         media_widget = QWidget()
@@ -1040,7 +1043,7 @@ class MusicPlayerUI(QMainWindow):
         splitter.setHandleWidth(1)  # Make the splitter handle thinner
 
         # Add the widgets to the splitter
-        splitter.addWidget(self.albumTreeWidget)
+        splitter.addWidget(self.album_tree_widget)
         splitter.addWidget(playlist_widget)
         splitter.addWidget(media_widget)
 
@@ -1073,7 +1076,7 @@ class MusicPlayerUI(QMainWindow):
 
         playlist_layout.addLayout(self.search_bar_layout)
         if self.ej.get_value("music_directories") is None:
-            self.addnewdirectory.add_directory()
+            self.add_new_directory.add_directory()
 
     def click_on_playback_button(self, state):
         if state == "shuffle":
@@ -1200,12 +1203,14 @@ class MusicPlayerUI(QMainWindow):
         QSlider.mousePressEvent(self.time_slider, event)
 
     def activate_lrc_display(self):
+        if self.lrc_player.lrc_display:
+            return
+
         # Check if the LRC file is available
-        if self.lrcPlayer.file:
+        if self.lrc_player.file:
             # Check if lyrics are enabled for display
-            if self.lrcPlayer.show_lyrics:
-                self.hide()  # Hide current UI
-                self.lrcPlayer.startUI(self, self.lrc_file)  # Start the lyrics display
+            if self.lrc_player.show_lyrics:
+                self.lrc_player.start_ui(self)  # Start the lyrics display
             else:
                 # Show a warning if the lyrics display is disabled
                 QMessageBox.warning(
@@ -1215,7 +1220,7 @@ class MusicPlayerUI(QMainWindow):
                     "You can enable/disable it by pressing Ctrl + I."
                 )
         else:
-            if not self.lrcPlayer.show_lyrics:
+            if not self.lrc_player.show_lyrics:
                 # Show a warning if no lyrics file is linked
                 QMessageBox.warning(
                     self,
@@ -1249,7 +1254,7 @@ class MusicPlayerUI(QMainWindow):
     def setupMediaPlayerControlsPanel(self, right_layout):
         self.setup_central_media_control_layout()
 
-        self.lrcPlayer.media_lyric.setStyleSheet("""
+        self.lrc_player.media_lyric.setStyleSheet("""
             QLabel {
                 padding: 12px 16px;
                 border: 2px solid transparent;
@@ -1261,10 +1266,10 @@ class MusicPlayerUI(QMainWindow):
             }
         """)
 
-        self.lrcPlayer.media_lyric.doubleClicked.connect(self.activate_lrc_display)
-        right_layout.addWidget(self.lrcPlayer.media_lyric)
+        self.lrc_player.media_lyric.doubleClicked.connect(self.activate_lrc_display)
+        right_layout.addWidget(self.lrc_player.media_lyric)
 
-        self.lrcPlayer.media_lyric.setAlignment(Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignHCenter)
+        self.lrc_player.media_lyric.setAlignment(Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignHCenter)
         right_layout.addLayout(self.main_media_horizontal_layout)
 
         controls_layout = QHBoxLayout()
@@ -1412,12 +1417,12 @@ class MusicPlayerUI(QMainWindow):
         self.image_display.clear()
 
     def restore_table(self):
-        for row in range(self.songTableWidget.rowCount()):
-            self.songTableWidget.setRowHidden(row, False)
+        for row in range(self.song_table_widget.rowCount()):
+            self.song_table_widget.setRowHidden(row, False)
 
     def filterSongs(self):
         self.hidden_rows = True
-        self.songTableWidget.clearSelection()  # Clear previous selections (highlighting)
+        self.song_table_widget.clearSelection()  # Clear previous selections (highlighting)
         if self.search_bar.hasFocus():
             search_text = self.search_bar.text().lower()
 
@@ -1428,7 +1433,7 @@ class MusicPlayerUI(QMainWindow):
                 self.play_random_song()
 
             elif search_text == "load background":
-                self.songTableWidget.setup_backgroundimage_logo()
+                self.song_table_widget.setup_backgroundimage_logo()
 
             # elif search_text == "detach":
             #     self.detachMediaWidget()
@@ -1444,18 +1449,18 @@ class MusicPlayerUI(QMainWindow):
 
             else:
                 found_at_least_one = False  # Flag to track if at least one match is found
-                for row in range(self.songTableWidget.rowCount()):
+                for row in range(self.song_table_widget.rowCount()):
                     match = False
-                    item = self.songTableWidget.item(row, 0)  # Check the first column of each row
+                    item = self.song_table_widget.item(row, 0)  # Check the first column of each row
 
                     # Hide album title rows (rows containing 'Album Title:')
                     if item and "Album Title:" in item.text():
-                        self.songTableWidget.setRowHidden(row, True)
+                        self.song_table_widget.setRowHidden(row, True)
                         continue  # Skip further processing for album title rows
 
                     # Now filter regular song rows
                     for column in range(2):  # Check first two columns for a match
-                        item = self.songTableWidget.item(row, column)
+                        item = self.song_table_widget.item(row, column)
                         if item and search_text in item.text().lower():
                             match = True
                             found_at_least_one = True  # Set flag to True if at least one match is found
@@ -1463,12 +1468,12 @@ class MusicPlayerUI(QMainWindow):
 
                     # Highlight matched rows and hide unmatched rows if at least one match is found
                     if found_at_least_one:
-                        self.songTableWidget.setRowHidden(row, not match)
+                        self.song_table_widget.setRowHidden(row, not match)
                         # if match:
                         #     self.songTableWidget.selectRow(row)  # Highlight the row if it matches
                         #     self.songTableWidget.scroll_to_current_row()
                     else:
-                        self.songTableWidget.setRowHidden(row, True)  # Hide the other rows
+                        self.song_table_widget.setRowHidden(row, True)  # Hide the other rows
 
             # Clear the search bar and reset the placeholder text
             self.search_bar.clear()
@@ -1476,7 +1481,7 @@ class MusicPlayerUI(QMainWindow):
 
     def cleanDetails(self):
         # clear the remaining from previous play
-        self.lrcPlayer.file = None
+        self.lrc_player.file = None
         self.music_player.player.stop()
         self.track_display.setText("No Track Playing")
         self.image_display.clear()
@@ -1492,16 +1497,16 @@ class MusicPlayerUI(QMainWindow):
 
     def find_row(self, target_file_path):
         # Loop through each row in the table
-        for row in range(self.songTableWidget.rowCount()):
-            item = self.songTableWidget.item(row, 7)
+        for row in range(self.song_table_widget.rowCount()):
+            item = self.song_table_widget.item(row, 7)
             if item:
-                current_file_path = self.songTableWidget.item(row, 7).text()
+                current_file_path = self.song_table_widget.item(row, 7).text()
 
                 # Check if the current file path matches the target file path
                 if current_file_path == target_file_path:
                     print(f"File found in row: {row}")
                     # Perform any action you want with the found row, such as selecting it
-                    self.songTableWidget.selectRow(row)
+                    self.song_table_widget.selectRow(row)
                     return row
         else:
             print("File path not found.")
@@ -1509,82 +1514,82 @@ class MusicPlayerUI(QMainWindow):
     def song_initializing_stuff(self):
         self.update_information()
         self.get_lrc_file()
+        self.lrc_player.reset_labels()
         self.music_player.update_music_file(self.music_file)
         self.music_player.default_pause_state()
-        self.lrcPlayer.reset_labels()
         self.update_slider_range(self.music_player.get_duration())
 
     def play_previous_song(self):
         if self.music_player.playback_states["shuffle"]:
             self.current_playing_random_song_index -= 1
             if self.current_playing_random_song_index < 1:
-                self.current_playing_random_song_index = len(self.songTableWidget.random_song_list) - 1
+                self.current_playing_random_song_index = len(self.song_table_widget.random_song_list) - 1
             self.play_random_song(user_clicking=True)
-            self.songTableWidget.setFocus()
+            self.song_table_widget.setFocus()
         else:
-            previous_song = self.songTableWidget.get_previous_song_object()
-            self.handleRowDoubleClick(previous_song)
-            self.songTableWidget.setFocus()
+            previous_song = self.song_table_widget.get_previous_song_object()
+            self.handle_row_double_click(previous_song)
+            self.song_table_widget.setFocus()
 
     def play_next_song(self, fromStart=None):
-        self.songTableWidget.clearSelection()
+        self.song_table_widget.clearSelection()
         if fromStart:
-            next_song = self.songTableWidget.get_next_song_object(fromstart=True)
-            self.handleRowDoubleClick(next_song)
+            next_song = self.song_table_widget.get_next_song_object(fromstart=True)
+            self.handle_row_double_click(next_song)
             return
 
         if self.music_player.playback_states['shuffle']:
             self.current_playing_random_song_index += 1
-            if self.current_playing_random_song_index > len(self.songTableWidget.random_song_list) - 1:
+            if self.current_playing_random_song_index > len(self.song_table_widget.random_song_list) - 1:
                 self.current_playing_random_song_index = 0
             self.play_random_song(user_clicking=True)
-            self.songTableWidget.setFocus()
+            self.song_table_widget.setFocus()
         else:
-            next_song = self.songTableWidget.get_next_song_object(fromstart=False)
-            self.handleRowDoubleClick(next_song)
-            self.songTableWidget.setFocus()
+            next_song = self.song_table_widget.get_next_song_object(fromstart=False)
+            self.handle_row_double_click(next_song)
+            self.song_table_widget.setFocus()
 
     def play_the_song_at_the_top(self):
         print("inside play the song at the top method")
-        if self.songTableWidget.files_on_playlist:
-            self.songTableWidget.clearSelection()
+        if self.song_table_widget.files_on_playlist:
+            self.song_table_widget.clearSelection()
             print("Files on playlist")
-            print(self.songTableWidget.files_on_playlist)
-            self.music_file = self.songTableWidget.files_on_playlist[0]
-            self.songTableWidget.song_playing_row = self.find_row(self.music_file)
+            print(self.song_table_widget.files_on_playlist)
+            self.music_file = self.song_table_widget.files_on_playlist[0]
+            self.song_table_widget.song_playing_row = self.find_row(self.music_file)
             self.song_initializing_stuff()
             self.play_song()
 
     def play_random_song(self, user_clicking=False, from_shortcut=False):
-        if not self.songTableWidget.files_on_playlist:
+        if not self.song_table_widget.files_on_playlist:
             return
 
-        self.songTableWidget.clearSelection()
+        self.song_table_widget.clearSelection()
 
         print(self.current_playing_random_song_index, "current index")
 
         if not user_clicking:  # without user clicking next/previous
             self.current_playing_random_song_index += 1
 
-            if self.current_playing_random_song_index > len(self.songTableWidget.random_song_list) - 1:
-                self.lrcPlayer.media_lyric.setText(
-                    self.lrcPlayer.media_font.get_formatted_text(self.music_player.eop_text))
+            if self.current_playing_random_song_index > len(self.song_table_widget.random_song_list) - 1:
+                self.lrc_player.media_lyric.setText(
+                    self.lrc_player.media_font.get_formatted_text(self.music_player.eop_text))
                 self.ej.edit_value("last_played_song", value={})
                 return
 
         if from_shortcut:
-            self.music_file = choice(self.songTableWidget.files_on_playlist)
+            self.music_file = choice(self.song_table_widget.files_on_playlist)
         else:
-            self.music_file = self.songTableWidget.random_song_list[self.current_playing_random_song_index]
+            self.music_file = self.song_table_widget.random_song_list[self.current_playing_random_song_index]
 
         random_song_row = self.find_row(self.music_file)
-        self.songTableWidget.song_playing_row = random_song_row
+        self.song_table_widget.song_playing_row = random_song_row
 
         # Here is to start doing the normal stuff of preparation and playing song.
         self.song_initializing_stuff()
         self.play_song()
 
-    def handleRowDoubleClick(self, item=None):
+    def handle_row_double_click(self, item=None):
         # Check if the item exists and is valid
         if item is None:
             return
@@ -1595,12 +1600,11 @@ class MusicPlayerUI(QMainWindow):
 
         if the_text:
             if "Album Title: " in the_text:
-                album_title = the_text.replace("Album Title: ", "")
                 pass
             else:
                 self.item = item
-                self.songTableWidget.song_playing_row = row
-                self.lrcPlayer.started_player = True
+                self.song_table_widget.song_playing_row = row
+                self.lrc_player.started_player = True
 
                 # Check if a valid music file was clicked
                 if self.get_music_file_from_click(item):
@@ -1609,10 +1613,10 @@ class MusicPlayerUI(QMainWindow):
 
                     # Update shuffle state if shuffle is enabled
                     if self.ej.get_value("playback_states")["shuffle"]:
-                        print(self.songTableWidget.random_song_list)
-                        self.current_playing_random_song_index = int(self.songTableWidget.random_song_list.index(self.music_file))
+                        print(self.song_table_widget.random_song_list)
+                        self.current_playing_random_song_index = int(self.song_table_widget.random_song_list.index(self.music_file))
                 else:
-                    self.lrcPlayer.disconnect_syncing()
+                    self.lrc_player.disconnect_syncing()
                     return
 
         elif the_text == "":
@@ -1625,19 +1629,19 @@ class MusicPlayerUI(QMainWindow):
             self.restore_table()
 
             # self.songTableWidget.clearSelection()
-            self.songTableWidget.setFocus()
+            self.song_table_widget.setFocus()
 
             # Reset hidden rows flag
             self.hidden_rows = False
-            self.simulate_keypress(self.songTableWidget, Qt.Key.Key_G)  # Simulate keypres
+            self.simulate_keypress(self.song_table_widget, Qt.Key.Key_G)  # Simulate keypres
 
     def stop_song(self):
         if self.music_player.started_playing:
             self.music_player.player.stop()
-            self.lrcPlayer.started_player = False
-            self.lrcPlayer.disconnect_syncing()
+            self.lrc_player.started_player = False
+            self.lrc_player.disconnect_syncing()
             self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "play.ico")))
-            self.lrcPlayer.media_lyric.setText(self.lrcPlayer.media_font.get_formatted_text("April Music Player"))
+            self.lrc_player.media_lyric.setText(self.lrc_player.media_font.get_formatted_text("April Music Player"))
             self.duration_label.setText("")
             self.music_player.started_playing = False
             self.clear_song_details_and_image()
@@ -1646,12 +1650,12 @@ class MusicPlayerUI(QMainWindow):
         self.last_updated_position = 0.0
         # current for checking lrc on/off state and then play song
         self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "pause.ico")))
-        if self.lrcPlayer.show_lyrics:
-            self.lrcPlayer.activate_sync_lyric_connection(self.lrc_file)
+        if self.lrc_player.show_lyrics:
+            self.lrc_player.activate_sync_lyric_connection(self.lrc_file)
         else:
-            if self.lrcPlayer.media_sync_connected:
-                self.music_player.player.positionChanged.disconnect(self.lrcPlayer.update_media_lyric)
-                self.lrcPlayer.media_sync_connected = False
+            if self.lrc_player.media_sync_connected:
+                self.music_player.player.positionChanged.disconnect(self.lrc_player.update_media_lyric)
+                self.lrc_player.media_sync_connected = False
 
         self.music_player.started_playing = True
         self.music_player.play()
@@ -1669,10 +1673,10 @@ class MusicPlayerUI(QMainWindow):
 
     def play_pause(self):
         # for checking eop then calling button changing method for play/pause
-        current_text = html_to_plain_text(self.lrcPlayer.media_lyric.text())
+        current_text = html_to_plain_text(self.lrc_player.media_lyric.text())
         if current_text == self.music_player.eop_text:
             if self.music_player.playback_states["shuffle"]:
-                self.songTableWidget.random_song_list = self.get_random_song_list()
+                self.song_table_widget.random_song_list = self.get_random_song_list()
                 self.current_playing_random_song_index = 0
                 self.play_random_song(user_clicking=True)
             else:
@@ -1703,10 +1707,10 @@ class MusicPlayerUI(QMainWindow):
             print(self.lrc_file)
         else:
             self.lrc_file = None
-            self.lrcPlayer.file = None
-            self.lrcPlayer.music_file = self.music_file
-            print(self.lrcPlayer.file)
-            print("inside get lrc file method")
+            self.lrc_player.file = None
+
+        if self.lrc_file is None:
+            self.lrc_player.media_lyric.setText("What the fuck is wrong here?")
 
     def double_click_on_image(self):
         if self.music_file is None:

@@ -45,7 +45,7 @@ class SongTableWidget(QTableWidget):
         self.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
 
         # Connect the itemClicked signal to the custom slot
-        self.itemDoubleClicked.connect(lambda: self.parent.handleRowDoubleClick(self.item(self.currentRow(), 7)))
+        self.itemDoubleClicked.connect(lambda: self.parent.handle_row_double_click(self.item(self.currentRow(), 7)))
 
         # # Adjust column resizing
         # self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -107,7 +107,7 @@ class SongTableWidget(QTableWidget):
             item_data, item_role, file_path = passing_data
             print(f"Item data: {item_data}, Role: {item_role}, File path: {file_path}")
 
-            self.parent.albumTreeWidget.on_item_double_clicked(data=item_data, role=item_role, file_path=file_path)
+            self.parent.album_tree_widget.on_item_double_clicked(data=item_data, role=item_role, file_path=file_path)
         else:
             print("No valid MIME data received")
 
@@ -351,8 +351,8 @@ class SongTableWidget(QTableWidget):
                 self.parent.play_random_song()
             else:
                 self.parent.stop_song()
-                self.parent.lrcPlayer.media_lyric.setText(
-                    self.parent.lrcPlayer.media_font.get_formatted_text(self.parent.music_player.eop_text))
+                self.parent.lrc_player.media_lyric.setText(
+                    self.parent.lrc_player.media_font.get_formatted_text(self.parent.music_player.eop_text))
 
                 # Check if the item exists
         item = self.item(previous_row, 0)
@@ -360,8 +360,8 @@ class SongTableWidget(QTableWidget):
         if item is None:
             print("In previous song, the item is none")
             self.parent.stop_song()
-            self.parent.lrcPlayer.media_lyric.setText(
-                self.parent.lrcPlayer.media_font.get_formatted_text(self.parent.music_player.eop_text))
+            self.parent.lrc_player.media_lyric.setText(
+                self.parent.lrc_player.media_font.get_formatted_text(self.parent.music_player.eop_text))
             return
 
         if "Album Title:" in item.text():
@@ -398,16 +398,16 @@ class SongTableWidget(QTableWidget):
                 self.parent.play_random_song()
             else:
                 self.parent.stop_song()
-                self.parent.lrcPlayer.media_lyric.setText(
-                    self.parent.lrcPlayer.media_font.get_formatted_text(self.parent.music_player.eop_text))
+                self.parent.lrc_player.media_lyric.setText(
+                    self.parent.lrc_player.media_font.get_formatted_text(self.parent.music_player.eop_text))
 
                 # Check if the item exists
         item = self.item(next_row, 0)
 
         if item is None:
             self.parent.stop_song()
-            self.parent.lrcPlayer.media_lyric.setText(
-                self.parent.lrcPlayer.media_font.get_formatted_text(self.parent.music_player.eop_text))
+            self.parent.lrc_player.media_lyric.setText(
+                self.parent.lrc_player.media_font.get_formatted_text(self.parent.music_player.eop_text))
             return
 
         if "Album Title:" in item.text():

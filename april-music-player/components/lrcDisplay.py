@@ -54,7 +54,6 @@ class LRCSync:
         self.config_path = config_path
         self.lrc_display = None
         self.file = None
-        self.music_file = None
         self.music_player = music_player
         self.BLUE = '\033[34m'
         self.RESET = '\033[0m'
@@ -112,6 +111,9 @@ class LRCSync:
         self.worker_thread = threading.Thread(target=self._worker, daemon=True)
         self.worker_thread.start()
 
+    def set_lrc_file(self, file):
+        self.file = file
+
     def disconnect_syncing(self):
         if self.lyric_sync_connected:
             self.music_player.player.positionChanged.disconnect(self.update_display_lyric)
@@ -122,8 +124,9 @@ class LRCSync:
 
         self.current_lyric_text = "April Music Player"
 
-    def update_file_and_parse(self, file):
+    def set_lrc_file_and_parse_lyrics(self, file):
         if file is None:
+            self.ej.printGreen("LRC file is none")
             self.file = None
             self.lyrics = None
             return
@@ -195,9 +198,9 @@ class LRCSync:
 
         return final_image_path
 
-    def startUI(self, parent, file):
+    def start_ui(self, parent):
         self.lrc_display = QDialog(parent)
-        self.lrc_display.setWindowTitle(file)
+        self.lrc_display.setWindowTitle(self.file)
         # if file is None:
         #     self.lrc_display.setWindowTitle("LRC Display")
 
@@ -264,7 +267,7 @@ class LRCSync:
         self.lrc_display.closeEvent = self.closeEvent
         self.lrc_display.keyPressEvent = self.keyPressEvent
 
-        self.lrc_display.exec()
+        self.lrc_display.show()
 
     def closeEvent(self, event):
         print("QDialog closed")
@@ -590,8 +593,7 @@ class LRCSync:
         return ""
 
     def find_lyrics(self):
-        if not self.file and not self.lyrics:
-            print("skipped find_lyrics method")
+        if not self.file:
             return
         else:
             self.current_time = self.music_player.get_current_time()
@@ -609,6 +611,7 @@ class LRCSync:
 
             # Determine surrounding lyrics based on index
             if index == 0:
+                self.ej.printYellow("inside index 0")
                 # Before the first lyric
                 self.current_lyric_text = "(Instrumental Intro)"
                 self.next_lyric_text = self.get_lyric_text(index, 0)
@@ -749,7 +752,7 @@ class LRCSync:
             anim.start()
 
     def activate_sync_lyric_connection(self, file):
-        self.update_file_and_parse(file)
+        self.set_lrc_file_and_parse_lyrics(file)
         if self.media_sync_connected:
             self.music_player.player.positionChanged.disconnect(self.update_media_lyric)
             self.media_sync_connected = False

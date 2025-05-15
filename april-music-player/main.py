@@ -130,7 +130,7 @@ class SingleInstanceApp:
         app, ui = self.setup_app()
 
         ui.createUI()
-        ui.songTableWidget.setFocus()
+        ui.song_table_widget.setFocus()
 
         # Run the application
         exit_code = app.exec()
