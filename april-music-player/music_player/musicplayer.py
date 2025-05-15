@@ -11,6 +11,7 @@ class MusicPlayer(QObject):  # Inherit from QObject
 
     def __init__(self, parent, play_pause_button, loop_playlist_button, repeat_button, shuffle_button):
         super().__init__()  # Initialize QObject
+        self.in_pause_state = False
         self.parent = parent
         self.ej = EasyJson()
         self.file_name = None
