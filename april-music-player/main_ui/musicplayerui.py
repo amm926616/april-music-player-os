@@ -761,7 +761,7 @@ class MusicPlayerUI(QMainWindow):
         for lang_name, lang_code in self.language_map.items():
             lang_action = QAction(lang_name, self)
             lang_action.setCheckable(True)
-            if lang_code == "ENG":
+            if lang_code == self.ej.get_value("system_language"):
                 lang_action.setChecked(True)  # default language
             # Pass the code to the function instead of the display name
             lang_action.triggered.connect(lambda checked, code=lang_code: self.change_language(code))
