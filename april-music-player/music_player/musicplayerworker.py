@@ -3,7 +3,6 @@ from PyQt6.QtMultimedia import QMediaPlayer, QAudioOutput
 
 from music_player.donut_volume_controller import DonutVolumeControl
 from _utils.easy_json import EasyJson
-from _utils.colors import printRed
 
 
 class MusicPlayerWorker(QObject):
@@ -38,8 +37,6 @@ class MusicPlayerWorker(QObject):
         """Set the audio volume. Accepts a float between 0.0 (mute) and 1.0 (full volume)."""
         self.audio_output.setVolume(volume_level)
         self.ej.edit_value("volume", volume_level)
-        printRed(f"Set volume to {volume_level}%")
-        printRed(f"{self.ej.get_value("volume")}, this is the current volume level")
 
     def play(self):
         self.started.emit()  # Emit a signal when the player starts, if needed

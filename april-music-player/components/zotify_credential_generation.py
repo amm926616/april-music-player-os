@@ -5,7 +5,6 @@ from PyQt6.QtCore import Qt, pyqtSignal, QThread
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import (QDialog, QLabel, QPushButton, QVBoxLayout,
                              QHBoxLayout, QPlainTextEdit, QProgressBar)
-from _utils.colors import printGreen, printRed, printCyan, printOrange, printYellow
 from _utils.easy_json import EasyJson, rewrite_credentials
 
 
@@ -44,11 +43,7 @@ class ActivationWorker(QThread):
                 return
 
             if result.returncode == 0:
-                printGreen("Process run successfully")
-
-                printYellow("Trying to run replace.py script")
                 rewrite_credentials(self.ej.get_zotify_credential_file_path())
-                printGreen("After running replace.py script")
 
                 self.finished_signal.emit(True, "Activation completed successfully!\nYou can now use the downloader.")
             else:
