@@ -421,7 +421,7 @@ class SongTableWidget(QTableWidget):
 
         return item
 
-    def setNextRow(self, currentItem):
+    def set_next_row(self, currentItem):
         if currentItem:
             if "Album Title:" in currentItem.text():
                 next_row = self.currentRow() - 1  # Get the previous row index
@@ -430,10 +430,11 @@ class SongTableWidget(QTableWidget):
 
                 # Return the item at next_row and column 7
                 return self.item(next_row, 7)
+            return None
         else:
             return None
 
-    def setPreviousRow(self, currentItem):
+    def set_previous_row(self, currentItem):
         if currentItem:
             if "Album Title:" in currentItem.text():
                 previous_row = self.currentRow() + 1
@@ -441,6 +442,7 @@ class SongTableWidget(QTableWidget):
                 self.horizontalScrollBar().setValue(0)
 
                 return self.item(previous_row, 7)
+            return None
         else:
             return None
 
@@ -553,14 +555,14 @@ class SongTableWidget(QTableWidget):
             super().keyPressEvent(
                 event)  # activate the normal behaviour of qtablewidget first where it moves the focus on item
             print("UP key pressed")
-            self.setNextRow(self.currentItem())
+            self.set_next_row(self.currentItem())
             self.horizontalScrollBar().setValue(0)
 
         elif event.key() == Qt.Key.Key_Down:
             super().keyPressEvent(
                 event)  # activate the normal behaviour of qtablewidget first where it moves the focus on item
             print("DOWN key pressed")
-            self.setPreviousRow(self.currentItem())
+            self.set_previous_row(self.currentItem())
             self.horizontalScrollBar().setValue(0)
 
         elif event.key() == Qt.Key.Key_Delete:

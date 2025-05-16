@@ -134,6 +134,7 @@ class LRCSync:
             self.file = file
 
         self.parse_lrc()
+        self.current_index = 0
 
     def resize_background_image(self, image_path):
         print("In resize Image method")
