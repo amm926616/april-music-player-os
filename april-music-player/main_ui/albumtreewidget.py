@@ -7,7 +7,7 @@ import sqlite3
 import os
 from fuzzywuzzy import fuzz
 from components.loadingbar import LoadingBar
-from main_ui.const import SEARCH_SONG_BY_NAME, SONG_SEARCHBAR_TOOLTIP
+from consts.main_ui_consts import SEARCH_SONG_BY_NAME, SONG_SEARCHBAR_TOOLTIP
 
 
 def extract_track_number(track_number):

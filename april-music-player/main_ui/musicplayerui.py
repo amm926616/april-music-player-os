@@ -36,7 +36,7 @@ from components.tag_dialog import TagDialog
 from components.zotify_downloader_gui import ZotifyDownloaderGui
 from consts.help_menu_consts import SHORTCUTS_TRANSLATIONS, PREPARATION_TRANSLATIONS, FROMME_TRANSLATIONS
 from main_ui.albumtreewidget import AlbumTreeWidget
-from main_ui.const import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWNLOAD_WITH_LRC, COPY_SONG_PATH, EDIT_META_DATA, \
+from consts.main_ui_consts import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWNLOAD_WITH_LRC, COPY_SONG_PATH, EDIT_META_DATA, \
     SELECT_AN_IMAGE_FOR_BACKGROUND_TITLE, LOAD_BACKGROUND_IMAGE_TITLE, NO_FILE_SELECTED_TITLE, \
     DID_NOT_SELECT_IMAGE_FILE, FILTER_SONGS_FROM_PLAYLIST, FILTER_SONGS_FROM_PLAYLIST_TOOLTIP, APRIL_WINDOW_TITLE, \
     SEARCH_SONG_BY_NAME, SONG_SEARCHBAR_TOOLTIP
@@ -430,7 +430,7 @@ class MusicPlayerUI(QMainWindow):
         self.album_tree_widget.loadSongsToCollection(loadAgain=True)
 
     def createUI(self):
-        self.setWindowTitle(f"{APRIL_WINDOW_TITLE[self.system_language]}")
+        self.setWindowTitle(APRIL_WINDOW_TITLE[self.system_language])
         self.setGeometry(100, 100, 800, 400)
 
         self.setWindowIcon(QIcon(self.icon_path))
@@ -790,6 +790,7 @@ class MusicPlayerUI(QMainWindow):
         self.update_language_in_ui()
 
     def update_language_in_ui(self):
+        self.setWindowTitle(APRIL_WINDOW_TITLE[self.system_language])
         self.album_tree_widget.search_bar.setPlaceholderText(SEARCH_SONG_BY_NAME[self.system_language])
         self.album_tree_widget.search_bar.setToolTip(SONG_SEARCHBAR_TOOLTIP[self.system_language])
         self.filter_search_bar.setPlaceholderText(FILTER_SONGS_FROM_PLAYLIST[self.system_language])

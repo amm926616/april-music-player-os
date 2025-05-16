@@ -8,7 +8,7 @@ from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QAbstractItemView, \
     QPushButton, QLineEdit, QLabel, QVBoxLayout, QDialog, QHeaderView, QApplication
 
 from _utils.easy_json import EasyJson
-from main_ui.const import SONG_ROW_DOUBLE_CLICK_TOOLTIP
+from consts.main_ui_consts import SONG_ROW_DOUBLE_CLICK_TOOLTIP
 
 
 class SongTableWidget(QTableWidget):
