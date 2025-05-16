@@ -44,7 +44,7 @@ from consts.main_ui_consts import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWN
     PLAY_SONG_AT_STARTUP_MENU, SHOW_LYRICS_DISPLAY_MENU, ENABLE_DISABLE_LYRICS_MENU, MANAGE_PLAYLIST_MENU, \
     DOWNLOAD_MUSIC_MENU, MANAGE_MUSIC_DIRECTORIES_MENU, RELOAD_MUSIC_LIBRARY_MENU, EXIT_MENU, FILE_MENU, ABOUT_MENU, \
     LYRICS_COLOR_MENU, LYRICS_SYNC_THRESHOLD_MENU, MUSIC_SETTING_MENU, SETTINGS_MENU, VIEWS_MENU, HELP_MENU, \
-    LYRICS_SETTINGS_MENU
+    LYRICS_SETTINGS_MENU, THANK_YOU_TITLE, PREPARATION_OF_FILES_TITLE, SHORTCUTS_MENU_TITLE
 from main_ui.albumtreewidget import AlbumTreeWidget
 from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
 from music_player.musicplayer import MusicPlayer
@@ -899,16 +899,24 @@ class MusicPlayerUI(QMainWindow):
 
     def show_fromMe(self):
         text = FROMME_TRANSLATIONS[self.system_language]
-        QMessageBox.information(self, "Thank you for using April", text)
+        msg = QMessageBox(self)
+        msg.setWindowTitle(f"{THANK_YOU_TITLE[self.system_language]}")
+        msg.setText(text)
+        msg.setIcon(QMessageBox.Icon.NoIcon)  # No default icon
+        msg.exec()
 
     def show_preparation(self):
         text = PREPARATION_TRANSLATIONS[self.system_language]
-        QMessageBox.information(self, "Preparation of files", text)
+        msg = QMessageBox(self)
+        msg.setWindowTitle(f"{PREPARATION_OF_FILES_TITLE[self.system_language]}")
+        msg.setText(text)
+        msg.setIcon(QMessageBox.Icon.NoIcon)  # Or use another icon like Information
+        msg.exec()
 
     def show_shortcuts(self):
         # Create a dialog
         dialog = QDialog(self)
-        dialog.setWindowTitle("Shortcuts")
+        dialog.setWindowTitle(f"{SHORTCUTS_MENU_TITLE[self.system_language]}")
         dialog.resize(600, 600)
 
         # Create a layout for the entire dialog
