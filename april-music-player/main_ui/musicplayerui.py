@@ -123,12 +123,6 @@ def getRoundedCornerPixmap(scaled_pixmap, target_width, target_height):
     return rounded_pixmap
 
 
-def simulate_keypress(widget, key):
-    """Simulate keypress for the given widget."""
-    key_event = QKeyEvent(QKeyEvent.Type.KeyPress, key, Qt.KeyboardModifier.ControlModifier)
-    QCoreApplication.postEvent(widget, key_event)
-
-
 class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
@@ -416,7 +410,7 @@ class MusicPlayerUI(QMainWindow):
 
                 # Set the flag to indicate playback started by this method
                 self.is_playing_last_song = True
-                simulate_keypress(self.song_table_widget, Qt.Key.Key_G)
+                self.simulate_keypress(self.song_table_widget, Qt.Key.Key_G)
 
             print("Current position:", self.music_player.player.position())
 
@@ -1684,7 +1678,7 @@ class MusicPlayerUI(QMainWindow):
 
             # Reset hidden rows flag
             self.hidden_rows = False
-            simulate_keypress(self.song_table_widget, Qt.Key.Key_G)  # Simulate keypres
+            self.simulate_keypress(self.song_table_widget, Qt.Key.Key_G)  # Simulate keypres
 
     def stop_song(self):
         if self.music_player.started_playing:
@@ -1850,3 +1844,8 @@ class MusicPlayerUI(QMainWindow):
 
         rounded_pixmap = getRoundedCornerPixmap(scaled_pixmap, self.image_size, self.image_size)
         return rounded_pixmap
+
+    def simulate_keypress(self, widget, key):
+        """Simulate keypress for the given widget."""
+        key_event = QKeyEvent(QKeyEvent.Type.KeyPress, key, Qt.KeyboardModifier.ControlModifier)
+        QCoreApplication.postEvent(widget, key_event)
