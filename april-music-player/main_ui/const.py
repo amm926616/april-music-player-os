@@ -7,23 +7,33 @@ APRIL_WINDOW_TITLE = {
 }
 
 FILTER_SONGS_FROM_PLAYLIST_ENG = "Filter Songs From the Playlist..."
-FILTER_SONGS_FROM_PLAYLIST_BUR = ""
+FILTER_SONGS_FROM_PLAYLIST_BUR = "လက်ရှိ playlist ထဲမှာ သီချင်းနာမည်နှင့် စီစစ်၍ တစ်ဖန်ပြန်လည်ရှာဖွေပါ။"
 
 FILTER_SONGS_FROM_PLAYLIST = {
     'ENG': FILTER_SONGS_FROM_PLAYLIST_ENG,
     'BUR': FILTER_SONGS_FROM_PLAYLIST_BUR
 }
 
-SEARCH_SONG_BY_NAME_ENG = "Search Song by Name"
-SEARCH_SONG_BY_NAME_BUR = ""
+SEARCH_SONG_BY_NAME_ENG = "Search Song by Name..."
+SEARCH_SONG_BY_NAME_BUR = "သီချင်းနာမည်ရိုက်၍ ရှာဖွေပါ"
 
 SEARCH_SONG_BY_NAME = {
     'ENG': SEARCH_SONG_BY_NAME_ENG,
     'BUR': SEARCH_SONG_BY_NAME_BUR
 }
 
+SONG_SEARCHBAR_TOOLTIP_ENG = """Filer/Search songs by name [Ctrl + F].
+            \nPress [Enter] to place the matched song in the playlist."""
+SONG_SEARCHBAR_TOOLTIP_BUR = """သီချင်းနာမည်ရိုက်ရှာပါ [Ctrl + F]
+            \nထိပ်ဆုံးမှာ ပေါ်လာသော ရလဒ်အားစိတ်တိုင်းကျပါက enter ခေါက်၍ တိုက်ရိုက် play နိုင်ပါသည်"""
+
+SONG_SEARCHBAR_TOOLTIP = {
+    'ENG': SONG_SEARCHBAR_TOOLTIP_ENG,
+    'BUR': SONG_SEARCHBAR_TOOLTIP_BUR
+}
+
 FILTER_SONGS_FROM_PLAYLIST_TOOLTIP_ENG = "Shortcut: [Ctrl + Shift + F]"
-FILTER_SONGS_FROM_PLAYLIST_TOOLTIP_BUR = ""
+FILTER_SONGS_FROM_PLAYLIST_TOOLTIP_BUR = "လက်ရှိ playlist ထဲမှာရှိသော သီချင်းများအား ပြန်လည် စစ်ထုတ်၍ ရွာဖွေရန် အသုံးပြုနိုင်သည်။ သီချင်းအများအပြားရောက်နေလျှင် ကိုယ်လိုချင်သော နာမည်ကို တိုက်ရိုက်စစ်ထုတ်၍ ရွာဖွေနိုင်ပါသည်။ [Ctrl + Shift + F]"
 
 FILTER_SONGS_FROM_PLAYLIST_TOOLTIP= {
     'ENG': FILTER_SONGS_FROM_PLAYLIST_TOOLTIP_ENG,
@@ -100,4 +110,12 @@ DID_NOT_SELECT_IMAGE_FILE_BUR = ""
 DID_NOT_SELECT_IMAGE_FILE = {
     'ENG': DID_NOT_SELECT_IMAGE_FILE_ENG,
     'BUR': DID_NOT_SELECT_IMAGE_FILE_BUR
+}
+
+SONG_ROW_DOUBLE_CLICK_TOOLTIP_ENG = "Double click or click on a song row  or press enter to start playing song."
+SONG_ROW_DOUBLE_CLICK_TOOLTIP_BUR = "Double click နှိပ်၍ဖြစ်စေ၊ သီချင်းပေါ်မှာ hi-light ရောက်နေလျှင်ဖြစ်စေ enter ခေါက်၍ သီချင်းကို စတင်နိုင်ပါသည်။ "
+
+SONG_ROW_DOUBLE_CLICK_TOOLTIP = {
+    'ENG': SONG_ROW_DOUBLE_CLICK_TOOLTIP_ENG,
+    'BUR': SONG_ROW_DOUBLE_CLICK_TOOLTIP_BUR
 }

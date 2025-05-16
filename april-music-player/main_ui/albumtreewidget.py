@@ -7,8 +7,7 @@ import sqlite3
 import os
 from fuzzywuzzy import fuzz
 from components.loadingbar import LoadingBar
-from consts.album_tree_widget_consts import SEARCHBAR_TIP
-from main_ui.const import SEARCH_SONG_BY_NAME
+from main_ui.const import SEARCH_SONG_BY_NAME, SONG_SEARCHBAR_TOOLTIP
 
 
 def extract_track_number(track_number):
@@ -50,7 +49,7 @@ class AlbumTreeWidget(QWidget):
                 else:
                     return
                 self.search_bar.clear()
-                self.search_bar.setPlaceholderText("Search by song title...")
+                self.search_bar.setPlaceholderText(SEARCH_SONG_BY_NAME[self.parent.system_language])
 
             elif self.tree_widget.hasFocus():  # Check if the tree widget has focus
                 selected_items = self.tree_widget.selectedItems()
@@ -155,8 +154,8 @@ class AlbumTreeWidget(QWidget):
             self.matched_item = None
 
     def initUI(self):
-        self.search_bar.setPlaceholderText(f"{SEARCH_SONG_BY_NAME[self.parent.system_language]}")
-        self.search_bar.setToolTip(SEARCHBAR_TIP)
+        self.search_bar.setPlaceholderText(SEARCH_SONG_BY_NAME[self.parent.system_language])
+        self.search_bar.setToolTip(SONG_SEARCHBAR_TOOLTIP[self.parent.system_language])
 
         self.tree_widget = QTreeWidget()
         self.tree_widget.setDragEnabled(True)

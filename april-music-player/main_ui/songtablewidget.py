@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QAbstractItemView, \
     QPushButton, QLineEdit, QLabel, QVBoxLayout, QDialog, QHeaderView, QApplication
 
 from _utils.easy_json import EasyJson
+from main_ui.const import SONG_ROW_DOUBLE_CLICK_TOOLTIP
 
 
 class SongTableWidget(QTableWidget):
@@ -59,7 +60,7 @@ class SongTableWidget(QTableWidget):
         self.load_table_data()
         self.setSortingEnabled(False)  # Disable default sorting to use custom sorting
         self.setAcceptDrops(True)
-        self.setToolTip("Double click or click on a song row  or press enter to start playing song.")
+        self.setToolTip(SONG_ROW_DOUBLE_CLICK_TOOLTIP[self.parent.system_language])
 
         self.setup_backgroundimage_logo()
         self.setFocus()

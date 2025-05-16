@@ -38,7 +38,8 @@ from consts.help_menu_consts import SHORTCUTS_TRANSLATIONS, PREPARATION_TRANSLAT
 from main_ui.albumtreewidget import AlbumTreeWidget
 from main_ui.const import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWNLOAD_WITH_LRC, COPY_SONG_PATH, EDIT_META_DATA, \
     SELECT_AN_IMAGE_FOR_BACKGROUND_TITLE, LOAD_BACKGROUND_IMAGE_TITLE, NO_FILE_SELECTED_TITLE, \
-    DID_NOT_SELECT_IMAGE_FILE, FILTER_SONGS_FROM_PLAYLIST, FILTER_SONGS_FROM_PLAYLIST_TOOLTIP, APRIL_WINDOW_TITLE
+    DID_NOT_SELECT_IMAGE_FILE, FILTER_SONGS_FROM_PLAYLIST, FILTER_SONGS_FROM_PLAYLIST_TOOLTIP, APRIL_WINDOW_TITLE, \
+    SEARCH_SONG_BY_NAME, SONG_SEARCHBAR_TOOLTIP
 from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
 from music_player.musicplayer import MusicPlayer
 
@@ -126,6 +127,7 @@ class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
         super().__init__()
+        self.shortcut_search_bar = None
         self.add_new_directory = None
         self.album_tree_widget = None
         self.lrc_player = None
@@ -192,7 +194,7 @@ class MusicPlayerUI(QMainWindow):
         self.tray_menu = None
         self.tray_icon = None
         self.central_widget = None
-        self.search_bar = None
+        self.filter_search_bar = None
         self.track_display = None
         self.song_details = None
         self.image_display = None
@@ -250,8 +252,8 @@ class MusicPlayerUI(QMainWindow):
         self.language_map = {
             "English": "ENG",
             "Burmese": "BUR",
-            "Korean": "KOR",
-            "Japanese": "JAP"
+            # "Korean": "KOR",
+            # "Japanese": "JAP"
         }
 
         self.createSyncThresholdMenu()
@@ -518,13 +520,13 @@ class MusicPlayerUI(QMainWindow):
             self.exit_app()
 
         elif (event.modifiers() & Qt.KeyboardModifier.ShiftModifier) and (event.modifiers() & Qt.KeyboardModifier.ControlModifier) and event.key() == Qt.Key.Key_F:
-            self.search_bar.setFocus()
-            self.search_bar.setCursorPosition(len(self.search_bar.text()))
+            self.filter_search_bar.setFocus()
+            self.filter_search_bar.setCursorPosition(len(self.filter_search_bar.text()))
 
         elif event.key() == Qt.Key.Key_F and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
-            self.album_tree_widget.search_bar.setFocus()
-            self.album_tree_widget.search_bar.setCursorPosition(len(self.search_bar.text()))
-            self.album_tree_widget.search_bar.clear()
+            self.album_tree_widget.filter_search_bar.setFocus()
+            self.album_tree_widget.filter_search_bar.setCursorPosition(len(self.filter_search_bar.text()))
+            self.album_tree_widget.filter_search_bar.clear()
 
         elif (event.modifiers() & Qt.KeyboardModifier.AltModifier) and (event.modifiers() & Qt.KeyboardModifier.ShiftModifier) and (event.key() == Qt.Key.Key_R):
             print("shift alt r pressed")
@@ -785,6 +787,13 @@ class MusicPlayerUI(QMainWindow):
         print(f"Switching language to: [{language_code}]")
         self.system_language = language_code
         self.ej.change_language(self.system_language)
+        self.update_language_in_ui()
+
+    def update_language_in_ui(self):
+        self.album_tree_widget.search_bar.setPlaceholderText(SEARCH_SONG_BY_NAME[self.system_language])
+        self.album_tree_widget.search_bar.setToolTip(SONG_SEARCHBAR_TOOLTIP[self.system_language])
+        self.filter_search_bar.setPlaceholderText(FILTER_SONGS_FROM_PLAYLIST[self.system_language])
+        self.filter_search_bar.setToolTip(FILTER_SONGS_FROM_PLAYLIST_TOOLTIP[self.system_language])
 
     def createSyncThresholdMenu(self):
         self.sync_threshold_menu = QMenu("&Sync Threshold", self)
@@ -903,9 +912,9 @@ class MusicPlayerUI(QMainWindow):
         main_layout = QVBoxLayout(dialog)
 
         # Create a search bar
-        search_bar = QLineEdit()
-        search_bar.setPlaceholderText("Search shortcuts...")
-        main_layout.addWidget(search_bar)
+        self.shortcut_search_bar = QLineEdit()
+        self.shortcut_search_bar.setPlaceholderText(f"{SEARCH_SONG_BY_NAME[self.system_language]}")
+        main_layout.addWidget(self.shortcut_search_bar)
 
         # Create a scrollable area
         scroll_area = QScrollArea()
@@ -928,7 +937,7 @@ class MusicPlayerUI(QMainWindow):
         self.original_html = self.shortcuts_widget.toHtml()
 
         # Connect the search bar's textChanged signal
-        search_bar.textChanged.connect(self.filter_shortcuts)
+        self.shortcut_search_bar.textChanged.connect(self.filter_shortcuts)
 
         # Add a close button
         button_layout = QHBoxLayout()
@@ -1097,16 +1106,16 @@ class MusicPlayerUI(QMainWindow):
 
     def setup_playlist_widget(self, playlist_layout):
         # volume control to add
-        self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText(f"{FILTER_SONGS_FROM_PLAYLIST[self.system_language]}")
-        self.search_bar.setToolTip(f"{FILTER_SONGS_FROM_PLAYLIST_TOOLTIP[self.system_language]}")
-        self.search_bar.setFocus()  # Place the cursor in the search bar
+        self.filter_search_bar = QLineEdit()
+        self.filter_search_bar.setPlaceholderText(f"{FILTER_SONGS_FROM_PLAYLIST[self.system_language]}")
+        self.filter_search_bar.setToolTip(f"{FILTER_SONGS_FROM_PLAYLIST_TOOLTIP[self.system_language]}")
+        self.filter_search_bar.setFocus()  # Place the cursor in the search bar
 
         # Connect search bar returnPressed signal to the search method
-        self.search_bar.returnPressed.connect(self.filterSongs)
+        self.filter_search_bar.returnPressed.connect(self.filterSongs)
 
         self.search_bar_layout = QHBoxLayout()
-        self.search_bar_layout.addWidget(self.search_bar)
+        self.search_bar_layout.addWidget(self.filter_search_bar)
         self.search_bar_layout.addLayout(self.playback_management_layout)
 
         playlist_layout.addLayout(self.search_bar_layout)
@@ -1458,8 +1467,8 @@ class MusicPlayerUI(QMainWindow):
     def filterSongs(self):
         self.hidden_rows = True
         self.song_table_widget.clearSelection()  # Clear previous selections (highlighting)
-        if self.search_bar.hasFocus():
-            search_text = self.search_bar.text().lower()
+        if self.filter_search_bar.hasFocus():
+            search_text = self.filter_search_bar.text().lower()
 
             if search_text == "":  # If the search text is empty, reset the table view
                 self.restore_table()
@@ -1511,8 +1520,8 @@ class MusicPlayerUI(QMainWindow):
                         self.song_table_widget.setRowHidden(row, True)  # Hide the other rows
 
             # Clear the search bar and reset the placeholder text
-            self.search_bar.clear()
-            self.search_bar.setPlaceholderText("Filter Songs From the Playlist...")
+            self.filter_search_bar.clear()
+            self.filter_search_bar.setPlaceholderText("Filter Songs From the Playlist...")
 
     def cleanDetails(self):
         # clear the remaining from previous play
