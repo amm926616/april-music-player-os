@@ -135,7 +135,7 @@ class LRCSync:
 
         self.parse_lrc()
 
-    def resizeBackgroundImage(self, image_path):
+    def resize_background_image(self, image_path):
         print("In resize Image method")
         image = Image.open(image_path)
 
@@ -208,7 +208,7 @@ class LRCSync:
         resized_image_path = os.path.normpath(resized_image_path).replace("\\", "/")  # python's default method to check if the path exists.
 
         if not os.path.exists(resized_image_path):
-            self.resizeBackgroundImage(self.ej.setupBackgroundImage())
+            self.resize_background_image(self.ej.setupBackgroundImage())
 
         # Check if the OS is Windows
         if self.ej.get_value("running_system") == "windows":  # 'nt' stands for Windows
@@ -611,7 +611,6 @@ class LRCSync:
 
             # Determine surrounding lyrics based on index
             if index == 0:
-                self.ej.printYellow("inside index 0")
                 # Before the first lyric
                 self.current_lyric_text = "(Instrumental Intro)"
                 self.next_lyric_text = self.get_lyric_text(index, 0)
@@ -752,16 +751,21 @@ class LRCSync:
             anim.start()
 
     def activate_sync_lyric_connection(self, file):
+        self.ej.printGreen("inside activate sync lyric connection")
         self.set_lrc_file_and_parse_lyrics(file)
+
+        # disconnect first
         if self.media_sync_connected:
             self.music_player.player.positionChanged.disconnect(self.update_media_lyric)
             self.media_sync_connected = False
 
+        # then reconnect again for the next lyricss
         self.music_player.player.positionChanged.connect(self.update_media_lyric)
         self.media_sync_connected = True
 
     def reset_labels(self):
         if self.lyric_label2 is None:
+            self.ej.printCyan("inside lyrics label is none block")
             return
 
         self.current_lyrics_time = 0.0

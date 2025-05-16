@@ -498,11 +498,11 @@ class MusicPlayerUI(QMainWindow):
 
         elif event.key() == Qt.Key.Key_Left:
             print("left key pressed")
-            self.seekBack()
+            self.seek_backward()
 
         elif event.key() == Qt.Key.Key_Right:
             print("right key pressed")
-            self.seekForward()
+            self.seek_forward()
 
         elif event.key() == Qt.Key.Key_Space:
             print("Space key pressed")
@@ -601,7 +601,7 @@ class MusicPlayerUI(QMainWindow):
 
     def set_default_background_image(self):
         self.ej.setupBackgroundImage()
-        self.lrc_player.resizeBackgroundImage(self.ej.get_value("background_image"))
+        self.lrc_player.resize_background_image(self.ej.get_value("background_image"))
         QMessageBox.about(self, "Default Background Image", "Default lyric background image is restored")
 
     def on_off_lyrics(self, checked):
@@ -985,7 +985,7 @@ class MusicPlayerUI(QMainWindow):
 
         if file_path:
             self.ej.edit_value("background_image", file_path)
-            self.lrc_player.resizeBackgroundImage(file_path)
+            self.lrc_player.resize_background_image(file_path)
             # Show the selected file path in a QMessageBox
             QMessageBox.information(self, "Load Background Image", f"You selected: {file_path}")
         else:
@@ -1205,11 +1205,11 @@ class MusicPlayerUI(QMainWindow):
         # to catch key event on slider.
         if event.key() == Qt.Key.Key_Left:
             print("left key pressed")
-            self.seekBack()
+            self.seek_backward()
 
         elif event.key() == Qt.Key.Key_Right:
             print("right key pressed")
-            self.seekForward()
+            self.seek_forward()
 
         elif event.key() == Qt.Key.Key_Space:
             print("Space key pressed")
@@ -1329,9 +1329,9 @@ class MusicPlayerUI(QMainWindow):
         self.prev_song_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "previous-song.ico")))
         self.next_song_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "next-song.ico")))
 
-        self.prev_button.clicked.connect(self.seekBack)
+        self.prev_button.clicked.connect(self.seek_backward)
         self.play_pause_button.clicked.connect(self.play_pause)
-        self.forward_button.clicked.connect(self.seekForward)
+        self.forward_button.clicked.connect(self.seek_forward)
         self.prev_song_button.clicked.connect(self.play_previous_song)
         self.next_song_button.clicked.connect(self.play_next_song)
 
@@ -1682,12 +1682,6 @@ class MusicPlayerUI(QMainWindow):
         self.last_updated_position = 0.0
         # current for checking lrc on/off state and then play song
         self.play_pause_button.setIcon(QIcon(os.path.join(self.ej.icon_path, "pause.ico")))
-        if self.lrc_player.show_lyrics:
-            self.lrc_player.activate_sync_lyric_connection(self.lrc_file)
-        else:
-            if self.lrc_player.media_sync_connected:
-                self.music_player.player.positionChanged.disconnect(self.lrc_player.update_media_lyric)
-                self.lrc_player.media_sync_connected = False
 
         self.music_player.started_playing = True
         self.music_player.play()
@@ -1697,10 +1691,33 @@ class MusicPlayerUI(QMainWindow):
         else:
             self.music_player.player.setPosition(int(0))
 
-    def seekBack(self):
+        self.reset_lyrics_connection()
+
+        if self.lrc_file:
+            self.init_lyrics_connection()
+        else:
+            self.lrc_player.media_lyric.setText(self.lrc_player.media_font.get_formatted_text("April Music Player"))
+
+    def reset_lyrics_connection(self):
+        if self.lrc_player.media_sync_connected:
+            self.music_player.player.positionChanged.disconnect(self.lrc_player.update_media_lyric)
+            self.lrc_player.media_sync_connected = False
+
+    def init_lyrics_connection(self):
+        if self.lrc_player.show_lyrics:
+            self.lrc_player.activate_sync_lyric_connection(self.lrc_file)
+        else:
+            if self.lrc_player.media_sync_connected:
+                self.lrc_player.media_lyric.setText(self.lrc_player.media_font.get_formatted_text("April Music Player"))
+                self.lrc_player.media_sync_connected = False
+
+            self.lrc_player.media_lyric.setText(self.lrc_player.media_font.get_formatted_text("April Music Player"))
+            self.music_player.player.positionChanged.disconnect(self.lrc_player.update_media_lyric)
+
+    def seek_backward(self):
         self.music_player.seek_backward()
 
-    def seekForward(self):
+    def seek_forward(self):
         self.music_player.seek_forward()
 
     def play_pause(self):
@@ -1708,7 +1725,7 @@ class MusicPlayerUI(QMainWindow):
         current_text = html_to_plain_text(self.lrc_player.media_lyric.text())
         if current_text == self.music_player.eop_text:
             if self.music_player.playback_states["shuffle"]:
-                self.song_table_widget.random_song_list = self.get_random_song_list()
+                # self.get_random_song_list = self.song_table_widget.random_song_list
                 self.current_playing_random_song_index = 0
                 self.play_random_song(user_clicking=True)
             else:
