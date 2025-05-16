@@ -474,7 +474,7 @@ class LRCSync:
         Update the lyrics after the animation has finished.
         """
 
-        if not self.show_lyrics:
+        if self.lyric_label3 is None:
             return
 
         # Adjust styles based on the direction of movement
