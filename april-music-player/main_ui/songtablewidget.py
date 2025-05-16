@@ -331,7 +331,7 @@ class SongTableWidget(QTableWidget):
 
     def get_previous_song_object(self, clicking=False):
         if self.parent.music_player.playback_states["repeat"] and not clicking:
-            self.parent.music_player.player.setPosition(0)
+            self.parent.music_player.setPosition(0)
             self.parent.music_player.player.play()
             return
 
@@ -378,7 +378,7 @@ class SongTableWidget(QTableWidget):
 
     def get_next_song_object(self, fromstart=False, clicking=None):
         if self.parent.music_player.playback_states["repeat"] and not clicking:
-            self.parent.music_player.player.setPosition(0)
+            self.parent.music_player.setPosition(0)
             self.parent.music_player.player.play()
             return
 
@@ -571,7 +571,7 @@ class SongTableWidget(QTableWidget):
 
         elif event.key() == Qt.Key.Key_0 or event.key() == Qt.Key.Key_Home:
             print("keyboard r pressing")
-            self.parent.music_player.player.setPosition(0)  # set position to start
+            self.parent.music_player.setPosition(0)  # set position to start
 
         elif event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter:
             if self.hasFocus():

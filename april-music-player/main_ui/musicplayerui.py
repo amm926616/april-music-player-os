@@ -123,6 +123,12 @@ def getRoundedCornerPixmap(scaled_pixmap, target_width, target_height):
     return rounded_pixmap
 
 
+def simulate_keypress(widget, key):
+    """Simulate keypress for the given widget."""
+    key_event = QKeyEvent(QKeyEvent.Type.KeyPress, key, Qt.KeyboardModifier.ControlModifier)
+    QCoreApplication.postEvent(widget, key_event)
+
+
 class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
@@ -410,17 +416,17 @@ class MusicPlayerUI(QMainWindow):
 
                 # Set the flag to indicate playback started by this method
                 self.is_playing_last_song = True
-                self.simulate_keypress(self.song_table_widget, Qt.Key.Key_G)
+                simulate_keypress(self.song_table_widget, Qt.Key.Key_G)
 
             print("Current position:", self.music_player.player.position())
 
         else:
-            print("No last played file data found")
+           print("No last played file data found")
 
     def on_single_media_loaded(self, status):
         if status == QMediaPlayer.MediaStatus.LoadedMedia and self.is_playing_last_song:
             print("Media loaded, setting position.")
-            self.music_player.player.setPosition(int(self.saved_position * 1000))
+            self.music_player.setPosition(int(self.saved_position * 1000))
 
             # Disconnect after setting position
             self.music_player.player.mediaStatusChanged.disconnect(self.on_single_media_loaded)
@@ -524,9 +530,9 @@ class MusicPlayerUI(QMainWindow):
             self.filter_search_bar.setCursorPosition(len(self.filter_search_bar.text()))
 
         elif event.key() == Qt.Key.Key_F and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
-            self.album_tree_widget.filter_search_bar.setFocus()
-            self.album_tree_widget.filter_search_bar.setCursorPosition(len(self.filter_search_bar.text()))
-            self.album_tree_widget.filter_search_bar.clear()
+            self.album_tree_widget.search_bar.setFocus()
+            self.album_tree_widget.search_bar.setCursorPosition(len(self.filter_search_bar.text()))
+            self.album_tree_widget.search_bar.clear()
 
         elif (event.modifiers() & Qt.KeyboardModifier.AltModifier) and (event.modifiers() & Qt.KeyboardModifier.ShiftModifier) and (event.key() == Qt.Key.Key_R):
             print("shift alt r pressed")
@@ -1238,7 +1244,7 @@ class MusicPlayerUI(QMainWindow):
             ratio = click_pos / slider_length
             new_value = self.time_slider.minimum() + ratio * (self.time_slider.maximum() - self.time_slider.minimum())
             self.time_slider.setValue(int(new_value))
-            self.music_player.player.setPosition(int(new_value))
+            self.music_player.setPosition(int(new_value))
             self.last_updated_position = float(new_value)
 
             if self.music_player.in_pause_state:
@@ -1678,7 +1684,7 @@ class MusicPlayerUI(QMainWindow):
 
             # Reset hidden rows flag
             self.hidden_rows = False
-            self.simulate_keypress(self.song_table_widget, Qt.Key.Key_G)  # Simulate keypres
+            simulate_keypress(self.song_table_widget, Qt.Key.Key_G)  # Simulate keypres
 
     def stop_song(self):
         if self.music_player.started_playing:
@@ -1700,9 +1706,9 @@ class MusicPlayerUI(QMainWindow):
         self.music_player.play()
 
         if self.saved_position:
-            self.music_player.player.setPosition(int(self.saved_position))
+            self.music_player.setPosition(int(self.saved_position))
         else:
-            self.music_player.player.setPosition(int(0))
+            self.music_player.setPosition(int(0))
 
         self.reset_lyrics_connection()
 
@@ -1752,7 +1758,7 @@ class MusicPlayerUI(QMainWindow):
         if self.music_player.in_pause_state:
             self.music_player.paused_position = position
 
-        self.music_player.player.setPosition(position)
+        self.music_player.setPosition(position)
 
     def get_lrc_file(self):
         music_file_ext = (".ogg", ".mp3", ".wav", ".m4a", ".flac")
@@ -1844,8 +1850,3 @@ class MusicPlayerUI(QMainWindow):
 
         rounded_pixmap = getRoundedCornerPixmap(scaled_pixmap, self.image_size, self.image_size)
         return rounded_pixmap
-
-    def simulate_keypress(self, widget, key):
-        """Simulate keypress for the given widget."""
-        key_event = QKeyEvent(QKeyEvent.Type.KeyPress, key, Qt.KeyboardModifier.ControlModifier)
-        QCoreApplication.postEvent(widget, key_event)

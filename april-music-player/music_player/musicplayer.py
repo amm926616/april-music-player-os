@@ -86,6 +86,9 @@ class MusicPlayer(QObject):  # Inherit from QObject
         # self.thread.start()  # Start the thread to play the song in the background
         self.player.play()
 
+    def setPosition(self, position):
+        self.player.setPosition(position)
+
     def setup_playback_buttons(self):
         if self.ej.get_value("buttons_all_default"): # if all are default, no need to change icons
             return

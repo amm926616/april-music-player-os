@@ -385,7 +385,7 @@ class LRCSync:
         if self.music_player.in_pause_state:
             self.music_player.play_pause_musis_full_screenic()
             self.music_player.in_pause_state = False
-        self.music_player.player.setPosition(0)
+        self.music_player.setPosition(0)
         self.current_lyrics_time = self.lyrics_time_keys[0]
 
     def createNoteTakingWindow(self):
@@ -505,7 +505,7 @@ class LRCSync:
                 previous_lyric_index = self.current_index - 2
 
             previous_lyrics_key = self.lyrics_time_keys[previous_lyric_index]
-            self.music_player.player.setPosition(int(previous_lyrics_key * 1000))
+            self.music_player.setPosition(int(previous_lyrics_key * 1000))
 
             # fix the late to set current time due to slower sync time
             self.current_lyrics_time = self.lyrics_time_keys[previous_lyric_index]
@@ -524,14 +524,14 @@ class LRCSync:
                 next_lyric_index = self.current_index
 
             next_lyrics_key = self.lyrics_time_keys[next_lyric_index]
-            self.music_player.player.setPosition(int(next_lyrics_key * 1000))
+            self.music_player.setPosition(int(next_lyrics_key * 1000))
 
             # fix the late to set current time due to slower sync time
             self.current_lyrics_time = self.lyrics_time_keys[next_lyric_index]
             self.current_lyric_text = self.lyrics[self.current_lyrics_time]
 
     def go_to_the_start_of_current_lyric(self):
-        self.music_player.player.setPosition(int(self.current_lyrics_time * 1000))
+        self.music_player.setPosition(int(self.current_lyrics_time * 1000))
 
     def parse_lrc(self):
         # Add parsing task to the queue
