@@ -155,8 +155,8 @@ class FontSettingsWindow(QDialog):
 
     def update_lrc_font_size(self, value):
         self.ej.edit_value("lrc_font_size", value)
-        self.parent.lrcPlayer.lrc_font.font_size = value
-        self.parent.lrcPlayer.lrc_font.reloadFont()
+        self.parent.lrc_player.lrc_font.font_size = value
+        self.parent.lrc_player.lrc_font.reloadFont()
 
     def load_font(self, language):
         """ Open a file dialog and load a font for the selected language """
@@ -175,8 +175,8 @@ class FontSettingsWindow(QDialog):
             self.ej.edit_value(f"{language.lower()}_font", font_file)
 
             # Reload the fonts in the parent if necessary
-            self.parent.lrcPlayer.media_font.reloadFont()
-            self.parent.lrcPlayer.lrc_font.reloadFont()
+            self.parent.lrc_player.media_font.reloadFont()
+            self.parent.lrc_player.lrc_font.reloadFont()
 
     def update_font_display(self, language):
         """ Update the QLabel for the selected language with the chosen font """
