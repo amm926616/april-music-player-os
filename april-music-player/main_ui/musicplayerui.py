@@ -35,11 +35,16 @@ from components.splitter import ColumnSplitter
 from components.tag_dialog import TagDialog
 from components.zotify_downloader_gui import ZotifyDownloaderGui
 from consts.help_menu_consts import SHORTCUTS_TRANSLATIONS, PREPARATION_TRANSLATIONS, FROMME_TRANSLATIONS
-from main_ui.albumtreewidget import AlbumTreeWidget
-from consts.main_ui_consts import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWNLOAD_WITH_LRC, COPY_SONG_PATH, EDIT_META_DATA, \
+from consts.main_ui_consts import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWNLOAD_WITH_LRC, COPY_SONG_PATH, \
+    EDIT_META_DATA, \
     SELECT_AN_IMAGE_FOR_BACKGROUND_TITLE, LOAD_BACKGROUND_IMAGE_TITLE, NO_FILE_SELECTED_TITLE, \
     DID_NOT_SELECT_IMAGE_FILE, FILTER_SONGS_FROM_PLAYLIST, FILTER_SONGS_FROM_PLAYLIST_TOOLTIP, APRIL_WINDOW_TITLE, \
-    SEARCH_SONG_BY_NAME, SONG_SEARCHBAR_TOOLTIP
+    SEARCH_SONG_BY_NAME, SONG_SEARCHBAR_TOOLTIP, LANGUAGE_SETTING_MENU, KEYBOARD_SHORTCUTS_MENU, \
+    FILE_PREPARATION_AND_TIPS_MENU, SET_DEFAULT_BACKGROUND_MENU, SET_CUSTOM_BACKGROUND_MENU, FONT_SETTINGS_MENU, \
+    PLAY_SONG_AT_STARTUP_MENU, SHOW_LYRICS_DISPLAY_MENU, ENABLE_DISABLE_LYRICS_MENU, MANAGE_PLAYLIST_MENU, \
+    DOWNLOAD_MUSIC_MENU, MANAGE_MUSIC_DIRECTORIES_MENU, RELOAD_MUSIC_LIBRARY_MENU, EXIT_MENU, FILE_MENU, ABOUT_MENU, \
+    LYRICS_COLOR_MENU, LYRICS_SYNC_THRESHOLD_MENU
+from main_ui.albumtreewidget import AlbumTreeWidget
 from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
 from music_player.musicplayer import MusicPlayer
 
@@ -127,6 +132,7 @@ class MusicPlayerUI(QMainWindow):
 
     def __init__(self, app, music_files=None):
         super().__init__()
+        self.purposely_storing_number = 26544659
         self.shortcut_search_bar = None
         self.add_new_directory = None
         self.album_tree_widget = None
@@ -649,7 +655,6 @@ class MusicPlayerUI(QMainWindow):
             self.ej.edit_value("play_song_at_startup", False)
 
     def toggle_playlist_widget(self):
-        print("self toggle_playlist_widget method called")
         self.playlist_widget = PlaylistDialog(self, self.song_table_widget.load_table_data)
         self.playlist_widget.exec()
 
@@ -657,73 +662,73 @@ class MusicPlayerUI(QMainWindow):
         menubar = self.menuBar()
 
         # File Menu (common KDE applications start with File)
-        file_menu = menubar.addMenu("&File")
+        file_menu = menubar.addMenu(f"&{FILE_MENU[self.system_language]}")
 
         # Create actions (grouped by functionality)
         # File actions
         close_action = QAction(self.style().standardIcon(QStyle.StandardPixmap.SP_DialogCloseButton),
-                               "&Exit", self)
+                               f"&{EXIT_MENU[self.system_language]}", self)
         close_action.setShortcut("Ctrl+Q")
         close_action.triggered.connect(self.exit_app)
 
         # Music actions
-        reload_directories_action = QAction("&Reload Music Library", self)
+        reload_directories_action = QAction(f"&{RELOAD_MUSIC_LIBRARY_MENU[self.system_language]}", self)
         reload_directories_action.setShortcut("Ctrl+Alt+R")
         reload_directories_action.triggered.connect(self.toggle_reload_directories)
 
-        add_directories_action = QAction("&Manage Music Directories...", self)
+        add_directories_action = QAction(f"&{MANAGE_MUSIC_DIRECTORIES_MENU[self.system_language]}", self)
         add_directories_action.triggered.connect(self.toggle_add_directories)
 
-        self.start_zotify_gui_action = QAction("&Download Music...", self)
+        self.start_zotify_gui_action = QAction(f"&{DOWNLOAD_MUSIC_MENU[self.system_language]}", self)
         self.start_zotify_gui_action.triggered.connect(self.start_zotify_gui)
 
-        self.start_playlist_widget_action = QAction("&Manage Playlists...", self)
+        self.start_playlist_widget_action = QAction(f"&{MANAGE_PLAYLIST_MENU[self.system_language]}", self)
         self.start_playlist_widget_action.triggered.connect(self.toggle_playlist_widget)
 
         # View actions
-        self.show_lyrics_action = QAction("&Enable/Disable Lyrics", self)
+        self.show_lyrics_action = QAction(f"&{ENABLE_DISABLE_LYRICS_MENU[self.system_language]}", self)
         self.show_lyrics_action.setShortcut("Ctrl+I")
         self.show_lyrics_action.setCheckable(True)
         self.show_lyrics_action.setChecked(self.lrc_player.show_lyrics)
         self.show_lyrics_action.triggered.connect(self.toggle_on_off_lyrics)
 
-        self.activate_lyrics_display_action = QAction("&Show Lyrics Display", self)
+        self.activate_lyrics_display_action = QAction(f"&{SHOW_LYRICS_DISPLAY_MENU[self.system_language]}", self)
         self.activate_lyrics_display_action.setShortcut("Ctrl+L")
         self.activate_lyrics_display_action.triggered.connect(self.activate_lrc_display)
 
         # Settings actions
-        self.play_song_at_startup = QAction("&Play on Startup", self)
+        self.play_song_at_startup = QAction(f"&{PLAY_SONG_AT_STARTUP_MENU[self.system_language]}", self)
         self.play_song_at_startup.setCheckable(True)
         self.play_song_at_startup.setChecked(self.ej.get_value("play_song_at_startup"))
         self.play_song_at_startup.triggered.connect(self.trigger_play_song_at_startup)
 
-        self.font_settings_action = QAction(self.settings_icon, "&Font Settings...", self)
+        self.font_settings_action = QAction(self.settings_icon, f"&{FONT_SETTINGS_MENU[self.system_language]}", self)
         self.font_settings_action.triggered.connect(self.show_font_settings)
         self.font_settings_window = FontSettingsWindow(self)
 
         # Lyrics display actions
-        add_lrc_background = QAction("&Set Custom Background...", self)
+        add_lrc_background = QAction(f"&{SET_CUSTOM_BACKGROUND_MENU[self.system_language]}", self)
         add_lrc_background.triggered.connect(self.ask_for_background_image)
 
-        set_default_background = QAction(self.default_wallpaper_icon, "&Default Background", self)
+        set_default_background = QAction(self.default_wallpaper_icon, f"&{SET_DEFAULT_BACKGROUND_MENU[self.system_language]}", self)
         set_default_background.triggered.connect(self.set_default_background_image)
 
         # Help actions
-        show_shortcuts_action = QAction("&Keyboard Shortcuts", self)
+        show_shortcuts_action = QAction(f"&{KEYBOARD_SHORTCUTS_MENU[self.system_language]}", self)
         show_shortcuts_action.triggered.connect(self.show_shortcuts)
 
-        preparation_tips = QAction("&File Preparation Tips", self)
+        preparation_tips = QAction(f"&{FILE_PREPARATION_AND_TIPS_MENU[self.system_language]}", self)
         preparation_tips.triggered.connect(self.show_preparation)
 
-        fromMe = QAction("&About", self)
+        fromMe = QAction(f"&{ABOUT_MENU[self.system_language]}", self)
         fromMe.triggered.connect(self.show_fromMe)
 
         # Submenus
-        lyrics_color_menu = QMenu("&Lyrics Color", self)
+        lyrics_color_menu = QMenu(f"&{LYRICS_COLOR_MENU[self.system_language]}", self)
         lyrics_color_menu.setIcon(self.colors_icon)
         self.create_lyrics_color_actions(lyrics_color_menu)
 
-        sync_threshold_menu = QMenu("&Sync Threshold", self)
+        sync_threshold_menu = QMenu(f"&{LYRICS_SYNC_THRESHOLD_MENU[self.system_language]}", self)
         self.sync_threshold_menu_actions(sync_threshold_menu)
         self.threshold_actions[self.ej.get_value("sync_threshold")].setChecked(True)
 
@@ -759,7 +764,7 @@ class MusicPlayerUI(QMainWindow):
         lyrics_settings_menu.addAction(set_default_background)
 
         # Language settings
-        language_settings_menu = settings_menu.addMenu("&UI Language")
+        language_settings_menu = settings_menu.addMenu(f"&{LANGUAGE_SETTING_MENU[self.system_language]}")
 
         # Create an action group for exclusive selection
         language_group = QActionGroup(self)
