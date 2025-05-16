@@ -43,7 +43,8 @@ from consts.main_ui_consts import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWN
     FILE_PREPARATION_AND_TIPS_MENU, SET_DEFAULT_BACKGROUND_MENU, SET_CUSTOM_BACKGROUND_MENU, FONT_SETTINGS_MENU, \
     PLAY_SONG_AT_STARTUP_MENU, SHOW_LYRICS_DISPLAY_MENU, ENABLE_DISABLE_LYRICS_MENU, MANAGE_PLAYLIST_MENU, \
     DOWNLOAD_MUSIC_MENU, MANAGE_MUSIC_DIRECTORIES_MENU, RELOAD_MUSIC_LIBRARY_MENU, EXIT_MENU, FILE_MENU, ABOUT_MENU, \
-    LYRICS_COLOR_MENU, LYRICS_SYNC_THRESHOLD_MENU
+    LYRICS_COLOR_MENU, LYRICS_SYNC_THRESHOLD_MENU, MUSIC_SETTING_MENU, SETTINGS_MENU, VIEWS_MENU, HELP_MENU, \
+    LYRICS_SETTINGS_MENU
 from main_ui.albumtreewidget import AlbumTreeWidget
 from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
 from music_player.musicplayer import MusicPlayer
@@ -728,10 +729,6 @@ class MusicPlayerUI(QMainWindow):
         lyrics_color_menu.setIcon(self.colors_icon)
         self.create_lyrics_color_actions(lyrics_color_menu)
 
-        sync_threshold_menu = QMenu(f"&{LYRICS_SYNC_THRESHOLD_MENU[self.system_language]}", self)
-        self.sync_threshold_menu_actions(sync_threshold_menu)
-        self.threshold_actions[self.ej.get_value("sync_threshold")].setChecked(True)
-
         # Build the menu structure
         # File menu
         file_menu.addAction(self.start_zotify_gui_action)
@@ -740,22 +737,22 @@ class MusicPlayerUI(QMainWindow):
         file_menu.addAction(close_action)
 
         # View menu
-        view_menu = menubar.addMenu("&View")
+        view_menu = menubar.addMenu(f"&{VIEWS_MENU[self.system_language]}")
         view_menu.addAction(self.show_lyrics_action)
         view_menu.addAction(self.activate_lyrics_display_action)
 
         # Settings menu
-        settings_menu = menubar.addMenu("&Settings")
+        settings_menu = menubar.addMenu(f"&{SETTINGS_MENU[self.system_language]}")
 
         # Music settings
-        music_settings_menu = settings_menu.addMenu("&Music")
+        music_settings_menu = settings_menu.addMenu(f"&{MUSIC_SETTING_MENU[self.system_language]}")
         music_settings_menu.addAction(self.play_song_at_startup)
         music_settings_menu.addSeparator()
         music_settings_menu.addAction(add_directories_action)
         music_settings_menu.addAction(reload_directories_action)
 
         # Lyrics settings
-        lyrics_settings_menu = settings_menu.addMenu("&Lyrics")
+        lyrics_settings_menu = settings_menu.addMenu(f"&{LYRICS_SETTINGS_MENU[self.system_language]}")
         lyrics_settings_menu.addAction(self.font_settings_action)
         lyrics_settings_menu.addMenu(lyrics_color_menu)
         lyrics_settings_menu.addMenu(self.sync_threshold_menu)
@@ -782,7 +779,7 @@ class MusicPlayerUI(QMainWindow):
             language_settings_menu.addAction(lang_action)
 
         # Help menu
-        help_menu = menubar.addMenu("&Help")
+        help_menu = menubar.addMenu(f"&{HELP_MENU[self.system_language]}")
         help_menu.addAction(show_shortcuts_action)
         help_menu.addAction(preparation_tips)
         help_menu.addSeparator()
@@ -802,7 +799,7 @@ class MusicPlayerUI(QMainWindow):
         self.filter_search_bar.setToolTip(FILTER_SONGS_FROM_PLAYLIST_TOOLTIP[self.system_language])
 
     def createSyncThresholdMenu(self):
-        self.sync_threshold_menu = QMenu("&Sync Threshold", self)
+        self.sync_threshold_menu = QMenu(f"&{LYRICS_SYNC_THRESHOLD_MENU[self.system_language]}", self)
         self.sync_threshold_menu_actions(self.sync_threshold_menu)
         self.threshold_actions[self.ej.get_value("sync_threshold")].setChecked(True)
 
