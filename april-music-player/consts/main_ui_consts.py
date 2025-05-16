@@ -22,10 +22,16 @@ SEARCH_SONG_BY_NAME = {
     'BUR': SEARCH_SONG_BY_NAME_BUR
 }
 
-SONG_SEARCHBAR_TOOLTIP_ENG = """Filter/Search songs by name [Ctrl + F].
-            \nPress [Enter] to place the matched song in the playlist."""
-SONG_SEARCHBAR_TOOLTIP_BUR = """သီချင်းနာမည်ရိုက်ရှာမယ် [Ctrl + F]
-            \nရှာတဲ့သီချင်းနဲ့ ကိုက်တဲ့သီချင်းကို Enter ခေါက်ပြီး playlist ထဲထည့်မယ်"""
+SONG_SEARCHBAR_TOOLTIP_ENG = """
+Shortcut: [Ctrl + F]
+Filter/Search songs by name.
+Press [Enter] to place the matched song in the playlist.
+"""
+SONG_SEARCHBAR_TOOLTIP_BUR = """
+Shortcut: [Ctrl + F]
+သီချင်းနာမည်ရိုက်ရှာမယ်။ 
+ရှာတဲ့သီချင်းနဲ့ ကိုက်တဲ့သီချင်းကို Enter ခေါက်ပြီး playlist ထဲထည့်မယ်။ 
+"""
 
 SONG_SEARCHBAR_TOOLTIP = {
     'ENG': SONG_SEARCHBAR_TOOLTIP_ENG,
@@ -33,7 +39,9 @@ SONG_SEARCHBAR_TOOLTIP = {
 }
 
 FILTER_SONGS_FROM_PLAYLIST_TOOLTIP_ENG = "Shortcut: [Ctrl + Shift + F] Filter songs from current playlist."
-FILTER_SONGS_FROM_PLAYLIST_TOOLTIP_BUR = "လက်ရှိ playlist ထဲရှိတဲ့သီချင်းတွေကို ပြန်စစ်ထုတ်ပြီးရှာဖွေဖို့ အသုံးပြုနိုင်ပါတယ်။ သီချင်းတွေများနေရင် ကိုယ်လိုချင်တဲ့နာမည်ကို တိုက်ရိုက်စစ်ထုတ်ပြီး ရှာဖွေနိုင်ပါတယ်။ [Ctrl + Shift + F]"
+FILTER_SONGS_FROM_PLAYLIST_TOOLTIP_BUR = """Shortcut: [Ctrl + Shift + F]
+လက်ရှိ playlist ထဲရှိတဲ့သီချင်းတွေကို ပြန်စစ်ထုတ်ပြီးရှာဖွေဖို့ အသုံးပြုနိုင်ပါတယ်။ 
+သီချင်းတွေများနေရင် ကိုယ်လိုချင်တဲ့နာမည်ကို တိုက်ရိုက်စစ်ထုတ်ပြီး ရှာဖွေနိုင်ပါတယ်။"""
 
 FILTER_SONGS_FROM_PLAYLIST_TOOLTIP= {
     'ENG': FILTER_SONGS_FROM_PLAYLIST_TOOLTIP_ENG,
