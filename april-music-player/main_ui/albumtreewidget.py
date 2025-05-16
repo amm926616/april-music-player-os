@@ -8,6 +8,7 @@ import os
 from fuzzywuzzy import fuzz
 from components.loadingbar import LoadingBar
 from consts.album_tree_widget_consts import SEARCHBAR_TIP
+from main_ui.const import SEARCH_SONG_BY_NAME
 
 
 def extract_track_number(track_number):
@@ -154,7 +155,7 @@ class AlbumTreeWidget(QWidget):
             self.matched_item = None
 
     def initUI(self):
-        self.search_bar.setPlaceholderText("Search Songs by name...")
+        self.search_bar.setPlaceholderText(f"{SEARCH_SONG_BY_NAME[self.parent.system_language]}")
         self.search_bar.setToolTip(SEARCHBAR_TIP)
 
         self.tree_widget = QTreeWidget()

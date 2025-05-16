@@ -469,17 +469,20 @@ class LRCSync:
         self.lyric_label3.setStyleSheet("color: gray")
         self.lyric_label4.setStyleSheet("color: gray")
 
-    def update_lyrics_after_animation(self):
+    def update_lrc_display_lyrics_labels_to_hilight_color_after_animation(self):
         """
         Update the lyrics after the animation has finished.
         """
+
+        if not self.show_lyrics:
+            return
+
         # Adjust styles based on the direction of movement
         if self.animation_direction == "up":
             self.lyric_label1.setStyleSheet(f"color: gray; font-size: {self.font_size}px;")  # Remove highlight from
             # above label
         else:
             self.lyric_label3.setStyleSheet(f"color: gray; font-size: {self.font_size}px;")  # Remove highlight from
-            # below label
 
         # Reapply highlight to the current label
         self.lyric_label2.setStyleSheet(f"color: {self.lyrics_color}; font-size: {self.font_size}px;"
@@ -730,7 +733,7 @@ class LRCSync:
             anim_label4.setEndValue(QPoint(0, self.screen_height + self.animation_speed))  # Move label5 off the view
 
             # Connect animation completion to update labels
-            anim_label4.finished.connect(lambda: self.update_lyrics_after_animation())
+            anim_label4.finished.connect(lambda: self.update_lrc_display_lyrics_labels_to_hilight_color_after_animation())
 
         elif self.animation_direction == "down":
             self.lyric_label2.setStyleSheet("color: gray;")  # Remove highlight from current
@@ -744,7 +747,7 @@ class LRCSync:
             anim_label4.setEndValue(self.lyric_label3.pos())
 
             # Connect animation completion to update labels
-            anim_label2.finished.connect(lambda: self.update_lyrics_after_animation())
+            anim_label2.finished.connect(lambda: self.update_lrc_display_lyrics_labels_to_hilight_color_after_animation())
 
         # Add animations to the list and start them
         self.animation_holder_list.extend([anim_label0, anim_label1, anim_label2, anim_label3, anim_label4])

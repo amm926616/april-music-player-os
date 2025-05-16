@@ -36,6 +36,9 @@ from components.tag_dialog import TagDialog
 from components.zotify_downloader_gui import ZotifyDownloaderGui
 from consts.help_menu_consts import SHORTCUTS_TRANSLATIONS, PREPARATION_TRANSLATIONS, FROMME_TRANSLATIONS
 from main_ui.albumtreewidget import AlbumTreeWidget
+from main_ui.const import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWNLOAD_WITH_LRC, COPY_SONG_PATH, EDIT_META_DATA, \
+    SELECT_AN_IMAGE_FOR_BACKGROUND_TITLE, LOAD_BACKGROUND_IMAGE_TITLE, NO_FILE_SELECTED_TITLE, \
+    DID_NOT_SELECT_IMAGE_FILE, FILTER_SONGS_FROM_PLAYLIST, FILTER_SONGS_FROM_PLAYLIST_TOOLTIP, APRIL_WINDOW_TITLE
 from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
 from music_player.musicplayer import MusicPlayer
 
@@ -425,12 +428,12 @@ class MusicPlayerUI(QMainWindow):
         self.album_tree_widget.loadSongsToCollection(loadAgain=True)
 
     def createUI(self):
-        self.setWindowTitle("April Music Player - Digest Lyrics")
+        self.setWindowTitle(f"{APRIL_WINDOW_TITLE[self.system_language]}")
         self.setGeometry(100, 100, 800, 400)
 
         self.setWindowIcon(QIcon(self.icon_path))
         self.createMenuBar()
-        self.createWidgetsAndLayouts()
+        self.create_widgets_and_layouts()
 
         self.showMaximized()
         self.setupTrayIcon()
@@ -754,7 +757,7 @@ class MusicPlayerUI(QMainWindow):
         lyrics_settings_menu.addAction(set_default_background)
 
         # Language settings
-        language_settings_menu = settings_menu.addMenu("&Language")
+        language_settings_menu = settings_menu.addMenu("&UI Language")
 
         # Create an action group for exclusive selection
         language_group = QActionGroup(self)
@@ -981,15 +984,15 @@ class MusicPlayerUI(QMainWindow):
             default_directory = os.path.expanduser("~/Pictures")
 
         # Open a file dialog with the default directory set
-        file_path, _ = QFileDialog.getOpenFileName(self, "Select an Image file for lrc display background image", default_directory)
+        file_path, _ = QFileDialog.getOpenFileName(self, f"{SELECT_AN_IMAGE_FOR_BACKGROUND_TITLE[self.system_language]}", default_directory)
 
         if file_path:
             self.ej.edit_value("background_image", file_path)
             self.lrc_player.resize_background_image(file_path)
             # Show the selected file path in a QMessageBox
-            QMessageBox.information(self, "Load Background Image", f"You selected: {file_path}")
+            QMessageBox.information(self, f"{LOAD_BACKGROUND_IMAGE_TITLE[self.system_language]}", f"You selected: {file_path}")
         else:
-            QMessageBox.warning(self, "No File Selected", "You did not select any file.")
+            QMessageBox.warning(self, f"{NO_FILE_SELECTED_TITLE[self.system_language]}", f"{DID_NOT_SELECT_IMAGE_FILE[self.system_language]}")
 
     def show_context_menu(self, pos):
         # Get the item at the clicked position
@@ -1000,16 +1003,16 @@ class MusicPlayerUI(QMainWindow):
             context_menu = QMenu(self)
 
             # Smart download: single or multiple
-            download_lyrics_action = context_menu.addAction("ᯓ Download Lyrics with lrcdl")
+            download_lyrics_action = context_menu.addAction(f"ᯓ {DOWNLOAD_WITH_LRC[self.system_language]}")
             download_lyrics_action.triggered.connect(self.lyrics_downloader.start_download_from_selection)
 
             # Add an action to copy the file path
-            copy_action = context_menu.addAction("➡️ Copy Song Path (Ctrl+C)")
+            copy_action = context_menu.addAction(f"➡️ {COPY_SONG_PATH[self.system_language]}")
 
             # Connect the action to a method
             copy_action.triggered.connect(lambda: self.copy_item_path(item))
 
-            file_tagger_action = context_menu.addAction("ⓘ Edit Song's Metadata")
+            file_tagger_action = context_menu.addAction(f"ⓘ {EDIT_META_DATA[self.system_language]}")
             file_tagger_action.triggered.connect(self.activate_file_tagger)
 
             # Show the context menu at the cursor position
@@ -1051,7 +1054,7 @@ class MusicPlayerUI(QMainWindow):
                            self.album_tree_widget.conn)
         tagger.exec()
 
-    def createWidgetsAndLayouts(self):
+    def create_widgets_and_layouts(self):
         """ The main layout of the music player UI with accurate splitter ratios """
         self.central_widget = QWidget(self)
         self.setCentralWidget(self.central_widget)
@@ -1089,14 +1092,14 @@ class MusicPlayerUI(QMainWindow):
         main_layout.addWidget(splitter)
 
         # Setup the additional widgets
-        self.setupSongListWidget(playlist_layout)
+        self.setup_playlist_widget(playlist_layout)
         self.setupMediaPlayerWidget(media_layout)
 
-    def setupSongListWidget(self, playlist_layout):
+    def setup_playlist_widget(self, playlist_layout):
         # volume control to add
         self.search_bar = QLineEdit()
-        self.search_bar.setPlaceholderText("Filter Songs From the Playlist...")
-        self.search_bar.setToolTip("[Ctrl + Shift + F] for shortcut")
+        self.search_bar.setPlaceholderText(f"{FILTER_SONGS_FROM_PLAYLIST[self.system_language]}")
+        self.search_bar.setToolTip(f"{FILTER_SONGS_FROM_PLAYLIST_TOOLTIP[self.system_language]}")
         self.search_bar.setFocus()  # Place the cursor in the search bar
 
         # Connect search bar returnPressed signal to the search method
@@ -1265,8 +1268,8 @@ class MusicPlayerUI(QMainWindow):
                     # Show a warning if no lyrics file is linked
                     QMessageBox.warning(
                         self,
-                        "No Lyrics Found",
-                        "There is no lyrics file associated with this song."
+                        LYRICS_NOT_FOUND_TITLE[self.system_language],
+                        LYRICS_NOT_FOUND[self.system_language]
                     )
                 else:
                     QMessageBox.warning(
