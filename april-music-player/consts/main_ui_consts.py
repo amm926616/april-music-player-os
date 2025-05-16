@@ -303,7 +303,7 @@ SHORTCUTS_MENU_TITLE = {
 }
 
 THRESHOLD_INFORMATION_ENG = """This is basically the refresh rate. Shorter interval provides\nsmoother syncing but uses more CPU."""
-THRESHOLD_INFORMATION_BUR = ""
+THRESHOLD_INFORMATION_BUR = """ဒါကတော့ refresh rate ပါ။ ကြာချိန်ပိုနည်းရင် sync လုပ်တာ ပိုချောမွေ့ပေမယ့် CPU ကို ပိုသုံးရပါတယ်။"""
 THRESHOLD_INFORMATION = {
     'ENG': THRESHOLD_INFORMATION_ENG,
     'BUR': THRESHOLD_INFORMATION_BUR
