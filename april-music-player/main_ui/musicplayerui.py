@@ -44,7 +44,7 @@ from consts.main_ui_consts import LYRICS_NOT_FOUND, LYRICS_NOT_FOUND_TITLE, DOWN
     PLAY_SONG_AT_STARTUP_MENU, SHOW_LYRICS_DISPLAY_MENU, ENABLE_DISABLE_LYRICS_MENU, MANAGE_PLAYLIST_MENU, \
     DOWNLOAD_MUSIC_MENU, MANAGE_MUSIC_DIRECTORIES_MENU, RELOAD_MUSIC_LIBRARY_MENU, EXIT_MENU, FILE_MENU, ABOUT_MENU, \
     LYRICS_COLOR_MENU, LYRICS_SYNC_THRESHOLD_MENU, MUSIC_SETTING_MENU, SETTINGS_MENU, VIEWS_MENU, HELP_MENU, \
-    LYRICS_SETTINGS_MENU, THANK_YOU_TITLE, PREPARATION_OF_FILES_TITLE, SHORTCUTS_MENU_TITLE
+    LYRICS_SETTINGS_MENU, THANK_YOU_TITLE, PREPARATION_OF_FILES_TITLE, SHORTCUTS_MENU_TITLE, THRESHOLD_INFORMATION
 from main_ui.albumtreewidget import AlbumTreeWidget
 from main_ui.songtablewidget import SongTableWidget, PlaylistNameDialog
 from music_player.musicplayer import MusicPlayer
@@ -708,11 +708,11 @@ class MusicPlayerUI(QMainWindow):
         self.font_settings_window = FontSettingsWindow(self)
 
         # Lyrics display actions
-        add_lrc_background = QAction(f"&{SET_CUSTOM_BACKGROUND_MENU[self.system_language]}", self)
-        add_lrc_background.triggered.connect(self.ask_for_background_image)
+        self.add_lrc_background_action = QAction(f"{SET_CUSTOM_BACKGROUND_MENU[self.system_language]}", self)
+        self.add_lrc_background_action.triggered.connect(self.ask_for_background_image)
 
-        set_default_background = QAction(self.default_wallpaper_icon, f"&{SET_DEFAULT_BACKGROUND_MENU[self.system_language]}", self)
-        set_default_background.triggered.connect(self.set_default_background_image)
+        self.set_default_background_action = QAction(self.default_wallpaper_icon, f"&{SET_DEFAULT_BACKGROUND_MENU[self.system_language]}", self)
+        self.set_default_background_action.triggered.connect(self.set_default_background_image)
 
         # Help actions
         show_shortcuts_action = QAction(f"&{KEYBOARD_SHORTCUTS_MENU[self.system_language]}", self)
@@ -757,8 +757,8 @@ class MusicPlayerUI(QMainWindow):
         lyrics_settings_menu.addMenu(lyrics_color_menu)
         lyrics_settings_menu.addMenu(self.sync_threshold_menu)
         lyrics_settings_menu.addSeparator()
-        lyrics_settings_menu.addAction(add_lrc_background)
-        lyrics_settings_menu.addAction(set_default_background)
+        lyrics_settings_menu.addAction(self.add_lrc_background_action)
+        lyrics_settings_menu.addAction(self.set_default_background_action)
 
         # Language settings
         language_settings_menu = settings_menu.addMenu(f"&{LANGUAGE_SETTING_MENU[self.system_language]}")
@@ -792,11 +792,73 @@ class MusicPlayerUI(QMainWindow):
         self.update_language_in_ui()
 
     def update_language_in_ui(self):
+        # Update window title
         self.setWindowTitle(APRIL_WINDOW_TITLE[self.system_language])
+
+        # Update search bars
         self.album_tree_widget.search_bar.setPlaceholderText(SEARCH_SONG_BY_NAME[self.system_language])
         self.album_tree_widget.search_bar.setToolTip(SONG_SEARCHBAR_TOOLTIP[self.system_language])
         self.filter_search_bar.setPlaceholderText(FILTER_SONGS_FROM_PLAYLIST[self.system_language])
         self.filter_search_bar.setToolTip(FILTER_SONGS_FROM_PLAYLIST_TOOLTIP[self.system_language])
+
+        # Update menu bar titles
+        menubar = self.menuBar()
+        menubar.actions()[0].setText(f"&{FILE_MENU[self.system_language]}")  # File menu
+        menubar.actions()[1].setText(f"&{VIEWS_MENU[self.system_language]}")  # View menu
+        menubar.actions()[2].setText(f"&{SETTINGS_MENU[self.system_language]}")  # Settings menu
+        menubar.actions()[3].setText(f"&{HELP_MENU[self.system_language]}")  # Help menu
+
+        # Update file menu actions
+        file_menu = menubar.actions()[0].menu()
+        file_menu_actions = file_menu.actions()
+        file_menu_actions[0].setText(f"&{DOWNLOAD_MUSIC_MENU[self.system_language]}")  # Download music
+        file_menu_actions[1].setText(f"&{MANAGE_PLAYLIST_MENU[self.system_language]}")  # Manage playlist
+        file_menu_actions[3].setText(f"&{EXIT_MENU[self.system_language]}")  # Exit
+
+        # Update view menu actions
+        view_menu = menubar.actions()[1].menu()
+        view_menu_actions = view_menu.actions()
+        view_menu_actions[0].setText(f"&{ENABLE_DISABLE_LYRICS_MENU[self.system_language]}")  # Enable/disable lyrics
+        view_menu_actions[1].setText(f"&{SHOW_LYRICS_DISPLAY_MENU[self.system_language]}")  # Show lyrics display
+
+        # Update settings menu and submenus
+        settings_menu = menubar.actions()[2].menu()
+        settings_menu_actions = settings_menu.actions()
+
+        # Music settings submenu
+        music_settings_menu = settings_menu_actions[0].menu()
+        music_settings_menu.setTitle(f"&{MUSIC_SETTING_MENU[self.system_language]}")
+        music_settings_actions = music_settings_menu.actions()
+        music_settings_actions[0].setText(f"&{PLAY_SONG_AT_STARTUP_MENU[self.system_language]}")
+        music_settings_actions[2].setText(f"&{MANAGE_MUSIC_DIRECTORIES_MENU[self.system_language]}")
+        music_settings_actions[3].setText(f"&{RELOAD_MUSIC_LIBRARY_MENU[self.system_language]}")
+
+        # Lyrics settings submenu
+        lyrics_settings_menu = settings_menu_actions[1].menu()
+        lyrics_settings_menu.setTitle(f"&{LYRICS_SETTINGS_MENU[self.system_language]}")
+        lyrics_settings_actions = lyrics_settings_menu.actions()
+        lyrics_settings_actions[0].setText(f"&{FONT_SETTINGS_MENU[self.system_language]}")
+        lyrics_settings_actions[1].menu().setTitle(f"&{LYRICS_COLOR_MENU[self.system_language]}")
+        lyrics_settings_actions[4].setText(f"&{SET_DEFAULT_BACKGROUND_MENU[self.system_language]}")
+
+        # Language settings submenu
+        language_settings_menu = settings_menu_actions[2].menu()
+        language_settings_menu.setTitle(f"&{LANGUAGE_SETTING_MENU[self.system_language]}")
+
+        # Help menu
+        help_menu = menubar.actions()[3].menu()
+        help_menu_actions = help_menu.actions()
+        help_menu_actions[0].setText(f"&{KEYBOARD_SHORTCUTS_MENU[self.system_language]}")
+        help_menu_actions[1].setText(f"&{FILE_PREPARATION_AND_TIPS_MENU[self.system_language]}")
+        help_menu_actions[3].setText(f"&{ABOUT_MENU[self.system_language]}")
+
+        self.sync_threshold_menu.setTitle(f"{LYRICS_SYNC_THRESHOLD_MENU[self.system_language]}")
+
+        self.set_default_background_action.setText(f"{SET_DEFAULT_BACKGROUND_MENU[self.system_language]}")
+
+        self.thresh_hold_label.setText(f"{THRESHOLD_INFORMATION[self.system_language]}")
+
+        self.add_lrc_background_action.setText(f"{SET_CUSTOM_BACKGROUND_MENU[self.system_language]}")
 
     def createSyncThresholdMenu(self):
         self.sync_threshold_menu = QMenu(f"&{LYRICS_SYNC_THRESHOLD_MENU[self.system_language]}", self)
@@ -808,12 +870,11 @@ class MusicPlayerUI(QMainWindow):
         sync_threshold_menu.clear()
 
         # Add explanatory label
-        label = QLabel(
-            "This is basically the refresh rate. Shorter interval provides \n"
-            "smoother syncing but uses more CPU.", self)
-        label.setMargin(5)  # Add some padding
+        self.thresh_hold_label = QLabel(
+            f"{THRESHOLD_INFORMATION[self.system_language]}", self)
+        self.thresh_hold_label.setMargin(5)  # Add some padding
         label_action = QWidgetAction(self)
-        label_action.setDefaultWidget(label)
+        label_action.setDefaultWidget(self.thresh_hold_label)
         sync_threshold_menu.addAction(label_action)
         sync_threshold_menu.addSeparator()
 

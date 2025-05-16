@@ -302,3 +302,9 @@ SHORTCUTS_MENU_TITLE = {
     'BUR': SHORTCUTS_MENU_TITLE_BUR
 }
 
+THRESHOLD_INFORMATION_ENG = """This is basically the refresh rate. Shorter interval provides\nsmoother syncing but uses more CPU."""
+THRESHOLD_INFORMATION_BUR = ""
+THRESHOLD_INFORMATION = {
+    'ENG': THRESHOLD_INFORMATION_ENG,
+    'BUR': THRESHOLD_INFORMATION_BUR
+}
