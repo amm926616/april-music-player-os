@@ -29,7 +29,7 @@ Press [Enter] to place the matched song in the playlist.
 """
 SONG_SEARCHBAR_TOOLTIP_BUR = """
 Shortcut: [Ctrl + F]
-သီချင်းနာမည်ရိုက်ရှာမယ်။ 
+သီချင်းနာမည်    ရိုက်ရှာမယ်။ 
 ရှာတဲ့သီချင်းနဲ့ ကိုက်တဲ့သီချင်းကို Enter ခေါက်ပြီး playlist ထဲထည့်မယ်။ 
 """
 
@@ -73,15 +73,15 @@ DOWNLOAD_WITH_LRC = {
 }
 
 COPY_SONG_PATH_ENG = "Copy Song Path (Ctrl+C)"
-COPY_SONG_PATH_BUR = "သီချင်းရှိရာနေရာကို ကူးမယ်"
+COPY_SONG_PATH_BUR = "သီချင်း file location ကို copy ကူးယူမယ် (Ctrl+C)"
 
 COPY_SONG_PATH = {
     'ENG': COPY_SONG_PATH_ENG,
     'BUR': COPY_SONG_PATH_BUR
 }
 
-EDIT_META_DATA_ENG = "Edit Song's Metadata"
-EDIT_META_DATA_BUR = "သီချင်းရဲ့ အသေးစိတ်အချက်အလက်ကို ပြင်ဆင်မယ်"
+EDIT_META_DATA_ENG = "Edit Song's Metadata (F2)"
+EDIT_META_DATA_BUR = "သီချင်းရဲ့ အသေးစိတ်အချက်အလက်ကို ပြင်ဆင်မယ် (F2)"
 
 EDIT_META_DATA = {
     'ENG': EDIT_META_DATA_ENG,
