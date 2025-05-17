@@ -51,10 +51,12 @@ MONTHLY_PAYMENT_PRICE_LABEL_MM = """
 """
 
 PAYMENT_NUMBER_ENG = """
+account name: Aung Myint Myat
 payment number : ******27122
 """
 
 PAYMENT_NUMBER_MM = """
+အကောင့်နာမည်: Aung Myint Myat
 ပေးချေရန်နံပါတ် : ******၂၇၁၂၂
 """
 

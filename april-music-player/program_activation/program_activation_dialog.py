@@ -193,7 +193,7 @@ class ProgramActivationDialog(QDialog):
         self.introduction_label = QLabel(FRIENDLY_MONTHLY_PAY_REMINDER_ENG if not self.fresh_activation else INTRODUCTION_ENG)
         self.introduction_label.setWordWrap(True)
         self.introduction_label.setStyleSheet(f"""
-            font-size: {self.scale_font(14)}px; 
+            font-size: {self.scale_font(16)}px; 
             line-height: 1.5;
         """)
         right_layout.addWidget(self.introduction_label)
@@ -213,7 +213,7 @@ class ProgramActivationDialog(QDialog):
         self.instruction_label = QLabel(INSTRUCTION_ENG)
         self.instruction_label.setWordWrap(True)
         self.instruction_label.setStyleSheet(f"""
-            font-size: {self.scale_font(14)}px; 
+            font-size: {self.scale_font(16)}px; 
             background-color: rgba(45, 45, 50, 0.8);
             padding: {self.scale(12)}px;
             border-radius: {self.scale(8)}px;
@@ -222,7 +222,7 @@ class ProgramActivationDialog(QDialog):
         instruction_layout.addWidget(self.instruction_label)
 
         telegram_qr = QLabel()
-        telegram_qr_pixmap = QPixmap(os.path.join(self.icon_dir, "april_qr_code.jpg"))
+        telegram_qr_pixmap = QPixmap(os.path.join(self.icon_dir, "telegram_qr_code.png"))
         telegram_qr_pixmap = telegram_qr_pixmap.scaled(
             self.scale(250), self.scale(250), 
             Qt.AspectRatioMode.KeepAspectRatio,
@@ -276,7 +276,7 @@ class ProgramActivationDialog(QDialog):
         self.copy_button.clicked.connect(self.copy_secret_code)
 
         # Telegram link
-        telegram_btn = QPushButton("Contact Developer: @Adamd178")
+        telegram_btn = QPushButton("Contact Developer: @april_music_player_admin")
         telegram_btn.setStyleSheet(f"""
             QPushButton {{
                 background-color: transparent;
@@ -292,7 +292,7 @@ class ProgramActivationDialog(QDialog):
             }}
         """)
         telegram_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-        telegram_btn.clicked.connect(lambda: webbrowser.open("https://t.me/adamd178"))
+        telegram_btn.clicked.connect(lambda: webbrowser.open("https://t.me/april_music_player_admin"))
 
         secret_code_layout.addWidget(self.secret_code_combined)
         secret_code_layout.addWidget(self.copy_button)
@@ -398,7 +398,7 @@ class ProgramActivationDialog(QDialog):
         plan_title = QLabel("Select Payment Plan:")
         plan_title.setStyleSheet(f"""
             color: #D62C1A; 
-            font-size: {self.scale_font(14)}px;
+            font-size: {self.scale_font(16)}px;
         """)
         plan_layout.addWidget(plan_title)
         
@@ -409,7 +409,7 @@ class ProgramActivationDialog(QDialog):
             QRadioButton {{
                 color: #EEE;
                 padding: {self.scale(5)}px;
-                font-size: {self.scale_font(12)}px;
+                font-size: {self.scale_font(18)}px;
             }}
             QRadioButton::indicator {{
                 width: {self.scale(16)}px;
@@ -440,8 +440,8 @@ class ProgramActivationDialog(QDialog):
         self.plan_group.addButton(monthly_plan, 2)
         self.plan_group.buttonClicked.connect(self.set_payment_type)
 
-        self.payment_number = QLabel("Payment Number: *******7122")
-        self.payment_number.setStyleSheet(f"font-size: {self.scale_font(12)}px;")
+        self.payment_number = QLabel(PAYMENT_NUMBER[self.current_lang])
+        self.payment_number.setStyleSheet(f"font-size: {self.scale_font(17)}px;")
         
         plan_layout.addWidget(onetime_plan)
         plan_layout.addWidget(monthly_plan)
