@@ -213,7 +213,7 @@ def handle_exception(exc_type, exc_value, exc_traceback):
     else:
         print(f"An error occurred:\n{exc_value}\n\nDetails:\n{error_message}")
 
-    # sys.exit(1)  # Exit the application with error code
+    sys.exit(1)  # Exit the application with error code
 
 sys.excepthook = handle_exception
 

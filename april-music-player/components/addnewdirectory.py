@@ -173,7 +173,7 @@ class AddNewDirectory(QDialog):
                          if cb.isChecked() and cb != self.select_all_checkbox]
 
         if selected_dirs:
-            self.parent.albumTreeWidget.loadSongsToCollection(self.directories, loadAgain=True)
+            self.parent.album_tree_widget.loadSongsToCollection(self.directories, loadAgain=True)
         else:
             QMessageBox.warning(self, "No Directory Selected", "Please select at least one directory to load.")
 
