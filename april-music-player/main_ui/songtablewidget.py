@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import QTableWidget, QTableWidgetItem, QAbstractItemView, \
     QPushButton, QLineEdit, QLabel, QVBoxLayout, QDialog, QHeaderView, QApplication
 
 from _utils.easy_json import EasyJson
+from consts.main_ui_consts import SONG_ROW_DOUBLE_CLICK_TOOLTIP
 
 
 class SongTableWidget(QTableWidget):
@@ -45,7 +46,7 @@ class SongTableWidget(QTableWidget):
         self.setEditTriggers(QTableWidget.EditTrigger.NoEditTriggers)
 
         # Connect the itemClicked signal to the custom slot
-        self.itemDoubleClicked.connect(lambda: self.parent.handleRowDoubleClick(self.item(self.currentRow(), 7)))
+        self.itemDoubleClicked.connect(lambda: self.parent.handle_row_double_click(self.item(self.currentRow(), 7)))
 
         # # Adjust column resizing
         # self.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -59,7 +60,7 @@ class SongTableWidget(QTableWidget):
         self.load_table_data()
         self.setSortingEnabled(False)  # Disable default sorting to use custom sorting
         self.setAcceptDrops(True)
-        self.setToolTip("Double click or click on a song row  or press enter to start playing song.")
+        self.setToolTip(SONG_ROW_DOUBLE_CLICK_TOOLTIP[self.parent.system_language])
 
         self.setup_backgroundimage_logo()
         self.setFocus()
@@ -107,7 +108,7 @@ class SongTableWidget(QTableWidget):
             item_data, item_role, file_path = passing_data
             print(f"Item data: {item_data}, Role: {item_role}, File path: {file_path}")
 
-            self.parent.albumTreeWidget.on_item_double_clicked(data=item_data, role=item_role, file_path=file_path)
+            self.parent.album_tree_widget.on_item_double_clicked(data=item_data, role=item_role, file_path=file_path)
         else:
             print("No valid MIME data received")
 
@@ -330,7 +331,7 @@ class SongTableWidget(QTableWidget):
 
     def get_previous_song_object(self, clicking=False):
         if self.parent.music_player.playback_states["repeat"] and not clicking:
-            self.parent.music_player.player.setPosition(0)
+            self.parent.music_player.setPosition(0)
             self.parent.music_player.player.play()
             return
 
@@ -351,8 +352,8 @@ class SongTableWidget(QTableWidget):
                 self.parent.play_random_song()
             else:
                 self.parent.stop_song()
-                self.parent.lrcPlayer.media_lyric.setText(
-                    self.parent.lrcPlayer.media_font.get_formatted_text(self.parent.music_player.eop_text))
+                self.parent.lrc_player.media_lyric.setText(
+                    self.parent.lrc_player.media_font.get_formatted_text(self.parent.music_player.eop_text))
 
                 # Check if the item exists
         item = self.item(previous_row, 0)
@@ -360,8 +361,8 @@ class SongTableWidget(QTableWidget):
         if item is None:
             print("In previous song, the item is none")
             self.parent.stop_song()
-            self.parent.lrcPlayer.media_lyric.setText(
-                self.parent.lrcPlayer.media_font.get_formatted_text(self.parent.music_player.eop_text))
+            self.parent.lrc_player.media_lyric.setText(
+                self.parent.lrc_player.media_font.get_formatted_text(self.parent.music_player.eop_text))
             return
 
         if "Album Title:" in item.text():
@@ -377,7 +378,7 @@ class SongTableWidget(QTableWidget):
 
     def get_next_song_object(self, fromstart=False, clicking=None):
         if self.parent.music_player.playback_states["repeat"] and not clicking:
-            self.parent.music_player.player.setPosition(0)
+            self.parent.music_player.setPosition(0)
             self.parent.music_player.player.play()
             return
 
@@ -398,16 +399,16 @@ class SongTableWidget(QTableWidget):
                 self.parent.play_random_song()
             else:
                 self.parent.stop_song()
-                self.parent.lrcPlayer.media_lyric.setText(
-                    self.parent.lrcPlayer.media_font.get_formatted_text(self.parent.music_player.eop_text))
+                self.parent.lrc_player.media_lyric.setText(
+                    self.parent.lrc_player.media_font.get_formatted_text(self.parent.music_player.eop_text))
 
                 # Check if the item exists
         item = self.item(next_row, 0)
 
         if item is None:
             self.parent.stop_song()
-            self.parent.lrcPlayer.media_lyric.setText(
-                self.parent.lrcPlayer.media_font.get_formatted_text(self.parent.music_player.eop_text))
+            self.parent.lrc_player.media_lyric.setText(
+                self.parent.lrc_player.media_font.get_formatted_text(self.parent.music_player.eop_text))
             return
 
         if "Album Title:" in item.text():
@@ -421,7 +422,7 @@ class SongTableWidget(QTableWidget):
 
         return item
 
-    def setNextRow(self, currentItem):
+    def set_next_row(self, currentItem):
         if currentItem:
             if "Album Title:" in currentItem.text():
                 next_row = self.currentRow() - 1  # Get the previous row index
@@ -430,10 +431,11 @@ class SongTableWidget(QTableWidget):
 
                 # Return the item at next_row and column 7
                 return self.item(next_row, 7)
+            return None
         else:
             return None
 
-    def setPreviousRow(self, currentItem):
+    def set_previous_row(self, currentItem):
         if currentItem:
             if "Album Title:" in currentItem.text():
                 previous_row = self.currentRow() + 1
@@ -441,6 +443,7 @@ class SongTableWidget(QTableWidget):
                 self.horizontalScrollBar().setValue(0)
 
                 return self.item(previous_row, 7)
+            return None
         else:
             return None
 
@@ -553,14 +556,14 @@ class SongTableWidget(QTableWidget):
             super().keyPressEvent(
                 event)  # activate the normal behaviour of qtablewidget first where it moves the focus on item
             print("UP key pressed")
-            self.setNextRow(self.currentItem())
+            self.set_next_row(self.currentItem())
             self.horizontalScrollBar().setValue(0)
 
         elif event.key() == Qt.Key.Key_Down:
             super().keyPressEvent(
                 event)  # activate the normal behaviour of qtablewidget first where it moves the focus on item
             print("DOWN key pressed")
-            self.setPreviousRow(self.currentItem())
+            self.set_previous_row(self.currentItem())
             self.horizontalScrollBar().setValue(0)
 
         elif event.key() == Qt.Key.Key_Delete:
@@ -568,7 +571,7 @@ class SongTableWidget(QTableWidget):
 
         elif event.key() == Qt.Key.Key_0 or event.key() == Qt.Key.Key_Home:
             print("keyboard r pressing")
-            self.parent.music_player.player.setPosition(0)  # set position to start
+            self.parent.music_player.setPosition(0)  # set position to start
 
         elif event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter:
             if self.hasFocus():

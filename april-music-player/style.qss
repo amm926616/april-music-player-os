@@ -103,6 +103,79 @@ QScrollBar::sub-page:horizontal {
     background: transparent;
 }
 
+/* for songtablewidget */
+/*/* Main table styling */*/
+/*QTableWidget {*/
+/*    background-color: #2D2D30;*/
+/*    border: 1px solid #444;*/
+/*    border-radius: 6px;*/
+/*    gridline-color: #3E3E42;*/
+/*    selection-background-color: #3A3A40;*/
+/*    selection-color: white;*/
+/*    font-family: 'Segoe UI';*/
+/*    font-size: 12px;*/
+/*}*/
+
+/*/* Row container styling - creates the "box" effect */*/
+/*QTableWidget::item {*/
+/*    border: 1px solid #D62C1A;*/
+/*    border-radius: 4px;*/
+/*    margin: 2px;*/
+/*    padding: 6px;*/
+/*    background-color: rgba(45, 45, 50, 0.9);*/
+/*}*/
+
+/*/* Alternate row coloring */*/
+/*QTableWidget::item:alternate {*/
+/*    background-color: rgba(40, 40, 45, 0.9);*/
+/*}*/
+
+/*/* Selected row styling */*/
+/*QTableWidget::item:selected {*/
+/*    background-color: #3A3A40;*/
+/*    border: 1px solid #F44336;*/
+/*}*/
+
+/*/* Header styling */*/
+/*QHeaderView::section {*/
+/*    background-color: #252526;*/
+/*    color: #D62C1A;*/
+/*    padding: 6px;*/
+/*    border: none;*/
+/*    border-bottom: 2px solid #D62C1A;*/
+/*    font-weight: bold;*/
+/*    font-size: 12px;*/
+/*}*/
+
+/*/* Column-specific styling */*/
+/*QTableWidget::item[column="0"] {  /* First column */*/
+/*    border-left: 3px solid #D62C1A;*/
+/*    background-color: rgba(45, 45, 50, 0.95);*/
+/*}*/
+
+/*QTableWidget::item[column="1"] {  /* Second column */*/
+/*    color: #E0E0E0;*/
+/*}*/
+
+/*QTableWidget::item[column="2"] {  /* Third column */*/
+/*    color: #BDBDBD;*/
+/*    font-style: italic;*/
+/*}*/
+
+/*/* Hover effect for cells */*/
+/*QTableWidget::item:hover {*/
+/*    background-color: rgba(65, 65, 70, 0.9);*/
+/*    border: 1px solid #F44336;*/
+/*}*/
+
+/*/* Corner button styling */*/
+/*QTableCornerButton::section {*/
+/*    background-color: #252526;*/
+/*    border: none;*/
+/*    border-bottom: 2px solid #D62C1A;*/
+/*    border-right: 1px solid #444;*/
+/*}*/
+
 /* for slider */
 
 /* Horizontal Slider */

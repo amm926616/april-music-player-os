@@ -137,27 +137,27 @@ class VocabularyManager(QDialog):
             self.result_text.setText('Please provide both word and meaning.')
 
     def keyPressEvent(self, event):
-        if event.key() == Qt.Key.Key_S and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
+        if event.cipher_key() == Qt.Key.Key_S and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
             self.search_entry()
 
-        elif event.key() == Qt.Key.Key_Q and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
+        elif event.cipher_key() == Qt.Key.Key_Q and event.modifiers() & Qt.KeyboardModifier.ControlModifier:
             self.delete_entry()
 
-        elif event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter:
+        elif event.cipher_key() == Qt.Key.Key_Return or event.cipher_key() == Qt.Key.Key_Enter:
             if self.word_input.hasFocus():
                 self.search_entry()
             elif self.meaning_input.hasFocus():
                 self.add_entry()
 
-        elif event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.key() == Qt.Key.Key_W:
+        elif event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.cipher_key() == Qt.Key.Key_W:
             print("pressed ctrl + w")
             self.close()  # You can use sys.exit() here if you want to exit the entire app
 
-        elif event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.key() == Qt.Key.Key_W:
+        elif event.modifiers() == Qt.KeyboardModifier.ControlModifier and event.cipher_key() == Qt.Key.Key_W:
             self.close()
 
         # Handle Exit key (example: Esc key)
-        elif event.key() == Qt.Key.Key_Escape:
+        elif event.cipher_key() == Qt.Key.Key_Escape:
             print("Escape pressed, exiting application")
             self.close()  
         else:

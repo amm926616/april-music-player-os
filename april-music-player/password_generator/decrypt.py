@@ -3,7 +3,7 @@
 import re
 import pyperclip
 
-class Decryptor:
+class Decrypt:
     ELEMENTS_MAP = {
         "a": "u3Y$", "b": "+b0P", "c": "~Cp6", "d": "O^d8", "e": "^e5B",
         "f": "Rw4~", "g": "n2N^", "h": "c@T8", "i": "_dG6", "j": "9G&o",
@@ -94,7 +94,7 @@ def clean_string(input_string):
 
 if __name__ == "__main__":
     key = input("Enter key: ")
-    password = Decryptor(clean_string(key)).decrypt()
+    password = Decrypt(clean_string(key)).decrypt()
     pyperclip.copy(password)
     print("auto copied to the clipboard.")
     print(password)

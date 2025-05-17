@@ -1,7 +1,7 @@
 import random
 import string
 
-def get_key():
+def generate_secret_key():
     # Generate four random lowercase letters
     letters = random.choices(string.ascii_lowercase, k=4)
     
@@ -18,4 +18,4 @@ def get_key():
     return key
 
 if __name__ == "__main__":
-    get_key()
+    generate_secret_key()

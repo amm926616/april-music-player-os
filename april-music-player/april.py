@@ -10,7 +10,7 @@ from PyQt6.QtNetwork import QLocalServer, QLocalSocket
 from PyQt6.QtWidgets import QApplication, QMessageBox
 
 from _utils.easy_json import EasyJson
-from check_subscription_time import CheckSubscriptionTime
+from program_activation.check_subscription_time import CheckSubscriptionTime
 from main_ui.musicplayerui import MusicPlayerUI
 from program_activation.program_activation_dialog import ProgramActivationDialog
 
@@ -19,6 +19,10 @@ SERVER_NAME = 'MusicPlayerServer'
 
 class SingleInstanceApp:
     _instance = None
+
+    def __init__(self):
+        self.subscription_datetime = CheckSubscriptionTime()
+
 
     def __new__(cls):
         if cls._instance is None:
@@ -130,26 +134,51 @@ class SingleInstanceApp:
 
         return app, ui
 
+    def start_main_ui(self, ui):
+        # Measure time for UI initialization
+        start_time = time.time()  # Start time
+        ui.createUI()  # Create the UI
+        end_time = time.time()  # End time
+        print(f"UI initialization took: {end_time - start_time:.4f} seconds")
+
+    def has_expired_montly_usage(self) -> bool:
+        if self.subscription_datetime.has_expired():
+            return True
+        return False
+
+    def create_activation_dialog_and_continue(self, ui, fresh_activation=None):
+        activation_dialog = ProgramActivationDialog(ui, fresh_activation)  # Assuming Activation is a dialog
+        activation_status = activation_dialog.show_ui()
+        if activation_status:  # Block the main window until this is closed
+            if self.ej.is_payment_installment_type():
+                self.subscription_datetime.set_subscription_status_and_time(30)
+            else:
+                self.ej.edit_value("active_subscription", True)
+            self.start_main_ui(ui)
+        else:
+            sys.exit()
+
+    def generate_activation_codes(self):
+        if not self.ej.get_value("activation_keys"):
+            self.subscription_datetime.prepare_passcodes_for_both_one_time_and_installment()
+
     def run(self):
         """Run the main application."""
         app, ui = self.setup_app()
 
-        subscription_datetime = CheckSubscriptionTime()
-        if subscription_datetime.has_expired():
-            # Show Activation widget if expired is True
-            activation_dialog = ProgramActivationDialog(ui)  # Assuming Activation is a dialog
-            activation_status = activation_dialog.show_ui()
-            if activation_status:  # Block the main window until this is closed
-                subscription_datetime.set_subscription_status_and_time(30)
-                ui.createUI()
-            else:
-                sys.exit()
+        if not self.ej.is_fully_owned():
+            if self.ej.check_activation_status(): # Where the program is activated
+                if self.ej.is_payment_installment_type():
+                    if self.has_expired_montly_usage():
+                        self.ej.printYellow("Inside has expired")
+                        self.create_activation_dialog_and_continue(ui, False)
+                    else:
+                        self.start_main_ui(ui)
+            else: # not activated yet, so, start the activation process
+                self.generate_activation_codes()
+                self.create_activation_dialog_and_continue(ui, True)
         else:
-            # Measure time for UI initialization
-            start_time = time.time()  # Start time
-            ui.createUI()  # Create the UI
-            end_time = time.time()  # End time
-            print(f"UI initialization took: {end_time - start_time:.4f} seconds")
+            self.start_main_ui(ui)
 
         # Run the application
         exit_code = app.exec()
@@ -165,7 +194,6 @@ class SingleInstanceApp:
             self.shared_memory.detach()
 
         sys.exit(exit_code)
-
 
 # Global Exception Handler
 def handle_exception(exc_type, exc_value, exc_traceback):
@@ -186,7 +214,6 @@ def handle_exception(exc_type, exc_value, exc_traceback):
         print(f"An error occurred:\n{exc_value}\n\nDetails:\n{error_message}")
 
     # sys.exit(1)  # Exit the application with error code
-
 
 sys.excepthook = handle_exception
 

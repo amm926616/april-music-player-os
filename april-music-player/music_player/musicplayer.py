@@ -11,6 +11,7 @@ class MusicPlayer(QObject):  # Inherit from QObject
 
     def __init__(self, parent, play_pause_button, loop_playlist_button, repeat_button, shuffle_button):
         super().__init__()  # Initialize QObject
+        self.in_pause_state = False
         self.parent = parent
         self.ej = EasyJson()
         self.file_name = None
@@ -83,6 +84,9 @@ class MusicPlayer(QObject):  # Inherit from QObject
         self.started_playing = True
         self.update_music_file(self.file_name)
         self.player.play()
+
+    def setPosition(self, position):
+        self.player.setPosition(position)
 
     def setup_playback_buttons(self):
         if self.ej.get_value("buttons_all_default"): # if all are default, no need to change icons

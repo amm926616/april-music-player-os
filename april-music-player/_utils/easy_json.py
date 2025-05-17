@@ -3,6 +3,9 @@ import os
 from cryptography.fernet import Fernet
 import inspect
 
+from password_generator.decrypt import Decrypt
+from password_generator.secret_key import generate_secret_key
+
 RESET = '\033[0m'
 BLACK = '\033[30m'
 RED = '\033[31m'
@@ -55,6 +58,7 @@ class EasyJson:
             self.home_script_path = None
 
             self.default_values = {
+                "system_language": 'ENG',
                 "english_font": os.path.join(self.ej_path, "fonts", "PositiveForward.otf"),
                 "korean_font": os.path.join(self.ej_path, "fonts", "NotoSerifKR-ExtraBold.ttf"),
                 "japanese_font": os.path.join(self.ej_path, "fonts", "NotoSansJP-Bold.otf"),
@@ -67,31 +71,102 @@ class EasyJson:
                 "play_song_at_startup": False,
                 "playback_states": {"shuffle": False, "loop": False,"repeat": False},
                 "buttons_all_default": True,
-                "previous_loop": False,
-                "previous_shuffle": False,
                 "music_directories": {self.get_user_default_folder("Music"): True},
                 "last_played_song": {},
                 "lyrics_downloaders": {'lrcdl': True, 'syrics': False},
                 "selected_music_downloader": 'zotify',
-                "active_subscription": False,
-                "time_to_expire": None,
-                "previous_login_time": None,
                 "running_system": self.check_os(),
                 "config_path": self.april_config_path,
                 "config_file": str(os.path.join(self.get_april_config_path(), "configs", "config.april")),
                 "script_path": os.path.dirname(os.path.abspath(__file__)),
                 "songtable_json_file": os.path.join(self.get_april_config_path(), "table_data.json"),
                 "default_image_folder": self.get_user_default_folder("Pictures"),
-                "volume": 0.8
+                "volume": 0.8,
+                "activation_keys": {},
+                "payment_method": "onetime",  # installment or onetime
+                "numbers_of_months_left_to_pay": 3,
+                "active_subscription": False,
+                "time_to_expire": None,
+                "previous_login_time": None,
+                "fully_owned": False,
             }
 
             self.zotify_credential_path = self.get_zotify_credential_file_path()
 
             self.config_file = os.path.join(self.get_april_config_path(), "configs", "config.april")
-            self.key = "pNtpUh6JNDtoUpMnQ1b73BSKeABITKHC7JzumILCE2g="
+            self.cipher_key = "pNtpUh6JNDtoUpMnQ1b73BSKeABITKHC7JzumILCE2g="
             self.data = self.load_json()
             self.initialized = True  # Mark the instance as initialized
             self.icon_path = os.path.join(self.ej_path, "media-icons")
+
+    def change_language(self, language) -> None:
+        """ Use string value to change the following languages.
+        English - [ENG], "Burmese" - [MM], "Korean" - [KOR], "Japanese" - [JAP]
+        """
+        print(f"Switching language to: {language}")
+        self.edit_value("system_language", language)
+
+    def is_fully_owned(self) -> bool:
+        return self.data["fully_owned"]
+
+    def get_secret_key(self):
+        activation_keys: dict = self.data["activation_keys"]
+
+        if self.data["payment_method"] == "onetime":
+            return activation_keys["onetime"]["secret_key"]
+        else:
+            return activation_keys["installment"]["secret_key"]
+
+    def get_passcode(self):
+        activation_keys: dict = self.data["activation_keys"]
+
+        if self.data["payment_method"] == "onetime":
+            return activation_keys["onetime"]["passcode"]
+        else:
+            return activation_keys["installment"]["passcode"]
+
+    def set_payment_type(self, type) -> None:
+        """set value of installment or onetime"""
+        self.edit_value("payment_method", type)
+        self.save_json()
+
+    def check_activation_status(self) -> bool:
+        if self.get_value("active_subscription"):
+            return True
+        return False
+
+    def is_payment_installment_type(self) -> bool:
+        if self.get_value("payment_method") == "installment":
+            return True
+        else:
+            return False
+
+    def reduce_number_of_months_left_to_pay(self) -> str:
+        number_of_months_left_to_pay = self.get_value("numbers_of_months_left_to_pay")
+        self.printRed(f"{number_of_months_left_to_pay} months left to pay")
+        if number_of_months_left_to_pay <= 0:
+            self.edit_value("fully_owned", True)
+            self.save_json()
+            return "already paid fully"
+        else:
+            updated_months = number_of_months_left_to_pay - 1
+            self.edit_value("numbers_of_months_left_to_pay", updated_months)
+
+            if updated_months == 0:
+                self.edit_value("fully_owned", True)
+                self.save_json()
+
+            self.printYellow(f"{updated_months} months left to pay")
+
+            return f"{self.get_value("numbers_of_months_left_to_pay")} months left"
+
+    def generate_activation_codes(self) -> (str, str):
+        secret_key = generate_secret_key()
+        passcode = Decrypt(secret_key).decrypt()
+        return secret_key, passcode
+
+    def reset_activation_codes(self) -> None:
+        self.edit_value("activation_keys", {})
 
     def set_home_script_path(self, path):
         self.home_script_path = path
@@ -121,6 +196,8 @@ class EasyJson:
                 for line in file:
                     if line == "loving is caring!":
                         return True
+                    return None
+                return None
         except Exception as e:
             print(f"Failed to read credentials: {e}")
             return None
@@ -194,7 +271,7 @@ class EasyJson:
         byte_data = json_data.encode('utf-8')
 
         # Create a Fernet object with the key
-        cipher_suite = Fernet(self.key)
+        cipher_suite = Fernet(self.cipher_key)
 
         # Encrypt the data
         encrypted_data = cipher_suite.encrypt(byte_data)
@@ -209,7 +286,7 @@ class EasyJson:
                 encrypted_data = f.read()
 
             # Create a Fernet object with the key
-            cipher_suite = Fernet(self.key)
+            cipher_suite = Fernet(self.cipher_key)
 
             # Decrypt the data
             decrypted_data = cipher_suite.decrypt(encrypted_data)
@@ -267,7 +344,6 @@ class EasyJson:
         caller_line = caller_frame.f_lineno
 
         print(f"edit_value called by '{caller_name}' in '{caller_file}' at line {caller_line}")
-        # self._save_json()
 
     def setup_default_values(self, fresh_config=False):
         if fresh_config:

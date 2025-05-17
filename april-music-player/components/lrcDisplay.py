@@ -54,7 +54,6 @@ class LRCSync:
         self.config_path = config_path
         self.lrc_display = None
         self.file = None
-        self.music_file = None
         self.music_player = music_player
         self.BLUE = '\033[34m'
         self.RESET = '\033[0m'
@@ -112,6 +111,9 @@ class LRCSync:
         self.worker_thread = threading.Thread(target=self._worker, daemon=True)
         self.worker_thread.start()
 
+    def set_lrc_file(self, file):
+        self.file = file
+
     def disconnect_syncing(self):
         if self.lyric_sync_connected:
             self.music_player.player.positionChanged.disconnect(self.update_display_lyric)
@@ -122,8 +124,9 @@ class LRCSync:
 
         self.current_lyric_text = "April Music Player"
 
-    def update_file_and_parse(self, file):
+    def set_lrc_file_and_parse_lyrics(self, file):
         if file is None:
+            self.ej.printGreen("LRC file is none")
             self.file = None
             self.lyrics = None
             return
@@ -131,8 +134,9 @@ class LRCSync:
             self.file = file
 
         self.parse_lrc()
+        self.current_index = 0
 
-    def resizeBackgroundImage(self, image_path):
+    def resize_background_image(self, image_path):
         print("In resize Image method")
         image = Image.open(image_path)
 
@@ -195,9 +199,9 @@ class LRCSync:
 
         return final_image_path
 
-    def startUI(self, parent, file):
+    def start_ui(self, parent):
         self.lrc_display = QDialog(parent)
-        self.lrc_display.setWindowTitle(file)
+        self.lrc_display.setWindowTitle(self.file)
         # if file is None:
         #     self.lrc_display.setWindowTitle("LRC Display")
 
@@ -205,7 +209,7 @@ class LRCSync:
         resized_image_path = os.path.normpath(resized_image_path).replace("\\", "/")  # python's default method to check if the path exists.
 
         if not os.path.exists(resized_image_path):
-            self.resizeBackgroundImage(self.ej.setupBackgroundImage())
+            self.resize_background_image(self.ej.setupBackgroundImage())
 
         # Check if the OS is Windows
         if self.ej.get_value("running_system") == "windows":  # 'nt' stands for Windows
@@ -264,7 +268,7 @@ class LRCSync:
         self.lrc_display.closeEvent = self.closeEvent
         self.lrc_display.keyPressEvent = self.keyPressEvent
 
-        self.lrc_display.exec()
+        self.lrc_display.show()
 
     def closeEvent(self, event):
         print("QDialog closed")
@@ -381,7 +385,7 @@ class LRCSync:
         if self.music_player.in_pause_state:
             self.music_player.play_pause_musis_full_screenic()
             self.music_player.in_pause_state = False
-        self.music_player.player.setPosition(0)
+        self.music_player.setPosition(0)
         self.current_lyrics_time = self.lyrics_time_keys[0]
 
     def createNoteTakingWindow(self):
@@ -465,17 +469,20 @@ class LRCSync:
         self.lyric_label3.setStyleSheet("color: gray")
         self.lyric_label4.setStyleSheet("color: gray")
 
-    def update_lyrics_after_animation(self):
+    def update_lrc_display_lyrics_labels_to_hilight_color_after_animation(self):
         """
         Update the lyrics after the animation has finished.
         """
+
+        if self.lyric_label3 is None:
+            return
+
         # Adjust styles based on the direction of movement
         if self.animation_direction == "up":
             self.lyric_label1.setStyleSheet(f"color: gray; font-size: {self.font_size}px;")  # Remove highlight from
             # above label
         else:
             self.lyric_label3.setStyleSheet(f"color: gray; font-size: {self.font_size}px;")  # Remove highlight from
-            # below label
 
         # Reapply highlight to the current label
         self.lyric_label2.setStyleSheet(f"color: {self.lyrics_color}; font-size: {self.font_size}px;"
@@ -498,7 +505,7 @@ class LRCSync:
                 previous_lyric_index = self.current_index - 2
 
             previous_lyrics_key = self.lyrics_time_keys[previous_lyric_index]
-            self.music_player.player.setPosition(int(previous_lyrics_key * 1000))
+            self.music_player.setPosition(int(previous_lyrics_key * 1000))
 
             # fix the late to set current time due to slower sync time
             self.current_lyrics_time = self.lyrics_time_keys[previous_lyric_index]
@@ -517,14 +524,14 @@ class LRCSync:
                 next_lyric_index = self.current_index
 
             next_lyrics_key = self.lyrics_time_keys[next_lyric_index]
-            self.music_player.player.setPosition(int(next_lyrics_key * 1000))
+            self.music_player.setPosition(int(next_lyrics_key * 1000))
 
             # fix the late to set current time due to slower sync time
             self.current_lyrics_time = self.lyrics_time_keys[next_lyric_index]
             self.current_lyric_text = self.lyrics[self.current_lyrics_time]
 
     def go_to_the_start_of_current_lyric(self):
-        self.music_player.player.setPosition(int(self.current_lyrics_time * 1000))
+        self.music_player.setPosition(int(self.current_lyrics_time * 1000))
 
     def parse_lrc(self):
         # Add parsing task to the queue
@@ -590,8 +597,7 @@ class LRCSync:
         return ""
 
     def find_lyrics(self):
-        if not self.file and not self.lyrics:
-            print("skipped find_lyrics method")
+        if not self.file:
             return
         else:
             self.current_time = self.music_player.get_current_time()
@@ -727,7 +733,7 @@ class LRCSync:
             anim_label4.setEndValue(QPoint(0, self.screen_height + self.animation_speed))  # Move label5 off the view
 
             # Connect animation completion to update labels
-            anim_label4.finished.connect(lambda: self.update_lyrics_after_animation())
+            anim_label4.finished.connect(lambda: self.update_lrc_display_lyrics_labels_to_hilight_color_after_animation())
 
         elif self.animation_direction == "down":
             self.lyric_label2.setStyleSheet("color: gray;")  # Remove highlight from current
@@ -741,7 +747,7 @@ class LRCSync:
             anim_label4.setEndValue(self.lyric_label3.pos())
 
             # Connect animation completion to update labels
-            anim_label2.finished.connect(lambda: self.update_lyrics_after_animation())
+            anim_label2.finished.connect(lambda: self.update_lrc_display_lyrics_labels_to_hilight_color_after_animation())
 
         # Add animations to the list and start them
         self.animation_holder_list.extend([anim_label0, anim_label1, anim_label2, anim_label3, anim_label4])
@@ -749,16 +755,21 @@ class LRCSync:
             anim.start()
 
     def activate_sync_lyric_connection(self, file):
-        self.update_file_and_parse(file)
+        self.ej.printGreen("inside activate sync lyric connection")
+        self.set_lrc_file_and_parse_lyrics(file)
+
+        # disconnect first
         if self.media_sync_connected:
             self.music_player.player.positionChanged.disconnect(self.update_media_lyric)
             self.media_sync_connected = False
 
+        # then reconnect again for the next lyricss
         self.music_player.player.positionChanged.connect(self.update_media_lyric)
         self.media_sync_connected = True
 
     def reset_labels(self):
         if self.lyric_label2 is None:
+            self.ej.printCyan("inside lyrics label is none block")
             return
 
         self.current_lyrics_time = 0.0
