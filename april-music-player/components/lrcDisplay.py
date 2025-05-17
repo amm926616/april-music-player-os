@@ -202,8 +202,6 @@ class LRCSync:
     def start_ui(self, parent):
         self.lrc_display = QDialog(parent)
         self.lrc_display.setWindowTitle(self.file)
-        # if file is None:
-        #     self.lrc_display.setWindowTitle("LRC Display")
 
         resized_image_path = os.path.join(self.config_path, "resized_image.png")
         resized_image_path = os.path.normpath(resized_image_path).replace("\\", "/")  # python's default method to check if the path exists.
@@ -265,12 +263,12 @@ class LRCSync:
             self.lyric_label2.setText(self.lrc_font.get_formatted_text("Lyrics Syncing Disabled"))
 
         # Properly connect the close event
-        self.lrc_display.closeEvent = self.closeEvent
-        self.lrc_display.keyPressEvent = self.keyPressEvent
+        self.lrc_display.closeEvent = self.lrc_display_close_event
+        self.lrc_display.keyPressEvent = self.lrc_display_key_press_event
 
         self.lrc_display.show()
 
-    def closeEvent(self, event):
+    def lrc_display_close_event(self, event):
         print("QDialog closed")
         self.lyric_label1 = None
         self.lyric_label2 = None
@@ -288,7 +286,7 @@ class LRCSync:
 
         event.accept()  # To accept the close event
 
-    def keyPressEvent(self, event: QKeyEvent):
+    def lrc_display_key_press_event(self, event: QKeyEvent):
         if event.key() == Qt.Key.Key_Left:
             print("left key pressed")
             self.music_player.seek_backward()
